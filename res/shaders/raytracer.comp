@@ -1,0 +1,71 @@
+#version 430
+
+layout(local_size_x = 8, local_size_y = 8) in;
+layout(rgba32f, binding = 0) uniform image2D colorbuffer;
+
+uniform mat4 view;
+uniform float iTime;
+
+vec3 view_transform(vec3 pos) {
+  return (view * vec4(pos, 1)).xyz;
+}
+
+bool ray_intersect(vec3 orig, vec3 dir, inout float d, inout vec3 n, vec3 pos, float radius) {
+  vec3 L = (pos - orig);
+  float tca = dot(L , dir);
+  float d2 = dot(L , L) - tca * tca;
+  if (d2 > radius * radius) return false;
+  float tcc = sqrt(radius * radius - d2);  // bottom len of triangle
+  d = tca - tcc;
+  float t1 = tca + tcc;
+  if (d < 0) {
+    d = t1;
+  }
+  if (d < 0) return false;
+
+  n = normalize(dir * d + orig - pos);
+  return true;
+}
+
+void main() {
+  ivec2 pixelPos = ivec2(gl_GlobalInvocationID.xy);
+  ivec2 screen_size = imageSize(colorbuffer);
+  if (pixelPos.x >= screen_size.x || pixelPos.y >= screen_size.y) {
+    return;
+  }
+
+  // Build the Camera Ray
+  float fov = radians(50);
+  float x = (2 * (pixelPos.x + .5) / screen_size.x - 1) * tan(fov / 2);
+  float y = (2 * (pixelPos.y + .5) / screen_size.y - 1) * tan(fov / 2) * screen_size.y / screen_size.x;
+  vec3 ray_dir = normalize(vec3(x, y, -1));
+
+  // Scene
+  vec3  sphere_pos      = vec3(0, 1, 0);
+  float sphere_radius   = .25;
+  vec3  sphere_diff     = vec3(.25, .75, .55);
+  vec3  light_pos       = vec3(1, -1, 1);
+  float light_intensity = 1;
+  vec3  bg_color        = vec3(.25, .55, .45);
+
+  sphere_pos.x = sin(iTime) * .2;
+
+  // Render
+  sphere_pos = view_transform(sphere_pos);
+  light_pos = view_transform(light_pos);
+
+  float d;
+  vec3 n;
+  vec3 color;
+
+  if (ray_intersect(vec3(0, 0, 0), ray_dir, d, n, sphere_pos, sphere_radius)) {
+    vec3 hit = ray_dir * d;
+    vec3 dir_light = normalize(light_pos - hit);
+    float diff = clamp(dot(dir_light, n) * light_intensity, 0, 1);
+    color = sphere_diff * diff;
+  } else {
+    color = bg_color;
+  }
+
+  imageStore(colorbuffer, pixelPos, vec4(color, 1));
+}
