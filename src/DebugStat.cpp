@@ -15,7 +15,7 @@ void DebugStat::Log(std::string msg) {
   ds.messages.push_back(msg);
 };
 
-void DebugStat::Render() {
+void DebugStat::Render(ImColor textColor) {
   DebugStat& ds = GetDebugStat();
   auto& io = ImGui::GetIO();
 
@@ -27,10 +27,10 @@ void DebugStat::Render() {
   ImGui::SetNextWindowPos(ImVec2(8, 8));
   ImGui::SetNextWindowSize(ImVec2(0, 0));
   ImGui::Begin("Debug Stat", nullptr, windowFlags);
-  ImGui::Text("fps: %.1f", io.Framerate);
+  ImGui::TextColored(textColor, "fps: %.1f", io.Framerate);
 
   for (auto& line : ds.messages) {
-    ImGui::Text("%s", line.c_str());
+    ImGui::TextColored(textColor, "%s", line.c_str());
   }
 
   ImGui::End();

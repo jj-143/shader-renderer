@@ -8,6 +8,7 @@ class UI {
   int vW, vH;  // viewport
   float iTime = 0;
   GLFWwindow* window;
+  glm::vec3 textColor = glm::vec3(1, 1, 1);
 
   UI() {};
 

@@ -34,7 +34,7 @@ void UI::Render() {
   ImGui_ImplGlfw_NewFrame();
   ImGui::NewFrame();
 
-  DebugStat::Render();
+  DebugStat::Render(ImVec4(textColor.x, textColor.y, textColor.z, 1));
   ImGui::Render();
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
   glfwSwapBuffers(window);
