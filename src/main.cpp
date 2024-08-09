@@ -26,8 +26,6 @@ int main(int argc, char* argv[]) {
   ui.SetCamera(camera);
 
   while (ui.NewFrame()) {
-    ui.UpdateCameraControl();
-
     glUseProgram(computeShader);
     glUniform1f(iTimeLocation, ui.iTime);
     glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(camera.view));

@@ -5,10 +5,14 @@ class Camera;
 
 class UI {
  public:
+  enum class NavigationMode { NORMAL, WALK };
+
   int vW, vH;  // viewport
   float iTime = 0;
   GLFWwindow* window;
   glm::vec3 textColor = glm::vec3(1, 1, 1);
+
+  NavigationMode navigationMode = NavigationMode::NORMAL;
 
   UI() {};
 

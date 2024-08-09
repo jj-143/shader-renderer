@@ -7,7 +7,6 @@ bool UI::InitUI(const int width, const int height, const char* title) {
   glfwGetFramebufferSize(window, &vW, &vH);
   glViewport(0, 0, vW, vH);
 
-  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
   glfwSetCursorPos(window, (float)vW / 2, (float)vH / 2);
 
   ImGui::CreateContext();
@@ -21,11 +20,15 @@ bool UI::NewFrame() {
   if (glfwWindowShouldClose(window)) return false;
   glfwPollEvents();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  ImGui::SetMouseCursor(ImGuiMouseCursor_None);
   iTime = glfwGetTime();
 
   DebugStat::Clear();
   DebugStat::Log(std::format("t: {:.2f}", iTime));
+
+  if (navigationMode == NavigationMode::WALK) {
+    ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+    UpdateCameraControl();
+  }
   return true;
 }
 
