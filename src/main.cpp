@@ -8,11 +8,8 @@ int main(int argc, char* argv[]) {
   UI ui = UI();
   if (!ui.InitUI(width, height, title)) return 1;
 
-  Postprocess postprocess =
-      Postprocess(ui.vW, ui.vH, "../res/shaders/post-fx.vert",
-                  "../res/shaders/post-fx.frag");
-  postprocess.colorbuffer =
-      Postprocess::CreateColorbuffer(ui.vW, ui.vH, GL_RGBA32F);
+  GLuint colorbuffer = Postprocess::CreateColorbuffer(ui.vW, ui.vH, GL_RGBA32F);
+  ui.viewportTextureID = colorbuffer;
 
   GLuint computeShader = MakeComputeShader("../res/shaders/raytracer.comp");
   GLuint viewLocation = glGetUniformLocation(computeShader, "view");
@@ -29,12 +26,11 @@ int main(int argc, char* argv[]) {
     glUseProgram(computeShader);
     glUniform1f(iTimeLocation, ui.iTime);
     glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(camera.view));
-    glBindImageTexture(0, postprocess.colorbuffer, 0, GL_FALSE, 0,
-                       GL_WRITE_ONLY, GL_RGBA32F);
+    glBindImageTexture(0, colorbuffer, 0, GL_FALSE, 0, GL_WRITE_ONLY,
+                       GL_RGBA32F);
     glDispatchCompute(workgroupCountX, workgroupCountY, 1);
     glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 
-    postprocess.Update();
     ui.Render();
   }
 

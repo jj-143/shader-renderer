@@ -1,13 +1,16 @@
 #include "UI.h"
 
 bool UI::InitUI(const int width, const int height, const char* title) {
-  window = CreateWindow(width, height, title);
+  vW = width;
+  vH = height;
+  UI::CalculateWindowSize(vW, vH, wW, wH);
+  window = CreateWindow(wW, wH, title);
   if (window == nullptr) return false;
 
-  glfwGetFramebufferSize(window, &vW, &vH);
-  glViewport(0, 0, vW, vH);
+  glfwGetFramebufferSize(window, &wW, &wH);
+  glViewport(0, 0, wH, wH);
 
-  glfwSetCursorPos(window, (float)vW / 2, (float)vH / 2);
+  glfwSetCursorPos(window, (float)wW / 2, (float)wH / 2);
 
   ImGui::CreateContext();
   ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -37,11 +40,24 @@ void UI::Render() {
   ImGui_ImplGlfw_NewFrame();
   ImGui::NewFrame();
 
+  PushGlobalStyles();
+
+  RenderMainMenu();
+  RenderMain();
+  RenderStatusBar();
+
   if (showDebugStat) {
-    DebugStat::Render(ImVec4(textColor.x, textColor.y, textColor.z, 1));
+    DebugStat::Render(
+        {INSET.x + MAIN_MARGIN.x, INSET.y + MAIN_MARGIN.y + MENU_BAR_HEIGHT},
+        TEXT_COLOR);
   }
 
+  PopGlobalStyles();
+
   ImGui::Render();
+
+  glClearColor(GAP_COLOR.x, GAP_COLOR.y, GAP_COLOR.z, GAP_COLOR.w);
+  glClear(GL_COLOR_BUFFER_BIT);
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
   glfwSwapBuffers(window);
 }
@@ -55,7 +71,7 @@ GLFWwindow* UI::CreateWindow(const int width, const int height,
     return nullptr;
   }
 
-  window = glfwCreateWindow(width, height, title, NULL, NULL);
+  window = glfwCreateWindow(width, height, title, nullptr, nullptr);
   glfwMakeContextCurrent(window);
 
   int version = gladLoadGL(glfwGetProcAddress);
@@ -130,4 +146,139 @@ void UI::UpdateCameraControl() {
                              position.y, position.z));
   DebugStat::Log(std::format("Rotation: ({:.1f}, {:.1f}, {:.1f})", rotation.x,
                              rotation.y, rotation.z));
+}
+
+void UI::PopGlobalStyles() {
+  // Colors
+  ImGui::PopStyleColor(2);
+}
+
+void UI::PushGlobalStyles() {
+  // Colors
+  // BG for the whole window, resulting only coloring the gaps
+  ImGui::PushStyleColor(ImGuiCol_WindowBg, GAP_COLOR);
+  ImGui::PushStyleColor(ImGuiCol_Text, TEXT_COLOR);
+}
+
+void UI::RenderMain() {
+  ImGui::SetNextWindowPos(
+      {INSET.x + MAIN_MARGIN.x, INSET.y + MAIN_MARGIN.y + MENU_BAR_HEIGHT});
+  ImGui::SetNextWindowSize(ImVec2(wW, vH));
+
+  ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
+  ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, ROUNDING);
+
+  ImGui::PushStyleColor(ImGuiCol_FrameBg, BG_COLOR);
+
+  ImGui::Begin("Main", nullptr,
+               ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
+                   ImGuiWindowFlags_NoResize);
+  {
+    RenderViewport();
+    ImGui::SameLine(vW + INNER_GAP);
+    RenderSidePanel();
+  }
+  ImGui::End();
+
+  ImGui::PopStyleVar(4);
+  ImGui::PopStyleColor();
+}
+
+void UI::RenderMainMenu() {
+  const float menuBarSpacing = 8;  // Compensating first MenuBar Item Spacing
+  const ImVec2 buttonPadding = {2, 2};
+  const ImVec2 containerPos = {INSET.x, INSET.y};
+  const ImVec2 containerSize = {wW - INSET.x * 2, MENU_BAR_HEIGHT};
+  const ImVec2 innerPos = {INSET.x + MENU_BAR_PADDING.x - menuBarSpacing,
+                           INSET.y + MENU_BAR_PADDING.y - buttonPadding.y};
+  const ImVec2 innerSize = {wW - innerPos.x, MENU_BAR_HEIGHT};
+  const auto containerFlag =
+      ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
+      ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+      ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysAutoResize;
+
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, {0, 0});
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
+  ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, buttonPadding);
+  ImGui::PushStyleColor(ImGuiCol_MenuBarBg, BG_COLOR);
+  ImGui::PushStyleColor(ImGuiCol_WindowBg, BG_COLOR);
+  ImGui::PushStyleColor(ImGuiCol_Header, MENU_HOVERED);
+  ImGui::PushStyleColor(ImGuiCol_HeaderHovered, MENU_HOVERED);
+  ImGui::PushStyleColor(ImGuiCol_PopupBg, BG_COLOR);
+
+  ImGui::SetNextWindowPos(containerPos);
+  ImGui::SetNextWindowSize(containerSize);
+  ImGui::Begin("MenuBarContainer", nullptr, containerFlag);
+  ImGui::SetNextWindowPos(innerPos);
+  ImGui::BeginChild("MenuBar", innerSize, ImGuiChildFlags_None,
+                    ImGuiWindowFlags_MenuBar);
+  {
+    if (ImGui::BeginMenuBar()) {
+      if (ImGui::BeginMenu("Render")) {
+        if (ImGui::MenuItem("Render Image")) {
+          printf("[Render Image]\n");
+        }
+        if (ImGui::MenuItem("Render Animation")) {
+          printf("[Render Animation]\n");
+        }
+        ImGui::EndMenu();
+      }
+    }
+    ImGui::EndMenuBar();
+  }
+  ImGui::EndChild();
+  ImGui::End();
+  ImGui::PopStyleColor(5);
+  ImGui::PopStyleVar(3);
+}
+
+void UI::RenderSidePanel() {
+  ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, SIDE_PANEL_PADDING);
+  ImGui::PushStyleColor(ImGuiCol_FrameBg, PANEL_BG_COLOR);
+  ImGui::BeginChild("SidePanel", ImVec2(SIDE_PANEL_WIDTH, 0),
+                    ImGuiChildFlags_FrameStyle);
+  {
+    ImGui::Text("SidePanel");  //
+  }
+  ImGui::EndChild();
+  ImGui::PopStyleVar();
+  ImGui::PopStyleColor();
+}
+
+void UI::RenderStatusBar() {
+  ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, STATUS_BAR_PADDING);
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(0, 0));
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
+  ImGui::PushStyleColor(ImGuiCol_WindowBg, STATUS_BAR_COLOR);
+
+  ImGui::SetNextWindowPos(ImVec2(INSET.x, wH - INSET.y - STATUS_BAR_HEIGHT));
+  ImGui::SetNextWindowSize(ImVec2(wW - 2 * INSET.x, STATUS_BAR_HEIGHT));
+  ImGui::Begin("StatusBar", nullptr,
+               ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
+                   ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize);
+
+  {
+    ImGui::Text("Status Bar");  //
+  }
+  ImGui::End();
+  ImGui::PopStyleVar(4);
+  ImGui::PopStyleColor();
+}
+
+void UI::RenderViewport() {
+  ImGui::BeginChild("Viewport", ImVec2(vW, 0), ImGuiChildFlags_None);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
+  ImGui::Image((ImTextureID)viewportTextureID, ImVec2(vW, vH), {0, 1}, {1, 0});
+#pragma GCC diagnostic pop
+  ImGui::EndChild();
+}
+
+void UI::CalculateWindowSize(const int& vW, const int& vH, int& wW, int& wH) {
+  wW = INSET.x * 2 + MAIN_MARGIN.x * 2 + vW + INNER_GAP + SIDE_PANEL_WIDTH;
+  wH = INSET.y * 2 + MAIN_MARGIN.y * 2 + MENU_BAR_HEIGHT + vH +
+       STATUS_BAR_HEIGHT;
 }

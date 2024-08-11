@@ -7,7 +7,7 @@ class DebugStat {
 
   static void Clear();
   static void Log(std::string msg);
-  static void Render(ImColor textColor = IM_COL32_WHITE);
+  static void Render(const ImVec2 &pos, ImColor textColor = IM_COL32_WHITE);
 
   DebugStat(DebugStat const &) = delete;
   void operator=(DebugStat const &) = delete;
