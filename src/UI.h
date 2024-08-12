@@ -12,6 +12,7 @@ class UI {
   GLFWwindow* window;
   glm::vec3 textColor = glm::vec3(1, 1, 1);
 
+  bool showDebugStat = true;
   NavigationMode navigationMode = NavigationMode::NORMAL;
 
   UI() {};
