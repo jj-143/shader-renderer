@@ -24,14 +24,13 @@ void DebugStat::Render(const ImVec2& pos, ImColor textColor) {
       ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
       ImGuiWindowFlags_NoBackground;
 
-  ImGui::SetNextWindowPos(ImVec2(pos.x + 4, pos.y + 4));
-  ImGui::SetNextWindowSize(ImVec2(0, 0));
-  ImGui::Begin("Debug Stat", nullptr, windowFlags);
-  ImGui::TextColored(textColor, "fps: %.1f", io.Framerate);
-
-  for (auto& line : ds.messages) {
-    ImGui::TextColored(textColor, "%s", line.c_str());
+  ImGui::SetNextWindowPos(pos);
+  ImGui::BeginChild("Debug Stat", {0, 0}, ImGuiChildFlags_None, windowFlags);
+  {
+    ImGui::TextColored(textColor, "fps: %.1f", io.Framerate);
+    for (auto& line : ds.messages) {
+      ImGui::TextColored(textColor, "%s", line.c_str());
+    }
   }
-
-  ImGui::End();
+  ImGui::EndChild();
 }

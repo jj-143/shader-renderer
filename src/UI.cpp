@@ -46,12 +46,6 @@ void UI::Render() {
   RenderMain();
   RenderStatusBar();
 
-  if (showDebugStat) {
-    DebugStat::Render(
-        {INSET.x + MAIN_MARGIN.x, INSET.y + MAIN_MARGIN.y + MENU_BAR_HEIGHT},
-        TEXT_COLOR);
-  }
-
   PopGlobalStyles();
 
   ImGui::Render();
@@ -274,6 +268,12 @@ void UI::RenderViewport() {
 #pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
   ImGui::Image((ImTextureID)viewportTextureID, ImVec2(vW, vH), {0, 1}, {1, 0});
 #pragma GCC diagnostic pop
+  if (showDebugStat) {
+    DebugStat::Render(
+        {INSET.x + MAIN_MARGIN.x + LAYOUT_INSET.x,
+         INSET.y + MAIN_MARGIN.y + LAYOUT_INSET.y + MENU_BAR_HEIGHT},
+        TEXT_COLOR);
+  }
   ImGui::EndChild();
 }
 

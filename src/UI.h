@@ -5,6 +5,7 @@ class Camera;
 
 // clang-format off
 static const ImVec2   INSET              = {0, 0};
+static const ImVec2   LAYOUT_INSET       = {8, 8};
 static const int      LINE_HEIGHT        = 13;
 static const int      INNER_GAP          = 8;
 static const int      ROUNDING           = 8;
