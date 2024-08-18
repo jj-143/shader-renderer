@@ -1,6 +1,5 @@
 #pragma once
-
-#include "Config.h"
+#include <glm/glm.hpp>
 
 class Camera {
  public:

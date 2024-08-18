@@ -1,5 +1,7 @@
 #include "Postprocess.h"
 
+#include "ShaderLoader.h"
+
 Postprocess::Postprocess(const int& width, const int& height,
                          const char* filepathVertex,
                          const char* filepathFragment)

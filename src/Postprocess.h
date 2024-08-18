@@ -1,5 +1,5 @@
 #pragma once
-#include "Config.h"
+#include <glad/gl.h>
 
 class Postprocess {
  public:

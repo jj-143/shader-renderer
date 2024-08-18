@@ -1,5 +1,8 @@
 #pragma once
-#include "Config.h"
+#include <imgui/imgui.h>
+
+#include <string>
+#include <vector>
 
 class DebugStat {
  public:

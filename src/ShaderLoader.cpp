@@ -1,4 +1,9 @@
-#include "Config.h"
+#include "ShaderLoader.h"
+
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <vector>
 
 GLuint MakeModule(const std::string& filepath, GLuint moduleType) {
   std::ifstream file;

@@ -1,5 +1,15 @@
 #include "UI.h"
 
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+
+#include <format>
+#include <glm/glm.hpp>
+#include <string>
+
+#include "Camera.h"
+#include "DebugStat.h"
+
 bool UI::InitUI(const int width, const int height, const char* title) {
   vW = width;
   vH = height;

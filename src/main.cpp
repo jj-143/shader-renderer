@@ -1,4 +1,10 @@
-#include "Config.h"
+#include <format>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "Camera.h"
+#include "Postprocess.h"
+#include "ShaderLoader.h"
+#include "UI.h"
 
 int main(int argc, char* argv[]) {
   const int width = argc > 1 ? atoi(argv[1]) : 640;

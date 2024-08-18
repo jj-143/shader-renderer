@@ -1,5 +1,7 @@
 #pragma once
-#include "Config.h"
+#include <imgui/imgui.h>
+
+#include "common.h"
 
 class Camera;
 

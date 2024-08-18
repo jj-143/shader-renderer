@@ -1,7 +1,7 @@
 #pragma once
-#include <string>
+#include <glad/gl.h>
 
-#include "Config.h"
+#include <string>
 
 GLuint MakeModule(const std::string& filepath, GLuint moduleType);
 GLuint MakeShader(const std::string& vertexFilepath,
