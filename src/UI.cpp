@@ -7,8 +7,8 @@
 #include <glm/glm.hpp>
 #include <string>
 
-#include "Camera.h"
 #include "DebugStat.h"
+#include "Renderer/Camera.h"
 
 bool UI::InitUI(const int width, const int height, const char* title) {
   vW = width;

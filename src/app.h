@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Renderer/Renderer.h"
 #include "Setting.h"
 #include "UI.h"
 
@@ -13,6 +14,7 @@ class App {
 
   Config config;
   Setting setting;
+  Renderer renderer;
   UI ui;
 
   App(const Config config);

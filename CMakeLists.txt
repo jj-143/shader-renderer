@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenGL REQUIRED)
 
-file (GLOB src
+file (GLOB_RECURSE src
   "src/*.h"
   "src/*.cpp"
   "src/*.c"
