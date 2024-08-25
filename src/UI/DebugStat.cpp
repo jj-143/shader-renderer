@@ -25,7 +25,9 @@ void DebugStat::Render(const ImVec2& pos, ImColor textColor) {
       ImGuiWindowFlags_NoBackground;
 
   ImGui::SetNextWindowPos(pos);
-  ImGui::BeginChild("Debug Stat", {0, 0}, ImGuiChildFlags_None, windowFlags);
+  ImGui::BeginChild("Debug Stat", {0, 0},
+                    ImGuiChildFlags_AutoResizeY | ImGuiChildFlags_AutoResizeX,
+                    windowFlags);
   {
     ImGui::TextColored(textColor, "fps: %.1f", io.Framerate);
     for (auto& line : ds.messages) {
