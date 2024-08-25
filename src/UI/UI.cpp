@@ -157,6 +157,11 @@ void UI::UpdateCameraControl() {
                              rotation.y, rotation.z));
 }
 
+void UI::UpdateStatus(const std::string message) {
+  statusMessage = message;
+  statusClearTime = glfwGetTime() + STATUS_DURATION;
+}
+
 void UI::PopGlobalStyles() {
   // Colors
   ImGui::PopStyleColor(2);
@@ -257,7 +262,9 @@ void UI::RenderStatusBar() {
                    ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize);
 
   {
-    ImGui::Text("Status Bar");  //
+    const char* messageContent =
+        glfwGetTime() < statusClearTime ? statusMessage.c_str() : "";
+    ImGui::Text("%s", messageContent);
   }
   ImGui::End();
   ImGui::PopStyleVar(4);

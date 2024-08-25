@@ -1,6 +1,8 @@
 #pragma once
 #include <imgui/imgui.h>
 
+#include <string>
+
 #include "../Renderer/Camera.h"
 #include "../common.h"
 
@@ -26,6 +28,8 @@ static const ImVec4   GAP_COLOR          = ImColor(  8,  27,  28, 255);
 static const ImVec4   MENU_HOVERED       = ImColor( 24,  39,  39, 255);
 static const ImVec4   PANEL_BG_COLOR     = ImColor( 24,  39,  39, 255);
 static const ImVec4   STATUS_BAR_COLOR   = ImColor(  8,  27,  28, 255);
+
+static const float    STATUS_DURATION    = 3;
 // clang-format on
 
 class UI {
@@ -48,6 +52,7 @@ class UI {
   void Render();
   void SetCamera(Camera& camera) { this->camera = &camera; }
   void UpdateCameraControl();
+  void UpdateStatus(const std::string message);
 
   static GLFWwindow* CreateWindow(const int width, const int height,
                                   const char* title);
@@ -55,6 +60,8 @@ class UI {
 
  private:
   Camera* camera;
+  std::string statusMessage;
+  float statusClearTime;
 
   void PopGlobalStyles();
   void PushGlobalStyles();
