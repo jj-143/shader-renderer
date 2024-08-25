@@ -65,4 +65,10 @@ class UI {
 
   static void CalculateWindowSize(const int& vW, const int& vH, int& wW,
                                   int& wH);
+
+  // Shortcuts
+  static void OnKeyPressed(GLFWwindow* window, int key, int scancode,
+                           int action, int mods);
+  void ToggleTimelinePlay();
+  void ToggleNavigationMode();
 };

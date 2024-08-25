@@ -29,6 +29,8 @@ bool UI::InitUI(const int width, const int height, const char* title) {
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL3_Init("#version 330 core");
   ImGui::StyleColorsDark();
+
+  glfwSetKeyCallback(window, OnKeyPressed);
   return true;
 }
 
