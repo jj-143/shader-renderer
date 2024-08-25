@@ -1,8 +1,8 @@
 #pragma once
 #include <imgui/imgui.h>
 
-#include "Renderer/Camera.h"
-#include "common.h"
+#include "../Renderer/Camera.h"
+#include "../common.h"
 
 class Camera;
 
@@ -61,7 +61,6 @@ class UI {
   void PushGlobalStyles();
   void RenderMain();
   void RenderMainMenu();
-  void RenderSidePanel();
   void RenderStatusBar();
   void RenderViewport();
 
