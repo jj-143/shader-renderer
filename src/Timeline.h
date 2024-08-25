@@ -4,6 +4,7 @@
 class Timeline {
  public:
   float iTime = 0;
+  bool rendered = false;
 
   inline bool IsPlaying() { return state == PLAYING; }
   inline bool IsPaused() { return state == PAUSED; }

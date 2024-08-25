@@ -2,6 +2,7 @@
 
 #include "Renderer/Renderer.h"
 #include "Setting.h"
+#include "Timeline.h"
 #include "UI/UI.h"
 
 class App {
@@ -16,6 +17,7 @@ class App {
   Setting setting;
   Renderer renderer;
   UI ui;
+  Timeline timeline;
 
   App(const Config config);
   App(App const&) = delete;

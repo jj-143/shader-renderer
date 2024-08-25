@@ -8,6 +8,7 @@
 #include <string>
 
 #include "../Renderer/Camera.h"
+#include "../app.h"
 #include "DebugStat.h"
 
 void RenderSidePanel();
@@ -35,10 +36,10 @@ bool UI::NewFrame() {
   if (glfwWindowShouldClose(window)) return false;
   glfwPollEvents();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  iTime = glfwGetTime();
+  const Timeline& timeline = App::GetInstance().timeline;
 
   DebugStat::Clear();
-  DebugStat::Log(std::format("t: {:.2f}", iTime));
+  DebugStat::Log(std::format("t: {:.1f}", timeline.iTime));
 
   if (navigationMode == NavigationMode::WALK) {
     ImGui::SetMouseCursor(ImGuiMouseCursor_None);

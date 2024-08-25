@@ -34,7 +34,6 @@ class UI {
 
   int wW, wH;  // window
   int vW, vH;  // viewport
-  float iTime = 0;
   GLFWwindow* window;
 
   bool showDebugStat = true;

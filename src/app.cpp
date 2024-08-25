@@ -18,9 +18,19 @@ int App::Run() {
   renderer.camera.rotation = {0, 0, 90};  // forward: +Y, right: +X, up: +Z
   renderer.camera.Update();
   ui.SetCamera(renderer.camera);
+  timeline.Play();
 
   while (ui.NewFrame()) {
-    renderer.Render(ui.iTime);
+    if (timeline.IsPlaying()) timeline.Update();
+
+    const bool shouldRender =
+        !timeline.rendered || ui.navigationMode == UI::NavigationMode::WALK;
+
+    if (shouldRender) {
+      renderer.Render(timeline.iTime);
+      timeline.rendered = true;
+    }
+
     ui.Render();
   }
 
