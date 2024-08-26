@@ -1,3 +1,4 @@
+#include "../Core/Ops.h"
 #include "../Timeline.h"
 #include "../app.h"
 #include "UI.h"
@@ -14,6 +15,9 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
       break;
     case GLFW_KEY_SPACE:
       ui.ToggleTimelinePlay();
+      break;
+    case GLFW_KEY_ESCAPE:
+      Ops::CancelTask();
       break;
   }
 }

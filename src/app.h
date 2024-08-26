@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Task.h"
 #include "Renderer/Renderer.h"
 #include "Setting.h"
 #include "Timeline.h"
@@ -18,6 +19,7 @@ class App {
   Renderer renderer;
   UI::UI ui;
   Timeline timeline;
+  Task::TaskManager taskManager;
 
   App(const Config config);
   App(App const&) = delete;
