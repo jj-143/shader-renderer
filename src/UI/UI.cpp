@@ -210,10 +210,10 @@ void UI::RenderMainMenu() {
   {
     if (ImGui::BeginMenuBar()) {
       if (ImGui::BeginMenu("Render")) {
-        if (ImGui::MenuItem("Render Image")) {
+        if (ImGui::MenuItem("Render Image", "F12")) {
           Ops::Render(false);
         }
-        if (ImGui::MenuItem("Render Animation")) {
+        if (ImGui::MenuItem("Render Animation", "Ctrl F12")) {
           Ops::Render(true);
         }
         ImGui::EndMenu();

@@ -19,6 +19,13 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
     case GLFW_KEY_ESCAPE:
       Ops::CancelTask();
       break;
+    case GLFW_KEY_F12:
+      if (mods == GLFW_MOD_CONTROL) {
+        Ops::Render(true);
+      } else {
+        Ops::Render(false);
+      }
+      break;
   }
 }
 
