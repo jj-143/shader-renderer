@@ -2,6 +2,7 @@
 #include "../app.h"
 #include "UI.h"
 
+namespace UI {
 // static function [GLFWkeyfun] for relaying
 void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
                       int mods) {
@@ -35,3 +36,4 @@ void UI::ToggleNavigationMode() {
     glfwSetCursorPos(window, (float)vW / 2, (float)vH / 2);
   }
 }
+}  // namespace UI

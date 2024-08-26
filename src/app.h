@@ -16,7 +16,7 @@ class App {
   Config config;
   Setting setting;
   Renderer renderer;
-  UI ui;
+  UI::UI ui;
   Timeline timeline;
 
   App(const Config config);

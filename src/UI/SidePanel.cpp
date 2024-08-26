@@ -1,10 +1,15 @@
+#include "SidePanel.h"
+
 #include "../Timeline.h"
 #include "../app.h"
 #include "UI.h"
 
+namespace {
 void DevPanel();
 void Help();
+}  // namespace
 
+namespace UI::SidePanel {
 void RenderSidePanel() {
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, SIDE_PANEL_PADDING);
   ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {8, 8});
@@ -19,7 +24,11 @@ void RenderSidePanel() {
   ImGui::PopStyleVar(2);
   ImGui::PopStyleColor();
 }
+}  // namespace UI::SidePanel
 
+// Locals
+namespace {
+using namespace UI;
 void DevPanel() {
   ImGui::Spacing();
   App &app = App::GetInstance();
@@ -60,3 +69,4 @@ void Help() {
 
   ImGui::PopStyleVar(2);
 }
+}  // namespace

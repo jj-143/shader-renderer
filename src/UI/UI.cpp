@@ -10,13 +10,13 @@
 #include "../Renderer/Camera.h"
 #include "../app.h"
 #include "DebugStat.h"
+#include "SidePanel.h"
 
-void RenderSidePanel();
-
+namespace UI {
 bool UI::InitUI(const int width, const int height, const char* title) {
   vW = width;
   vH = height;
-  UI::CalculateWindowSize(vW, vH, wW, wH);
+  CalculateWindowSize(vW, vH, wW, wH);
   window = CreateWindow(wW, wH, title);
   if (window == nullptr) return false;
 
@@ -69,37 +69,6 @@ void UI::Render() {
   glClear(GL_COLOR_BUFFER_BIT);
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
   glfwSwapBuffers(window);
-}
-
-GLFWwindow* UI::CreateWindow(const int width, const int height,
-                             const char* title) {
-  GLFWwindow* window;
-
-  if (!glfwInit()) {
-    printf("GLFW couldn't start.\n");
-    return nullptr;
-  }
-
-  window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-  glfwMakeContextCurrent(window);
-
-  int version = gladLoadGL(glfwGetProcAddress);
-  if (version == 0) {
-    printf("Falied to initialize OpenGL context.\n");
-    glfwTerminate();
-    return nullptr;
-  }
-
-  return window;
-}
-
-void UI::Terminate() {
-  printf("Program terminated.\n");
-
-  ImGui_ImplOpenGL3_Shutdown();
-  ImGui_ImplGlfw_Shutdown();
-  ImGui::DestroyContext();
-  glfwTerminate();
 }
 
 void UI::UpdateCameraControl() {
@@ -175,6 +144,7 @@ void UI::PushGlobalStyles() {
 }
 
 void UI::RenderMain() {
+  using namespace SidePanel;
   ImGui::SetNextWindowPos(
       {INSET.x + MAIN_MARGIN.x, INSET.y + MAIN_MARGIN.y + MENU_BAR_HEIGHT});
   ImGui::SetNextWindowSize(ImVec2(wW, vH));
@@ -286,8 +256,39 @@ void UI::RenderViewport() {
   ImGui::EndChild();
 }
 
-void UI::CalculateWindowSize(const int& vW, const int& vH, int& wW, int& wH) {
+void CalculateWindowSize(const int& vW, const int& vH, int& wW, int& wH) {
   wW = INSET.x * 2 + MAIN_MARGIN.x * 2 + vW + INNER_GAP + SIDE_PANEL_WIDTH;
   wH = INSET.y * 2 + MAIN_MARGIN.y * 2 + MENU_BAR_HEIGHT + vH +
        STATUS_BAR_HEIGHT;
 }
+
+GLFWwindow* CreateWindow(const int width, const int height, const char* title) {
+  GLFWwindow* window;
+
+  if (!glfwInit()) {
+    printf("GLFW couldn't start.\n");
+    return nullptr;
+  }
+
+  window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+  glfwMakeContextCurrent(window);
+
+  int version = gladLoadGL(glfwGetProcAddress);
+  if (version == 0) {
+    printf("Falied to initialize OpenGL context.\n");
+    glfwTerminate();
+    return nullptr;
+  }
+
+  return window;
+}
+
+void Terminate() {
+  printf("Program terminated.\n");
+
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
+  glfwTerminate();
+}
+}  // namespace UI
