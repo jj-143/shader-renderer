@@ -34,6 +34,6 @@ int App::Run() {
     ui.Render();
   }
 
-  UI::Terminate();
+  ui.Terminate();
   return 0;
 }

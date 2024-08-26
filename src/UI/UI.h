@@ -46,9 +46,8 @@ class UI {
 
   GLuint viewportTextureID;
 
-  UI() {};
-
   bool InitUI(const int width, const int height, const char* title);
+  void Terminate();
   bool NewFrame();
   void Render();
   void SetCamera(Camera& camera) { this->camera = &camera; }
@@ -76,5 +75,4 @@ class UI {
 
 void CalculateWindowSize(const int& vW, const int& vH, int& wW, int& wH);
 GLFWwindow* CreateWindow(const int width, const int height, const char* title);
-void Terminate();
 }  // namespace UI

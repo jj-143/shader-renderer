@@ -34,6 +34,14 @@ bool UI::InitUI(const int width, const int height, const char* title) {
   return true;
 }
 
+void UI::Terminate() {
+  printf("Program terminated.\n");
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
+  glfwTerminate();
+}
+
 bool UI::NewFrame() {
   if (glfwWindowShouldClose(window)) return false;
   glfwPollEvents();
@@ -281,14 +289,5 @@ GLFWwindow* CreateWindow(const int width, const int height, const char* title) {
   }
 
   return window;
-}
-
-void Terminate() {
-  printf("Program terminated.\n");
-
-  ImGui_ImplOpenGL3_Shutdown();
-  ImGui_ImplGlfw_Shutdown();
-  ImGui::DestroyContext();
-  glfwTerminate();
 }
 }  // namespace UI
