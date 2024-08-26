@@ -1,11 +1,14 @@
 #include "app.h"
 
+#include <stb/stb_write.h>
+
 App::App(const Config config) : config(config) {
   assert(instance == nullptr && "App already instantiated.");
   instance = this;
 };
 
 int App::Run() {
+  stbi_flip_vertically_on_write(1);
   if (!ui.InitUI(config.vW, config.vH, config.title)) {
     return 1;
   }

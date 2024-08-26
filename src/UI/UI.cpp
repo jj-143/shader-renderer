@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <string>
 
+#include "../Core/Ops.h"
 #include "../Renderer/Camera.h"
 #include "../app.h"
 #include "DebugStat.h"
@@ -210,10 +211,10 @@ void UI::RenderMainMenu() {
     if (ImGui::BeginMenuBar()) {
       if (ImGui::BeginMenu("Render")) {
         if (ImGui::MenuItem("Render Image")) {
-          printf("[Render Image]\n");
+          Ops::Render(false);
         }
         if (ImGui::MenuItem("Render Animation")) {
-          printf("[Render Animation]\n");
+          Ops::Render(true);
         }
         ImGui::EndMenu();
       }
