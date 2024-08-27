@@ -11,7 +11,7 @@ int App::Run() {
   }
 
   renderer.Init(config.vW, config.vH);
-  renderer.SetComputeShader("../res/shaders/raytracer.comp");
+  renderer.SetComputeShader(config.shaderPath.c_str());
   ui.viewportTextureID = renderer.colorbuffer;
 
   // Set default Camera position

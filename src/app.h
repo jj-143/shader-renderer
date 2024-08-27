@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Core/Task.h"
 #include "Renderer/Renderer.h"
 #include "Setting.h"
@@ -12,6 +14,7 @@ class App {
     int vW;
     int vH;
     const char* title;
+    std::string shaderPath;
   };
 
   Config config;
