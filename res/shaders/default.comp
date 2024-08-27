@@ -43,10 +43,10 @@ void main() {
   // Scene
   vec3  sphere_pos      = vec3(0, 1, 0);
   float sphere_radius   = .25;
-  vec3  sphere_diff     = vec3(.25, .75, .55);
+  vec3  sphere_diff     = vec3(8.f/255, 27.f/255, 28.f/255) * 2;
   vec3  light_pos       = vec3(1, -1, 1);
   float light_intensity = 1;
-  vec3  bg_color        = vec3(.25, .55, .45);
+  vec3  bg_color        = vec3(24.f/255, 39.f/255, 39.f/255);
 
   sphere_pos.x = sin(iTime) * .2;
 
