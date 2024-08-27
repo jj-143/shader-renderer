@@ -25,13 +25,12 @@ bool UI::InitUI(const int width, const int height, const char* title) {
   glViewport(0, 0, wH, wH);
 
   glfwSetCursorPos(window, (float)wW / 2, (float)wH / 2);
+  glfwSetKeyCallback(window, OnKeyPressed);
 
   ImGui::CreateContext();
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL3_Init("#version 330 core");
   ImGui::StyleColorsDark();
-
-  glfwSetKeyCallback(window, OnKeyPressed);
   return true;
 }
 
