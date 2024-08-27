@@ -3,8 +3,8 @@
 #include "app.h"
 
 int main(int argc, char* argv[]) {
-  const int width = argc > 1 ? atoi(argv[1]) : 640;
-  const int height = argc > 2 ? atoi(argv[2]) : 480;
+  const int width = argc > 1 ? atoi(argv[1]) : 768;
+  const int height = argc > 2 ? atoi(argv[2]) : 768;
   const char* title = argc > 3 ? argv[3] : "Shader Renderer";
   const char* shaderPath = argc > 4 ? argv[4] : "../res/shaders/default.comp";
 
