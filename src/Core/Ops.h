@@ -14,4 +14,7 @@ bool Report(std::string message);
 /// Otherwise, renders current iTime in `Timeline`.
 bool Render(bool animation = false);
 
+/// Quit the App.
+bool Quit();
+
 }  // namespace Ops

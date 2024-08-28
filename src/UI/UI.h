@@ -53,6 +53,7 @@ class UI {
   void SetCamera(Camera& camera) { this->camera = &camera; }
   void UpdateCameraControl();
   void UpdateStatus(const std::string message);
+  void Quit();
 
  private:
   Camera* camera;

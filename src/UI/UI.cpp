@@ -143,6 +143,8 @@ void UI::UpdateStatus(const std::string message) {
   statusClearTime = glfwGetTime() + STATUS_DURATION;
 }
 
+void UI::Quit() { glfwSetWindowShouldClose(window, GLFW_TRUE); }
+
 void UI::PopGlobalStyles() {
   // Colors
   ImGui::PopStyleColor(2);
@@ -213,6 +215,12 @@ void UI::RenderMainMenu() {
                     ImGuiWindowFlags_MenuBar);
   {
     if (ImGui::BeginMenuBar()) {
+      if (ImGui::BeginMenu("File")) {
+        if (ImGui::MenuItem("Quit", "Ctrl Q")) {
+          Ops::Quit();
+        }
+        ImGui::EndMenu();
+      }
       if (ImGui::BeginMenu("Render")) {
         if (ImGui::MenuItem("Render Image", "F12")) {
           Ops::Render(false);

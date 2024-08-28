@@ -36,6 +36,12 @@ bool Render(bool animation) {
   app.taskManager.RunTask(Task::CreateTask(taskName, RenderTask, animation));
   return true;
 }
+
+bool Quit() {
+  App& app = App::GetInstance();
+  app.ui.Quit();
+  return true;
+}
 }  // namespace Ops
 
 // Locals
