@@ -33,7 +33,6 @@ bool Render(bool animation) {
   if (app.taskManager.HasTask()) return false;
   app.timeline.Pause();
   const char* taskName = animation ? "Render Animation" : "Render Image";
-  Ops::Report(std::format("[{:s}]", taskName));
   app.taskManager.RunTask(Task::CreateTask(taskName, RenderTask, animation));
   return true;
 }

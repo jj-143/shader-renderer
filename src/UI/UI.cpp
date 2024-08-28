@@ -13,6 +13,10 @@
 #include "DebugStat.h"
 #include "SidePanel.h"
 
+namespace {
+void RenderTaskStatus();
+}  // namespace
+
 namespace UI {
 bool UI::InitUI(const int width, const int height, const char* title) {
   vW = width;
@@ -245,6 +249,9 @@ void UI::RenderStatusBar() {
         glfwGetTime() < statusClearTime ? statusMessage.c_str() : "";
     ImGui::Text("%s", messageContent);
   }
+
+  RenderTaskStatus();
+
   ImGui::End();
   ImGui::PopStyleVar(4);
   ImGui::PopStyleColor();
@@ -292,3 +299,35 @@ GLFWwindow* CreateWindow(const int width, const int height, const char* title) {
   return window;
 }
 }  // namespace UI
+
+namespace {
+using namespace UI;
+void RenderTaskStatus() {
+  const App& app = App::GetInstance();
+  const int PROGRESS_WIDTH = 100;
+  const int SPACING = 8;
+  const int CANCEL_BUTTON_SIZE = 16;
+
+  ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 2);
+  ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {SPACING, 0});
+
+  if (app.taskManager.HasTask()) {
+    int label_x = app.ui.wW - SIDE_PANEL_PADDING.x - PROGRESS_WIDTH -
+                  CANCEL_BUTTON_SIZE - SPACING -
+                  ImGui::CalcTextSize(app.taskManager.task->name).x;
+    ImGui::SameLine(label_x);
+    ImGui::Text("%s", app.taskManager.task->name);
+    ImGui::SameLine(app.ui.wW - SIDE_PANEL_PADDING.x - PROGRESS_WIDTH -
+                    CANCEL_BUTTON_SIZE);
+    ImGui::ProgressBar(app.taskManager.task->progress,
+                       ImVec2(PROGRESS_WIDTH, 0));
+    ImGui::SameLine();
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, {2, 2});
+    if (ImGui::SmallButton("x")) {
+      Ops::CancelTask();
+    }
+    ImGui::PopStyleVar();
+  }
+  ImGui::PopStyleVar(2);
+}
+}  // namespace
