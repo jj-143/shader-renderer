@@ -48,7 +48,9 @@ void RenderSidePanel() {
     FrameSettings();
     OutputSettings();
     Help();
+#ifndef NDEBUG
     DevPanel();
+#endif
   }
   ImGui::PopStyleVar(3);
   // END Panel Contents
