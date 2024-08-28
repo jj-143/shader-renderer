@@ -158,23 +158,24 @@ void UI::RenderMain() {
   ImGui::SetNextWindowSize(ImVec2(wW, vH));
 
   ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
-  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
   ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
   ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, ROUNDING);
-
   ImGui::PushStyleColor(ImGuiCol_FrameBg, BG_COLOR);
 
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
   ImGui::Begin("Main", nullptr,
                ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
                    ImGuiWindowFlags_NoResize);
+  ImGui::PopStyleVar();  // Window Padding
+
   {
     RenderViewport();
     ImGui::SameLine(vW + INNER_GAP);
     RenderSidePanel();
   }
-  ImGui::End();
 
-  ImGui::PopStyleVar(4);
+  ImGui::End();
+  ImGui::PopStyleVar(3);
   ImGui::PopStyleColor();
 }
 
