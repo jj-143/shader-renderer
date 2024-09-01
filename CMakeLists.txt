@@ -28,3 +28,5 @@ add_executable(
 target_include_directories(${PROJECT_NAME} PRIVATE dependencies)
 
 target_link_libraries(${PROJECT_NAME} glfw OpenGL::GL)
+
+file(COPY ${CMAKE_SOURCE_DIR}/res DESTINATION ${CMAKE_BINARY_DIR})

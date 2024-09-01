@@ -5,6 +5,7 @@
 #include <string>
 #include <thread>
 
+#include "../Global.h"
 #include "../Renderer/Render.h"
 #include "../app.h"
 #include "Task.h"
@@ -48,9 +49,16 @@ bool Quit() {
 namespace {
 namespace fs = std::filesystem;
 
-// Create directories if needed
+/// Create directories if needed.
+/// Accepts absolute path without modification;
+/// translate relative path as relative from BINARY_ROOT.
 fs::path PrepareOutDir(const char* dirpath) {
   fs::path out(dirpath);
+
+  if (out.is_relative()) {
+    out = Global::BINARY_ROOT / out;
+  }
+
   if (!fs::is_directory(out)) {
     fs::create_directories(out);
   }
