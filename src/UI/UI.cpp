@@ -35,6 +35,12 @@ bool UI::InitUI(const int width, const int height, const char* title) {
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL3_Init("#version 330 core");
   ImGui::StyleColorsDark();
+
+  // Disable ImGui Log / .ini
+  // NOTE: These are saved during ImGui::DestroyContext().
+  auto& io = ImGui::GetIO();
+  io.LogFilename = nullptr;
+  io.IniFilename = nullptr;
   return true;
 }
 
