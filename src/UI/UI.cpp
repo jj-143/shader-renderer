@@ -25,6 +25,7 @@ bool UI::InitUI(const int width, const int height, const char* title) {
   window = CreateWindow(wW, wH, title);
   if (window == nullptr) return false;
 
+  glfwSetWindowAttrib(window, GLFW_RESIZABLE, GLFW_FALSE);
   glfwGetFramebufferSize(window, &wW, &wH);
   glViewport(0, 0, wH, wH);
 
