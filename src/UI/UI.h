@@ -41,7 +41,7 @@ class UI {
   int vW, vH;  // viewport
   GLFWwindow* window;
 
-  bool showDebugStat = true;
+  bool showOverlays = true;
   NavigationMode navigationMode = NavigationMode::NORMAL;
 
   GLuint viewportTextureID;
