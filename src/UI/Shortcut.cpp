@@ -31,6 +31,11 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
         Ops::Quit();
       }
       break;
+    case GLFW_KEY_Z:
+      if (mods == (GLFW_MOD_ALT | GLFW_MOD_SHIFT)) {
+        Ops::ShowOverlays(!ui.showOverlays);
+      }
+      break;
   }
 }
 

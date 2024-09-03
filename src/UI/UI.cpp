@@ -221,6 +221,12 @@ void UI::RenderMainMenu() {
         }
         ImGui::EndMenu();
       }
+      if (ImGui::BeginMenu("View")) {
+        if (ImGui::MenuItem("Show Overlays", "Alt Shift Z", showOverlays)) {
+          Ops::ShowOverlays(!showOverlays);
+        }
+        ImGui::EndMenu();
+      }
       if (ImGui::BeginMenu("Render")) {
         if (ImGui::MenuItem("Render Image", "F12")) {
           Ops::Render(false);

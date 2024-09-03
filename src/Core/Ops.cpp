@@ -23,6 +23,12 @@ bool CancelTask() {
   return true;
 }
 
+bool ShowOverlays(bool set) {
+  App& app = App::GetInstance();
+  app.ui.showOverlays = set;
+  return true;
+}
+
 bool Report(std::string message) {
   App& app = App::GetInstance();
   app.ui.UpdateStatus(message);

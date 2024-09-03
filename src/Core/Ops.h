@@ -6,6 +6,9 @@ namespace Ops {
 /// Cancel Current running task in [App::taskManager]
 bool CancelTask();
 
+/// Show/Hide every overlays, leaving only the scene texture
+bool ShowOverlays(bool set);
+
 /// Display a message in Status Bar.
 bool Report(std::string message);
 
