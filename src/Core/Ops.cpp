@@ -29,6 +29,15 @@ bool ShowOverlays(bool set) {
   return true;
 }
 
+bool ReloadShader() {
+  App& app = App::GetInstance();
+  app.timeline.Stop();
+  app.renderer.DeleteShader();
+  app.renderer.SetComputeShader(app.config.shaderPath.c_str());
+  app.timeline.Play();
+  return true;
+}
+
 bool Report(std::string message) {
   App& app = App::GetInstance();
   app.ui.UpdateStatus(message);

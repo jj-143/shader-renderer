@@ -33,6 +33,10 @@ void Renderer::SetComputeShader(const char* path) {
   iTimeLocation = glGetUniformLocation(shader, "iTime");
 }
 
+void Renderer::DeleteShader() {
+  glDeleteProgram(shader);  //
+}
+
 void Renderer::RenderWithComputeShader(float iTime) {
   glUseProgram(shader);
   glUniform1f(iTimeLocation, iTime);

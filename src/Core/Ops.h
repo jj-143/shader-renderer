@@ -9,6 +9,11 @@ bool CancelTask();
 /// Show/Hide every overlays, leaving only the scene texture
 bool ShowOverlays(bool set);
 
+/// Reload current shader and reset timeline.
+/// NOTE: This should be called in the thread rendering
+/// viewport texture.
+bool ReloadShader();
+
 /// Display a message in Status Bar.
 bool Report(std::string message);
 

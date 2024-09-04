@@ -223,6 +223,12 @@ void UI::RenderMainMenu() {
   {
     if (ImGui::BeginMenuBar()) {
       if (ImGui::BeginMenu("File")) {
+        if (ImGui::MenuItem("Reload Shader", "Ctrl R")) {
+          Ops::ReloadShader();
+        }
+
+        ImGui::Separator();
+
         if (ImGui::MenuItem("Quit", "Ctrl Q")) {
           Ops::Quit();
         }

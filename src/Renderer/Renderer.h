@@ -14,6 +14,7 @@ class Renderer {
 
   void Init(int width, int height, GLenum colorbufferFormat = GL_RGBA32F);
   void SetComputeShader(const char* path);
+  void DeleteShader();
   void Render(float iTime);
 
  private:
