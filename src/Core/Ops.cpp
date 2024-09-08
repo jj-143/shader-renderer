@@ -23,6 +23,18 @@ bool CancelTask() {
   return true;
 }
 
+bool LoadShader(std::string path) {
+  App& app = App::GetInstance();
+  app.config.shaderPath = path;
+
+  app.timeline.Stop();
+  app.renderer.DeleteShader();
+
+  app.renderer.SetComputeShader(app.config.shaderPath.c_str());
+  app.timeline.Play();
+  return true;
+}
+
 bool ShowOverlays(bool set) {
   App& app = App::GetInstance();
   app.ui.showOverlays = set;
