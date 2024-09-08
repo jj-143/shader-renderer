@@ -2,25 +2,31 @@
 
 #include <stb/stb_write.h>
 
+#include "Core/Ops.h"
+
 App::App(const Config config) : config(config) {
   assert(instance == nullptr && "App already instantiated.");
   instance = this;
 };
 
-int App::Run() {
+bool App::Init() {
   stbi_flip_vertically_on_write(1);
   if (!ui.InitUI(config.vW, config.vH, config.title)) {
-    return 1;
+    return false;
   }
 
   renderer.Init(config.vW, config.vH);
-  renderer.SetComputeShader(config.shaderPath.c_str());
   ui.viewportTextureID = renderer.colorbuffer;
+  ui.SetCamera(renderer.camera);
+  return true;
+}
 
+void App::Run() {
   // Set default Camera position
   renderer.camera.rotation = {0, 0, 90};  // forward: +Y, right: +X, up: +Z
   renderer.camera.Update();
-  ui.SetCamera(renderer.camera);
+
+  renderer.SetComputeShader(config.shaderPath.c_str());
   timeline.Play();
 
   while (ui.NewFrame()) {
@@ -38,5 +44,4 @@ int App::Run() {
   }
 
   ui.Terminate();
-  return 0;
 }

@@ -15,5 +15,10 @@ int main(int argc, char* argv[]) {
 
   App app = App(config);
 
-  return app.Run();
+  if (!app.Init()) {
+    fprintf(stderr, "Cannot start the App. Exiting..\n");
+    return 1;
+  }
+
+  app.Run();
 }

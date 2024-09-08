@@ -28,7 +28,11 @@ class App {
   App(App const&) = delete;
   void operator=(App const&) = delete;
 
-  int Run();
+  /// Return true if success
+  bool Init();
+
+  /// Start the main loop
+  void Run();
 
   static inline App& GetInstance() {
     assert(instance != nullptr && "App not instantiated.");
