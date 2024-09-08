@@ -9,6 +9,9 @@ bool CancelTask();
 /// Load / Replace currently running shader
 bool LoadShader(std::string path);
 
+/// Open Dialog for loading a shader.
+bool OpenOpenShaderDialog();
+
 /// Show/Hide every overlays, leaving only the scene texture
 bool ShowOverlays(bool set);
 

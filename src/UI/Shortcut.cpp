@@ -26,6 +26,11 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
         Ops::Render(false);
       }
       break;
+    case GLFW_KEY_O:
+      if (mods == GLFW_MOD_CONTROL) {
+        Ops::OpenOpenShaderDialog();
+      }
+      break;
     case GLFW_KEY_R:
       if (mods == GLFW_MOD_CONTROL) {
         Ops::ReloadShader();

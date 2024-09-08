@@ -1,5 +1,7 @@
 #include "Ops.h"
 
+#include <nfd/nfd.h>
+
 #include <filesystem>
 #include <format>
 #include <string>
@@ -32,6 +34,25 @@ bool LoadShader(std::string path) {
 
   app.renderer.SetComputeShader(app.config.shaderPath.c_str());
   app.timeline.Play();
+  return true;
+}
+
+bool OpenOpenShaderDialog() {
+  App& app = App::GetInstance();
+  fs::path defaultPath = fs::path(app.config.shaderPath).parent_path();
+
+  nfdchar_t* outPath;
+  nfdresult_t result = NFD_OpenDialog(nullptr, defaultPath.c_str(), &outPath);
+
+  if (result == NFD_CANCEL) {
+    return true;
+  } else if (result == NFD_ERROR) {
+    Ops::Report(std::format("Cannot load file ({:s})", NFD_GetError()));
+    return false;
+  }
+
+  LoadShader(outPath);
+  free(outPath);
   return true;
 }
 

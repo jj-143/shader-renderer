@@ -9,13 +9,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(OpenGL REQUIRED)
 
 file (GLOB_RECURSE src
-  "src/*.h"
   "src/*.cpp"
   "src/*.c"
 )
 
 file(GLOB imgui_src
-  "dependencies/imgui/*.h"
   "dependencies/imgui/*.cpp"
 )
 
@@ -25,8 +23,27 @@ add_executable(
   ${imgui_src}
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE dependencies)
+# 3rd party
+set(STAGED_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/stage)
+set_property(DIRECTORY PROPERTY EP_BASE ${CMAKE_BINARY_DIR}/subprojects)
+add_subdirectory(thirdparty)
 
-target_link_libraries(${PROJECT_NAME} glfw OpenGL::GL)
+target_include_directories(${PROJECT_NAME}
+  PRIVATE dependencies
+  ${STAGED_INSTALL_PREFIX}/include
+)
 
+add_dependencies(${PROJECT_NAME} nfd_external)
+
+# Link
+set(NFD_LIBRARIES nfd gtk-3 glib-2.0)
+
+target_link_directories(${PROJECT_NAME} PRIVATE ${STAGED_INSTALL_PREFIX}/lib)
+
+target_link_libraries(${PROJECT_NAME}
+  glfw OpenGL::GL 
+  ${NFD_LIBRARIES}
+)
+
+# Copy resources
 file(COPY ${CMAKE_SOURCE_DIR}/res DESTINATION ${CMAKE_BINARY_DIR})
