@@ -309,7 +309,7 @@ GLFWwindow* CreateWindow(const int width, const int height, const char* title) {
   GLFWwindow* window;
 
   if (!glfwInit()) {
-    printf("GLFW couldn't start.\n");
+    fprintf(stderr, "GLFW couldn't start.\n");
     return nullptr;
   }
 
@@ -318,7 +318,7 @@ GLFWwindow* CreateWindow(const int width, const int height, const char* title) {
 
   int version = gladLoadGL(glfwGetProcAddress);
   if (version == 0) {
-    printf("Falied to initialize OpenGL context.\n");
+    fprintf(stderr, "Falied to initialize OpenGL context.\n");
     glfwTerminate();
     return nullptr;
   }
