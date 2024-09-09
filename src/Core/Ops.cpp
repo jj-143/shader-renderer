@@ -47,7 +47,7 @@ bool OpenOpenShaderDialog() {
   if (result == NFD_CANCEL) {
     return true;
   } else if (result == NFD_ERROR) {
-    Ops::Report(std::format("Cannot load file ({:s})", NFD_GetError()));
+    Ops::ReportError(std::format("Cannot load file ({:s})", NFD_GetError()));
     return false;
   }
 
@@ -126,7 +126,7 @@ void RenderTask(Task::Task& task, bool animation) {
   try {
     outDir = PrepareOutDir(output.path);
   } catch (fs::filesystem_error error) {
-    Ops::Report(error.what());
+    Ops::ReportError(error.what());
     return;
   }
 
@@ -154,9 +154,10 @@ void RenderTask(Task::Task& task, bool animation) {
   }
 
   if (writeErrors > 0) {
-    Ops::Report(std::format("ERROR: Coudn't write output {:s} for {:d} {:s}",
-                            writeErrors > 1 ? "files" : "file", writeErrors,
-                            writeErrors > 1 ? "frames" : "frame"));
+    Ops::ReportError(
+        std::format("ERROR: Coudn't write output {:s} for {:d} {:s}",
+                    writeErrors > 1 ? "files" : "file", writeErrors,
+                    writeErrors > 1 ? "frames" : "frame"));
   } else {
     Ops::Report(
         animation
