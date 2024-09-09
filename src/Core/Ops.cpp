@@ -27,6 +27,12 @@ bool CancelTask() {
 
 bool LoadShader(std::string path) {
   App& app = App::GetInstance();
+
+  if (!fs::exists(path)) {
+    Ops::ReportError(std::format("File Not Exist: {:s}", path));
+    return false;
+  }
+
   app.config.shaderPath = path;
 
   app.timeline.Stop();
