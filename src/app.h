@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "Core/Reloader.h"
 #include "Core/Setting.h"
 #include "Core/Task.h"
 #include "Core/Timeline.h"
@@ -23,6 +24,7 @@ class App {
   UI::UI ui;
   Timeline timeline;
   Task::TaskManager taskManager;
+  Reloader reloader;
 
   App(const Config config);
   App(App const&) = delete;

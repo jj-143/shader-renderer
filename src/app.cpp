@@ -18,6 +18,9 @@ bool App::Init() {
   renderer.Init(config.vW, config.vH);
   ui.viewportTextureID = renderer.colorbuffer;
   ui.SetCamera(renderer.camera);
+
+  reloader.Start();
+  reloader.WatchForChange(config.shaderPath);
   return true;
 }
 
@@ -41,6 +44,7 @@ void App::Run() {
     }
 
     ui.Render();
+    reloader.HandleReload();
   }
 
   ui.Terminate();

@@ -34,6 +34,8 @@ bool LoadShader(std::string path) {
 
   app.renderer.SetComputeShader(app.config.shaderPath.c_str());
   app.timeline.Play();
+
+  app.reloader.WatchForChange(path);
   return true;
 }
 

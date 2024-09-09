@@ -43,6 +43,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE ${STAGED_INSTALL_PREFIX}/lib)
 target_link_libraries(${PROJECT_NAME}
   glfw OpenGL::GL 
   ${NFD_LIBRARIES}
+  inotifytools
 )
 
 # Copy resources
