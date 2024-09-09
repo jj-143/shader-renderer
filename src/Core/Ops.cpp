@@ -71,9 +71,13 @@ bool ReloadShader() {
   return true;
 }
 
-bool Report(std::string message) {
+bool Report(std::string message, ReportLevel level) {
   App& app = App::GetInstance();
   app.ui.UpdateStatus(message);
+
+  if (level == ReportLevel::ERROR) {
+    fprintf(stderr, "[Error] %s\n", message.c_str());
+  }
   return true;
 }
 

@@ -2,6 +2,7 @@
 #include <string>
 
 namespace Ops {
+enum class ReportLevel { INFO, ERROR };
 
 /// Cancel Current running task in [App::taskManager]
 bool CancelTask();
@@ -21,7 +22,12 @@ bool ShowOverlays(bool set);
 bool ReloadShader();
 
 /// Display a message in Status Bar.
-bool Report(std::string message);
+bool Report(std::string message, ReportLevel level = ReportLevel::INFO);
+
+/// Shorthand for Reporting Error
+inline bool ReportError(std::string message) {
+  return Report(message, ReportLevel::ERROR);
+}
 
 /// Render to output file.
 /// if `animation` is set, renders frames in the range defined in the Setting.
