@@ -1,6 +1,7 @@
 #pragma once
 #include "../common.h"
 #include "Camera.h"
+#include "ShaderLoader.h"
 
 class Renderer {
  public:
@@ -13,7 +14,7 @@ class Renderer {
   GLuint iTimeLocation;
 
   void Init(int width, int height, GLenum colorbufferFormat = GL_RGBA32F);
-  void SetComputeShader(const char* path);
+  ShaderCompileResult SetComputeShader(const char* path);
   void DeleteShader();
   void Render(float iTime);
 

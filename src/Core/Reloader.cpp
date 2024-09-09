@@ -51,7 +51,7 @@ bool Reloader::WatchForChange(std::string filepath) {
   try {
     activeFile = ToFullPath(filepath);
   } catch (fs::filesystem_error error) {
-    Ops::Report(error.what());
+    Ops::ReportError(error.what());
     return false;
   }
 

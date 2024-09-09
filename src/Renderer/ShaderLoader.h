@@ -3,7 +3,13 @@
 
 #include <string>
 
-GLuint MakeModule(const std::string& filepath, GLuint moduleType);
+struct ShaderCompileResult {
+  bool isSuccess;
+  GLuint program;
+  std::string error = "";
+};
+
+ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType);
 GLuint MakeShader(const std::string& vertexFilepath,
                   const std::string& fragmentFilepath);
-GLuint MakeComputeShader(const std::string& filepath);
+ShaderCompileResult MakeComputeShader(const std::string& filepath);

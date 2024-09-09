@@ -23,14 +23,18 @@ void Renderer::Render(float iTime) {
   }
 }
 
-void Renderer::SetComputeShader(const char* path) {
+ShaderCompileResult Renderer::SetComputeShader(const char* path) {
   assert(initialized);
-  shader = MakeComputeShader(path);
+  ShaderCompileResult result = MakeComputeShader(path);
+  if (!result.isSuccess) return result;
+
+  shader = result.program;
   shaderType = COMPUTE_SHADER;
   workgroupCountX = (w + 7) / 8;
   workgroupCountY = (h + 7) / 8;
   viewLocation = glGetUniformLocation(shader, "view");
   iTimeLocation = glGetUniformLocation(shader, "iTime");
+  return result;
 }
 
 void Renderer::DeleteShader() {

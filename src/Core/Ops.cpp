@@ -38,7 +38,14 @@ bool LoadShader(std::string path) {
   app.timeline.Stop();
   app.renderer.DeleteShader();
 
-  app.renderer.SetComputeShader(app.config.shaderPath.c_str());
+  ShaderCompileResult result =
+      app.renderer.SetComputeShader(app.config.shaderPath.c_str());
+
+  if (!result.isSuccess) {
+    Ops::ReportError(std::format("Compile Error: {:s}", result.error));
+    return false;
+  }
+
   app.timeline.Play();
 
   app.reloader.WatchForChange(path);
@@ -81,7 +88,10 @@ bool ReloadShader() {
 
 bool Report(std::string message, ReportLevel level) {
   App& app = App::GetInstance();
-  app.ui.UpdateStatus(message);
+
+  std::string firstLine = message.substr(0, message.find_first_of("\n"));
+
+  app.ui.UpdateStatus(firstLine);
 
   if (level == ReportLevel::ERROR) {
     fprintf(stderr, "[Error] %s\n", message.c_str());
