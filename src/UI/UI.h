@@ -75,5 +75,5 @@ class UI {
 };
 
 void CalculateWindowSize(const int& vW, const int& vH, int& wW, int& wH);
-GLFWwindow* CreateWindow(const int width, const int height, const char* title);
+GLFWwindow* InitWindow(const int width, const int height, const char* title);
 }  // namespace UI

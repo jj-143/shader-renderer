@@ -84,7 +84,7 @@ bool Report(std::string message, ReportLevel level) {
 
   app.ui.UpdateStatus(firstLine);
 
-  if (level == ReportLevel::ERROR) {
+  if (level == ReportLevel::Error) {
     fprintf(stderr, "[Error] %s\n", message.c_str());
   }
   return true;
@@ -158,7 +158,7 @@ void RenderTask(Task::Task& task, bool animation) {
     currentFilepath = outDir / filename;
 
     context.Render(iTime);
-    if (!context.WriteToFile(currentFilepath.c_str())) writeErrors++;
+    if (!context.WriteToFile(currentFilepath.string().c_str())) writeErrors++;
     task.progress = (i + 1.f) / (nFrames);
   }
 
@@ -168,10 +168,10 @@ void RenderTask(Task::Task& task, bool animation) {
                     writeErrors > 1 ? "files" : "file", writeErrors,
                     writeErrors > 1 ? "frames" : "frame"));
   } else {
-    Ops::Report(
-        animation
-            ? std::format("Animation Saved in {:s}", outDir.c_str())
-            : std::format("Image Saved to {:s}", currentFilepath.c_str()));
+    Ops::Report(animation ? std::format("Animation Saved in {:s}",
+                                        outDir.string().c_str())
+                          : std::format("Image Saved to {:s}",
+                                        currentFilepath.string().c_str()));
   }
   context.Teardown();
 }

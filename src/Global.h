@@ -16,6 +16,6 @@ inline const int         DEFAULT_VIEWPORT_HEIGHT   = 768;
 inline const char*       DEFAULT_WINDOW_TITLE      = "Shader Renderer";
 
 inline const fs::path    BINARY_ROOT         = PlatformUtils::GetBinaryRoot();
-inline const std::string DEFAULT_SHADER      = BINARY_ROOT / "res/shaders/default.comp";
+inline const std::string DEFAULT_SHADER      = (BINARY_ROOT / "res/shaders/default.comp").string();
 }  // namespace Global
 // clang-format on

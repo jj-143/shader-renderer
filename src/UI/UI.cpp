@@ -22,7 +22,7 @@ bool UI::InitUI(const int width, const int height, const char* title) {
   vW = width;
   vH = height;
   CalculateWindowSize(vW, vH, wW, wH);
-  window = CreateWindow(wW, wH, title);
+  window = InitWindow(wW, wH, title);
   if (window == nullptr) return false;
 
   glfwSetWindowAttrib(window, GLFW_RESIZABLE, GLFW_FALSE);
@@ -308,7 +308,7 @@ void CalculateWindowSize(const int& vW, const int& vH, int& wW, int& wH) {
        STATUS_BAR_HEIGHT;
 }
 
-GLFWwindow* CreateWindow(const int width, const int height, const char* title) {
+GLFWwindow* InitWindow(const int width, const int height, const char* title) {
   GLFWwindow* window;
 
   if (!glfwInit()) {

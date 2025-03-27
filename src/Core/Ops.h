@@ -2,7 +2,7 @@
 #include <string>
 
 namespace Ops {
-enum class ReportLevel { INFO, ERROR };
+enum class ReportLevel { Info, Error };
 
 /// Cancel Current running task in [App::taskManager]
 bool CancelTask();
@@ -22,11 +22,11 @@ bool ShowOverlays(bool set);
 bool ReloadShader();
 
 /// Display a message in Status Bar.
-bool Report(std::string message, ReportLevel level = ReportLevel::INFO);
+bool Report(std::string message, ReportLevel level = ReportLevel::Info);
 
 /// Shorthand for Reporting Error
 inline bool ReportError(std::string message) {
-  return Report(message, ReportLevel::ERROR);
+  return Report(message, ReportLevel::Error);
 }
 
 /// Render to output file.

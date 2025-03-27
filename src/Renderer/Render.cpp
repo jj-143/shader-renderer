@@ -19,7 +19,7 @@ RenderContext::~RenderContext() { delete[] data; }
 void RenderContext::Setup(const App::Config& config, const Camera& camera) {
   // Create invisible Window for new GL Context
   glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-  window = UI::CreateWindow(1, 1, "Render Result");
+  window = UI::InitWindow(1, 1, "Render Result");
 
   // Init renderer for output
   renderer.Init(config.vW, config.vH);
