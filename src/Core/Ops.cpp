@@ -48,7 +48,7 @@ bool LoadShader(std::string path) {
 
   app.timeline.Play();
 
-  app.reloader.WatchForChange(path);
+  app.reloader.SetWatchFile(path);
   return true;
 }
 

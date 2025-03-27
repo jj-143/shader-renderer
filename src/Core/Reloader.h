@@ -1,27 +1,26 @@
 #pragma once
 
-#include <atomic>
+#include <FileWatch/FileWatch.hpp>
 #include <string>
-#include <thread>
+
+#include "../common.h"
 
 class Reloader {
  public:
-  ~Reloader();
-
-  /// Reload active shader if it changed.
+  /// Do the checking and reloading
   void HandleReload();
 
-  void Start();
+  /// Set the watching file and start watching
+  void SetWatchFile(const std::string& newPath);
 
+  /// Stop watching the currently set file for change
   void Stop();
 
-  /// Set active shader to watch for change.
-  bool WatchForChange(std::string path);
-
  private:
-  int wd;
-  std::atomic_bool isCanceled = false;
-  std::atomic_bool needReload = false;
-  std::string activeFile;
-  std::unique_ptr<std::thread> watcherThread;
+  std::string watchPath;
+  std::unique_ptr<filewatch::FileWatch<std::string>> watcher;
+  bool needReload = false;
+  float lastChanged = 0;
+
+  void StartWatch(std::string& path);
 };

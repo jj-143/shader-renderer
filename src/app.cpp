@@ -19,8 +19,7 @@ bool App::Init() {
   ui.viewportTextureID = renderer.colorbuffer;
   ui.SetCamera(renderer.camera);
 
-  reloader.Start();
-  reloader.WatchForChange(config.shaderPath);
+  reloader.SetWatchFile(config.shaderPath);
   return true;
 }
 

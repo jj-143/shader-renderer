@@ -1,1 +1,2 @@
 add_subdirectory(nativefiledialog)
+add_subdirectory(FileWatch)

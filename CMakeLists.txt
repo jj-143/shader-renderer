@@ -33,7 +33,7 @@ target_include_directories(${PROJECT_NAME}
   ${STAGED_INSTALL_PREFIX}/include
 )
 
-add_dependencies(${PROJECT_NAME} nfd_external)
+add_dependencies(${PROJECT_NAME} nfd_external FileWatch)
 
 # Link
 set(NFD_LIBRARIES nfd gtk-3 glib-2.0)
@@ -43,7 +43,6 @@ target_link_directories(${PROJECT_NAME} PRIVATE ${STAGED_INSTALL_PREFIX}/lib)
 target_link_libraries(${PROJECT_NAME}
   glfw OpenGL::GL 
   ${NFD_LIBRARIES}
-  inotifytools
 )
 
 # Copy resources
