@@ -59,11 +59,11 @@ void UI::ToggleTimelinePlay() {
 }
 
 void UI::ToggleNavigationMode() {
-  navigationMode = navigationMode == NavigationMode::NORMAL
-                       ? NavigationMode::WALK
-                       : NavigationMode::NORMAL;
+  navigationMode = navigationMode == NavigationMode::Normal
+                       ? NavigationMode::Walk
+                       : NavigationMode::Normal;
 
-  if (navigationMode == NavigationMode::WALK) {
+  if (navigationMode == NavigationMode::Walk) {
     glfwSetCursorPos(window, (float)vW / 2, (float)vH / 2);
   }
 }

@@ -62,7 +62,7 @@ bool UI::NewFrame() {
   DebugStat::Clear();
   DebugStat::Log(std::format("t: {:.1f}", timeline.iTime));
 
-  if (navigationMode == NavigationMode::WALK) {
+  if (navigationMode == NavigationMode::Walk) {
     ImGui::SetMouseCursor(ImGuiMouseCursor_None);
     UpdateCameraControl();
   }

@@ -9,7 +9,7 @@
 class Camera;
 
 namespace UI {
-enum class NavigationMode { NORMAL, WALK };
+enum class NavigationMode { Normal, Walk };
 
 // clang-format off
 inline const ImVec2   INSET              = {0, 0};
@@ -42,7 +42,7 @@ class UI {
   GLFWwindow* window;
 
   bool showOverlays = true;
-  NavigationMode navigationMode = NavigationMode::NORMAL;
+  NavigationMode navigationMode = NavigationMode::Normal;
 
   GLuint viewportTextureID;
 
