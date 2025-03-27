@@ -1,7 +1,5 @@
 #include "Ops.h"
 
-#include <nfd/nfd.h>
-
 #include <filesystem>
 #include <format>
 #include <string>
@@ -10,6 +8,7 @@
 #include "../Global.h"
 #include "../Renderer/Render.h"
 #include "../app.h"
+#include "./FileDialog.h"
 #include "Task.h"
 
 namespace {
@@ -56,18 +55,10 @@ bool OpenOpenShaderDialog() {
   App& app = App::GetInstance();
   fs::path defaultPath = fs::path(app.config.shaderPath).parent_path();
 
-  nfdchar_t* outPath;
-  nfdresult_t result = NFD_OpenDialog(nullptr, defaultPath.c_str(), &outPath);
+  std::optional<std::string> outPath = FileDialog::OpenFile(defaultPath);
+  if (!outPath) return false;
 
-  if (result == NFD_CANCEL) {
-    return true;
-  } else if (result == NFD_ERROR) {
-    Ops::ReportError(std::format("Cannot load file ({:s})", NFD_GetError()));
-    return false;
-  }
-
-  LoadShader(outPath);
-  free(outPath);
+  LoadShader(outPath.value());
   return true;
 }
 
