@@ -1,26 +1,55 @@
 #include "ShaderLoader.h"
 
+#include <format>
 #include <fstream>
 #include <iostream>
+#include <optional>
 #include <sstream>
 #include <vector>
 
-ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType) {
+#include "../Global.h"
+
+std::optional<std::string> ReadFileContent(const std::string& filepath) {
+  std::stringstream buffer;
   std::ifstream file;
-  std::stringstream bufferedLines;
   std::string line;
 
   file.open(filepath);
-  while (std::getline(file, line)) {
-    bufferedLines << line << "\n";
-  }
-  std::string shaderSource = bufferedLines.str();
-  const char* shaderSrc = shaderSource.c_str();
-  bufferedLines.str("");
-  file.close();
+  if (!file.is_open()) return {};
 
+  while (std::getline(file, line)) {
+    buffer << line << "\n";
+  }
+  return buffer.str();
+}
+
+ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType) {
+  // Read file contents
+  std::vector<std::string> sources;
+  std::vector<std::string> paths = {
+      filepath,
+  };
+
+  for (const auto& path : paths) {
+    std::optional<std::string> src = ReadFileContent(path);
+    if (!src) {
+      return ShaderCompileResult{
+          .isSuccess = false,
+          .error = std::format("Cannot read file \"{:s}\"", path)};
+    }
+    sources.push_back(src.value());
+  }
+
+  // Prepare arguments
+  std::vector<const GLchar*> srcPtrs;
+
+  for (const auto& src : sources) {
+    srcPtrs.push_back(src.c_str());
+  }
+
+  // Create shader program
   GLuint shaderModule = glCreateShader(moduleType);
-  glShaderSource(shaderModule, 1, &shaderSrc, nullptr);
+  glShaderSource(shaderModule, srcPtrs.size(), srcPtrs.data(), nullptr);
   glCompileShader(shaderModule);
   GLint success;
 
