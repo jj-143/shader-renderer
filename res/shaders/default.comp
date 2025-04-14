@@ -18,37 +18,37 @@ bool ray_intersect(vec3 orig, vec3 dir, inout float d, inout vec3 n, vec3 pos, f
   float tcc = sqrt(radius * radius - d2);  // bottom len of triangle
   d = tca - tcc;
   float t1 = tca + tcc;
-  if (d < 0) {
+  if (d < 0.0) {
     d = t1;
   }
-  if (d < 0) return false;
+  if (d < 0.0) return false;
 
   n = normalize(dir * d + orig - pos);
   return true;
 }
 
 void main() {
-  ivec2 pixelPos = ivec2(gl_GlobalInvocationID.xy);
+  ivec2 pixel_pos = ivec2(gl_GlobalInvocationID.xy);
   ivec2 screen_size = imageSize(colorbuffer);
-  if (pixelPos.x >= screen_size.x || pixelPos.y >= screen_size.y) {
+  if (pixel_pos.x >= screen_size.x || pixel_pos.y >= screen_size.y) {
     return;
   }
 
   // Build the Camera Ray
-  float fov = radians(50);
-  float x = (2 * (pixelPos.x + .5) / screen_size.x - 1) * tan(fov / 2);
-  float y = (2 * (pixelPos.y + .5) / screen_size.y - 1) * tan(fov / 2) * screen_size.y / screen_size.x;
+  float fov = radians(50.0);
+  float x = (2.0 * (pixel_pos.x + 0.5) / screen_size.x - 1.0) * tan(fov / 2.0);
+  float y = (2.0 * (pixel_pos.y + 0.5) / screen_size.y - 1.0) * tan(fov / 2.0) * screen_size.y / screen_size.x;
   vec3 ray_dir = normalize(vec3(x, y, -1));
 
   // Scene
   vec3  sphere_pos      = vec3(0, 1, 0);
-  float sphere_radius   = .25;
-  vec3  sphere_diff     = vec3(8.f/255, 27.f/255, 28.f/255) * 2;
+  float sphere_radius   = 0.25;
+  vec3  sphere_diff     = vec3(8, 27, 28) * 2.0 / 255.0;
   vec3  light_pos       = vec3(1, -1, 1);
   float light_intensity = 1;
-  vec3  bg_color        = vec3(24.f/255, 39.f/255, 39.f/255);
+  vec3  bg_color        = vec3(24, 39, 39) / 255.0;
 
-  sphere_pos.x = sin(iTime) * .2;
+  sphere_pos.x = sin(iTime) * 0.2;
 
   // Render
   sphere_pos = view_transform(sphere_pos);
@@ -58,14 +58,14 @@ void main() {
   vec3 n;
   vec3 color;
 
-  if (ray_intersect(vec3(0, 0, 0), ray_dir, d, n, sphere_pos, sphere_radius)) {
+  if (ray_intersect(vec3(0), ray_dir, d, n, sphere_pos, sphere_radius)) {
     vec3 hit = ray_dir * d;
     vec3 dir_light = normalize(light_pos - hit);
-    float diff = clamp(dot(dir_light, n) * light_intensity, 0, 1);
+    float diff = clamp(dot(dir_light, n) * light_intensity, 0.0, 1.0);
     color = sphere_diff * diff;
   } else {
     color = bg_color;
   }
 
-  imageStore(colorbuffer, pixelPos, vec4(color, 1));
+  imageStore(colorbuffer, pixel_pos, vec4(color, 1));
 }
