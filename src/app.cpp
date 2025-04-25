@@ -2,6 +2,8 @@
 
 #include <stb/stb_write.h>
 
+#include <format>
+
 #include "Core/Ops.h"
 
 App::App(const Config config) : config(config) {
@@ -19,7 +21,6 @@ bool App::Init() {
   ui.viewportTextureID = renderer.colorbuffer;
   ui.SetCamera(renderer.camera);
 
-  reloader.SetWatchFile(config.shaderPath);
   return true;
 }
 
@@ -28,8 +29,7 @@ void App::Run() {
   renderer.camera.rotation = {0, 0, 90};  // forward: +Y, right: +X, up: +Z
   renderer.camera.Update();
 
-  renderer.SetComputeShader(config.shaderPath.c_str());
-  timeline.Play();
+  Ops::LoadShader(config.shaderPath.c_str());
 
   while (ui.NewFrame()) {
     if (timeline.IsPlaying()) timeline.Update();
