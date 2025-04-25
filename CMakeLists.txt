@@ -51,3 +51,6 @@ target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBS})
 
 # Copy resources
 file(COPY ${CMAKE_SOURCE_DIR}/res DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+# Copy "project" folder - includes default shader example 
+file(COPY ${CMAKE_SOURCE_DIR}/shaders DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
