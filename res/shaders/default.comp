@@ -1,15 +1,3 @@
-#version 430
-
-layout(local_size_x = 8, local_size_y = 8) in;
-layout(rgba32f, binding = 0) uniform image2D colorbuffer;
-
-uniform mat4 view;
-uniform float iTime;
-
-vec3 view_transform(vec3 pos) {
-  return (view * vec4(pos, 1)).xyz;
-}
-
 bool ray_intersect(vec3 orig, vec3 dir, inout float d, inout vec3 n, vec3 pos, float radius) {
   vec3 L = (pos - orig);
   float tca = dot(L , dir);

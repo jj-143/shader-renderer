@@ -27,6 +27,7 @@ ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType) {
   // Read file contents
   std::vector<std::string> sources;
   std::vector<std::string> paths = {
+      Global::CHUNK_COMMON,
       filepath,
   };
 
