@@ -70,11 +70,7 @@ bool ShowOverlays(bool set) {
 
 bool ReloadShader() {
   App& app = App::GetInstance();
-  app.timeline.Stop();
-  app.renderer.DeleteShader();
-  app.renderer.SetComputeShader(app.config.shaderPath.c_str());
-  app.timeline.Play();
-  return true;
+  return Ops::LoadShader(app.config.shaderPath.c_str());
 }
 
 bool Report(std::string message, ReportLevel level) {
