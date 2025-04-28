@@ -18,6 +18,10 @@ void RenderTaskStatus();
 }  // namespace
 
 namespace UI {
+void WindowSizeCallback(GLFWwindow* window, int width, int height) {
+  App::GetInstance().ui.OnWindowResize(width, height);
+};
+
 bool UI::InitUI(const int width, const int height, const char* title) {
   vW = width, vH = height;
   ImVec2 nW = CalculateWindowSize(ImVec2(vW, vH));
@@ -25,12 +29,12 @@ bool UI::InitUI(const int width, const int height, const char* title) {
   window = InitWindow(wW, wH, title);
   if (window == nullptr) return false;
 
-  glfwSetWindowAttrib(window, GLFW_RESIZABLE, GLFW_FALSE);
   glfwGetFramebufferSize(window, &wW, &wH);
   glViewport(0, 0, wH, wH);
 
   glfwSetCursorPos(window, (float)wW / 2, (float)wH / 2);
   glfwSetKeyCallback(window, OnKeyPressed);
+  glfwSetWindowSizeCallback(window, WindowSizeCallback);
 
   ImGui::CreateContext();
   ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -151,6 +155,21 @@ void UI::UpdateStatus(const std::string message) {
 }
 
 void UI::Quit() { glfwSetWindowShouldClose(window, GLFW_TRUE); }
+
+void UI::OnWindowResize(int width, int height) {
+  auto& app = App::GetInstance();
+
+  wW = width, wH = height;
+  ImVec2 size = CalculateWindowSize({});
+  vW = width - size.x, vH = height - size.y;
+
+  app.renderer.SetSize(vW, vH);
+
+  // Force render to update
+  if (app.timeline.IsPaused()) {
+    app.timeline.rendered = false;
+  }
+}
 
 void UI::PopGlobalStyles() {
   // Colors

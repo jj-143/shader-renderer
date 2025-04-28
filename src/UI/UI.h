@@ -54,6 +54,7 @@ class UI {
   void UpdateCameraControl();
   void UpdateStatus(const std::string message);
   void Quit();
+  void OnWindowResize(int width, int height);
 
  private:
   Camera* camera;
