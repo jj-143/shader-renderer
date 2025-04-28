@@ -74,6 +74,6 @@ class UI {
   void ToggleNavigationMode();
 };
 
-void CalculateWindowSize(const int& vW, const int& vH, int& wW, int& wH);
+ImVec2 CalculateWindowSize(ImVec2 viewport);
 GLFWwindow* InitWindow(const int width, const int height, const char* title);
 }  // namespace UI

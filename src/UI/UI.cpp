@@ -19,9 +19,9 @@ void RenderTaskStatus();
 
 namespace UI {
 bool UI::InitUI(const int width, const int height, const char* title) {
-  vW = width;
-  vH = height;
-  CalculateWindowSize(vW, vH, wW, wH);
+  vW = width, vH = height;
+  ImVec2 nW = CalculateWindowSize(ImVec2(vW, vH));
+  wW = nW.x, wH = nW.y;
   window = InitWindow(wW, wH, title);
   if (window == nullptr) return false;
 
@@ -302,10 +302,19 @@ void UI::RenderViewport() {
   ImGui::EndChild();
 }
 
-void CalculateWindowSize(const int& vW, const int& vH, int& wW, int& wH) {
-  wW = INSET.x * 2 + MAIN_MARGIN.x * 2 + vW + INNER_GAP + SIDE_PANEL_WIDTH;
-  wH = INSET.y * 2 + MAIN_MARGIN.y * 2 + MENU_BAR_HEIGHT + vH +
-       STATUS_BAR_HEIGHT;
+ImVec2 CalculateWindowSize(ImVec2 viewport) {
+  ImVec2 delta = {INSET.x * 2 + MAIN_MARGIN.x * 2, INSET.y * 2};
+
+  // MainMenu
+  delta.y += MAIN_MARGIN.y + MENU_BAR_HEIGHT;
+
+  // Side Panel
+  delta.x += INNER_GAP + SIDE_PANEL_WIDTH;
+
+  // StatusBar
+  delta.y += MAIN_MARGIN.y + STATUS_BAR_HEIGHT;
+
+  return {viewport.x + delta.x, viewport.y + delta.y};
 }
 
 GLFWwindow* InitWindow(const int width, const int height, const char* title) {
