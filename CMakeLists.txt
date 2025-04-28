@@ -27,6 +27,8 @@ add_executable(
   ${imgui_src}
 )
 
+add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
+
 # 3rd party
 set(STAGED_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/stage)
 set_property(DIRECTORY PROPERTY EP_BASE ${CMAKE_BINARY_DIR}/subprojects)

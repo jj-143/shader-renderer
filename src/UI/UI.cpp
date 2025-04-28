@@ -323,11 +323,38 @@ void UI::RenderViewport() {
 
   // Overlays
   if (showOverlays) {
-    DebugStat::Render(
-        {INSET.x + MAIN_MARGIN.x + LAYOUT_INSET.x,
-         INSET.y + MAIN_MARGIN.y + LAYOUT_INSET.y + MENU_BAR_HEIGHT},
-        TEXT_COLOR);
+    // Stat
+    {
+      DebugStat::Render(
+          {INSET.x + MAIN_MARGIN.x + LAYOUT_INSET.x,
+           INSET.y + MAIN_MARGIN.y + LAYOUT_INSET.y + MENU_BAR_HEIGHT},
+          TEXT_COLOR);
+    }
+
+    // Render output region
+    {
+      const Output& output = App::GetInstance().setting.output;
+
+      // show only if it's not fit (different ratio)
+      if (output.height * vW != vH * output.width) {
+        ImVec2 pos = INSET + MAIN_MARGIN;
+
+        // Note: viewport width = showing 100% of Render output width
+        // = cropped or letterboxed vertically.
+        ImVec2 size(vW, float(output.height) / output.width * vW);
+
+        // Center position
+        pos.y += (vH - size.y) / 2 + MENU_BAR_HEIGHT;
+
+        ImDrawList* draw_list = ImGui::GetWindowDrawList();
+        static const ImColor color(TEXT_COLOR);
+        float thickness = 1.0;
+
+        draw_list->AddRect(pos, pos + size, color, 0.0f, ImDrawFlags_None, 1.0);
+      }
+    }
   }
+
   ImGui::End();
 }
 
