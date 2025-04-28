@@ -82,6 +82,8 @@ bool Report(std::string message, ReportLevel level) {
 
   if (level == ReportLevel::Error) {
     fprintf(stderr, "[Error] %s\n", message.c_str());
+  } else {
+    fprintf(stdout, "[Info] %s\n", message.c_str());
   }
   return true;
 }
