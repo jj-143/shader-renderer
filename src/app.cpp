@@ -18,7 +18,7 @@ bool App::Init() {
   }
 
   renderer.Init(config.vW, config.vH);
-  ui.viewportTextureID = renderer.colorbuffer;
+  ui.viewportTextureID = renderer.renderTexture;
   ui.SetCamera(renderer.camera);
 
   return true;

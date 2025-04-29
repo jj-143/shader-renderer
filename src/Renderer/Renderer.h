@@ -5,9 +5,7 @@
 
 class Renderer {
  public:
-  int w;
-  int h;
-  GLuint colorbuffer;
+  GLuint renderTexture;
   Camera camera;
 
   GLuint viewLocation;
@@ -17,17 +15,19 @@ class Renderer {
   ShaderCompileResult SetComputeShader(const char* path);
   void DeleteShader();
   void Render(float iTime);
+  void SetSize(int width, int height);
 
  private:
+  GLenum format;
   enum ShaderType { COMPUTE_SHADER };
 
   bool initialized;
   GLuint shader;
   ShaderType shaderType = COMPUTE_SHADER;
 
-  // COMPUTE_SHADER Only
   int workgroupCountX = 1;
   int workgroupCountY = 1;
 
+  void InitRenderTexture(GLenum internalFormat);
   void RenderWithComputeShader(float iTime);
 };
