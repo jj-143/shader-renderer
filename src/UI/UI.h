@@ -51,6 +51,7 @@ class UI {
   bool InitUI(const int width, const int height, const char* title);
   void Terminate();
   bool NewFrame();
+  void Startup();
   void Render();
   void SetCamera(Camera& camera) { this->camera = &camera; }
   void UpdateCameraControl();

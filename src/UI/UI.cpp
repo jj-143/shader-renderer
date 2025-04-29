@@ -31,7 +31,6 @@ bool UI::InitUI(const int width, const int height, const char* title) {
   glfwGetFramebufferSize(window, &wW, &wH);
   glViewport(0, 0, wH, wH);
 
-  glfwSetCursorPos(window, (float)wW / 2, (float)wH / 2);
   glfwSetKeyCallback(window, OnKeyPressed);
   glfwSetWindowSizeCallback(window, WindowSizeCallback);
 
@@ -70,6 +69,15 @@ bool UI::NewFrame() {
     UpdateCameraControl();
   }
   return true;
+}
+
+void UI::Startup() {
+  // Trigger first frame for focusing window to be working
+  NewFrame();
+  Render();
+
+  glfwSetCursorPos(window, (float)wW / 2, (float)wH / 2);
+  ImGui::SetWindowFocus("Viewport");
 }
 
 void UI::Render() {

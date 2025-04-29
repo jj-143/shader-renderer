@@ -27,6 +27,8 @@ bool App::Init() {
 }
 
 void App::Run() {
+  ui.Startup();
+
   // Set default Camera position
   renderer.camera.rotation = {0, 0, 90};  // forward: +Y, right: +X, up: +Z
   renderer.camera.Update();
