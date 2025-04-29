@@ -138,7 +138,13 @@ void RenderTask(Task::Task& task, bool animation) {
   }
 
   Render::RenderContext context;
-  context.Setup(app.config, app.renderer.camera);
+  Render::Params params{
+      .shaderPath = app.config.shaderPath,
+      .width = app.config.vW,
+      .height = app.config.vH,
+  };
+
+  context.Setup(params, app.renderer.camera);
   fs::path currentFilepath;
   int writeErrors = 0;
 

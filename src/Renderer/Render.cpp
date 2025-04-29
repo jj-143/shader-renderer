@@ -16,18 +16,18 @@ void GetTextureData(GLubyte* data);
 namespace Render {
 RenderContext::~RenderContext() { delete[] data; }
 
-void RenderContext::Setup(const App::Config& config, const Camera& camera) {
+void RenderContext::Setup(const Params params, const Camera& camera) {
   // Create invisible Window for new GL Context
   glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
   window = UI::InitWindow(1, 1, "Render Result");
 
   // Init renderer for output
-  renderer.Init(config.vW, config.vH);
-  renderer.SetComputeShader(config.shaderPath.c_str());
+  renderer.Init(params.width, params.height);
+  renderer.SetComputeShader(params.shaderPath.c_str());
   renderer.camera = camera;
 
-  data = new GLubyte[config.vW * config.vH * 4];
-  output = {.width = config.vW, .height = config.vH};
+  data = new GLubyte[params.width * params.height * 4];
+  output = {.width = params.width, .height = params.height};
 }  // namespace Render
 
 void RenderContext::Teardown() { glfwDestroyWindow(window); }

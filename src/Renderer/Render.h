@@ -3,13 +3,20 @@
 #include "Renderer.h"
 
 namespace Render {
+struct Params {
+  std::string shaderPath;
+  int width;
+  int height;
+};
+
 class RenderContext {
  public:
   Renderer renderer;
 
   ~RenderContext();
 
-  void Setup(const App::Config& config, const Camera& camera);
+  void Setup(const Params params, const Camera& camera);
+
   void Teardown();
 
   /// Render current scene to internal buffer.
