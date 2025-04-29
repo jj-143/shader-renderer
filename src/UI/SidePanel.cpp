@@ -61,6 +61,9 @@ void RenderSidePanel() {
 
 // Locals
 namespace {
+
+const float dragSpeed = .2f;
+
 using namespace UI;
 void DevPanel() {
   App& app = App::GetInstance();
@@ -103,7 +106,6 @@ void Help() {
 }
 
 void FrameSettings() {
-  const float dragSpeed = .2f;
   Output& output = App::GetInstance().setting.output;
   ImGui::SeparatorText("Frame");
 
@@ -151,6 +153,26 @@ void FrameSettings() {
 void OutputSettings() {
   Output& output = App::GetInstance().setting.output;
   ImGui::SeparatorText("Output");
+
+  {
+    // Resolution - Width
+    ImGui::AlignTextToFramePadding();
+    ImGui::Text("Width");
+    ImGui::SameLine(CONTROL_START_X);
+    ImGui::SetNextItemWidth(CONTROL_WIDTH);
+    ImGui::DragScalar("##width", ImGuiDataType_U16, &output.width, dragSpeed,
+                      nullptr, nullptr, "%u");
+  }
+
+  {
+    // Resolution - Height
+    ImGui::AlignTextToFramePadding();
+    ImGui::Text("Height");
+    ImGui::SameLine(CONTROL_START_X);
+    ImGui::SetNextItemWidth(CONTROL_WIDTH);
+    ImGui::DragScalar("##height", ImGuiDataType_U16, &output.height, dragSpeed,
+                      nullptr, nullptr, "%u");
+  }
 
   {
     // Path

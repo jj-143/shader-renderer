@@ -43,4 +43,6 @@ class App {
 
  private:
   static inline App* instance;
+
+  void LoadAppConfig();
 };

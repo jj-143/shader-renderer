@@ -17,6 +17,8 @@ bool App::Init() {
     return false;
   }
 
+  App::LoadAppConfig();
+
   renderer.Init(config.vW, config.vH);
   ui.viewportTextureID = renderer.renderTexture;
   ui.SetCamera(renderer.camera);
@@ -47,4 +49,9 @@ void App::Run() {
   }
 
   ui.Terminate();
+}
+
+void App::LoadAppConfig() {
+  setting.output.width = config.vW;
+  setting.output.height = config.vH;
 }

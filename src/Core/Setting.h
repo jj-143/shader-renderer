@@ -17,6 +17,8 @@ struct Output {
   float           frameRate           = 30;
   char            path[128]           = "/tmp/";
   Format          format              = FormatPNG;
+  int             width               = 512;
+  int             height              = 512;
 };
 // clang-format on
 

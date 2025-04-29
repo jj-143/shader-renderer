@@ -140,8 +140,8 @@ void RenderTask(Task::Task& task, bool animation) {
   Render::RenderContext context;
   Render::Params params{
       .shaderPath = app.config.shaderPath,
-      .width = app.config.vW,
-      .height = app.config.vH,
+      .width = output.width,
+      .height = output.height,
   };
 
   context.Setup(params, app.renderer.camera);
