@@ -26,7 +26,7 @@ void RenderContext::Setup(const App::Config& config, const Camera& camera) {
   renderer.SetComputeShader(config.shaderPath.c_str());
   renderer.camera = camera;
 
-  data = new GLubyte[config.vW * config.vW * 4];
+  data = new GLubyte[config.vW * config.vH * 4];
   output = {.width = config.vW, .height = config.vH};
 }  // namespace Render
 
