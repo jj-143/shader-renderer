@@ -11,7 +11,6 @@
 #include "../Renderer/Camera.h"
 #include "../app.h"
 #include "DebugStat.h"
-#include "SidePanel.h"
 
 namespace {
 void RenderTaskStatus();
@@ -184,29 +183,16 @@ void UI::PushGlobalStyles() {
 }
 
 void UI::RenderMain() {
-  using namespace SidePanel;
-  ImGui::SetNextWindowPos(
-      {INSET.x + MAIN_MARGIN.x, INSET.y + MAIN_MARGIN.y + MENU_BAR_HEIGHT});
-  ImGui::SetNextWindowSize(ImVec2(wW, vH));
-
   ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
   ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
   ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, ROUNDING);
   ImGui::PushStyleColor(ImGuiCol_FrameBg, BG_COLOR);
 
-  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-  ImGui::Begin("Main", nullptr,
-               ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
-                   ImGuiWindowFlags_NoResize);
-  ImGui::PopStyleVar();  // Window Padding
-
   {
     RenderViewport();
-    ImGui::SameLine(vW + INNER_GAP);
     RenderSidePanel();
   }
 
-  ImGui::End();
   ImGui::PopStyleVar(3);
   ImGui::PopStyleColor();
 }
@@ -307,18 +293,32 @@ void UI::RenderStatusBar() {
 }
 
 void UI::RenderViewport() {
-  ImGui::BeginChild("Viewport", ImVec2(vW, 0), ImGuiChildFlags_None);
+  ImGui::SetNextWindowPos(
+      {INSET.x + MAIN_MARGIN.x, INSET.y + MAIN_MARGIN.y + MENU_BAR_HEIGHT});
+  ImGui::SetNextWindowSize(ImVec2(vW, vH));
+
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+
+  ImGui::Begin("Viewport", nullptr,
+               ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
+                   ImGuiWindowFlags_NoResize);
+
+  ImGui::PopStyleVar();
+
+  // Viewport texture
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
   ImGui::Image((ImTextureID)viewportTextureID, ImVec2(vW, vH), {0, 1}, {1, 0});
 #pragma GCC diagnostic pop
+
+  // Overlays
   if (showOverlays) {
     DebugStat::Render(
         {INSET.x + MAIN_MARGIN.x + LAYOUT_INSET.x,
          INSET.y + MAIN_MARGIN.y + LAYOUT_INSET.y + MENU_BAR_HEIGHT},
         TEXT_COLOR);
   }
-  ImGui::EndChild();
+  ImGui::End();
 }
 
 ImVec2 CalculateWindowSize(ImVec2 viewport) {

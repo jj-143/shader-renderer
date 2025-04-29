@@ -55,6 +55,7 @@ class UI {
   void UpdateStatus(const std::string message);
   void Quit();
   void OnWindowResize(int width, int height);
+  void RenderSidePanel();
 
  private:
   Camera* camera;
