@@ -11,9 +11,11 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
   UI& ui = App::GetInstance().ui;
   switch (key) {
     case GLFW_KEY_TAB:
+      if (!ui.isViewportFocused) break;
       ui.ToggleNavigationMode();
       break;
     case GLFW_KEY_SPACE:
+      if (!ui.isViewportFocused) break;
       ui.ToggleTimelinePlay();
       break;
     case GLFW_KEY_ESCAPE:

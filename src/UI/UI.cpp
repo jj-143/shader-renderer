@@ -305,6 +305,8 @@ void UI::RenderViewport() {
 
   ImGui::PopStyleVar();
 
+  isViewportFocused = ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows);
+
   // Viewport texture
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wint-to-pointer-cast"

@@ -42,6 +42,8 @@ class UI {
   GLFWwindow* window;
 
   bool showOverlays = true;
+  bool isViewportFocused = false;
+
   NavigationMode navigationMode = NavigationMode::Normal;
 
   GLuint viewportTextureID;
