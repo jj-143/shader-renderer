@@ -1,3 +1,5 @@
+#include <format>
+
 #include "../Core/Ops.h"
 #include "../Core/Timeline.h"
 #include "../app.h"
@@ -48,6 +50,11 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
         Ops::ShowOverlays(!ui.showOverlays);
       }
       break;
+    case GLFW_KEY_HOME:
+      if (!mods) {
+        Ops::AlignViewportToOutput();
+        break;
+      }
   }
 }
 

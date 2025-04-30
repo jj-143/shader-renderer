@@ -17,6 +17,11 @@ bool OpenOpenShaderDialog();
 /// Show/Hide every overlays, leaving only the scene texture
 bool ShowOverlays(bool set);
 
+/// Align View to Render Output
+///
+/// Reset the viewport size (and window size) to render output size.
+bool AlignViewportToOutput();
+
 /// Reload current shader and reset timeline.
 /// NOTE: This should be called in the thread rendering
 /// viewport texture.

@@ -254,6 +254,11 @@ void UI::RenderMainMenu() {
         if (ImGui::MenuItem("Show Overlays", "Alt Shift Z", showOverlays)) {
           Ops::ShowOverlays(!showOverlays);
         }
+
+        if (ImGui::MenuItem("Align View to Render Output", "Home")) {
+          Ops::AlignViewportToOutput();
+        }
+
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu("Render")) {

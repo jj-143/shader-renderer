@@ -68,6 +68,16 @@ bool ShowOverlays(bool set) {
   return true;
 }
 
+bool AlignViewportToOutput() {
+  auto& output = App::GetInstance().setting.output;
+  ImVec2 newVSize(output.width, output.height);
+  ImVec2 newWSize = UI::CalculateWindowSize(newVSize);
+
+  auto& ui = App::GetInstance().ui;
+  glfwSetWindowSize(ui.window, newWSize.x, newWSize.y);
+  return true;
+}
+
 bool ReloadShader() {
   App& app = App::GetInstance();
   return Ops::LoadShader(app.shaderPath.c_str());
