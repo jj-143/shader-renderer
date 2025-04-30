@@ -31,7 +31,7 @@ void App::Run() {
   renderer.camera.rotation = {0, 0, 90};  // forward: +Y, right: +X, up: +Z
   renderer.camera.Update();
 
-  Ops::LoadShader(config.shaderPath.c_str());
+  Ops::LoadShader(shaderPath.c_str());
 
   while (ui.NewFrame()) {
     if (timeline.IsPlaying()) timeline.Update();
@@ -54,4 +54,5 @@ void App::Run() {
 void App::LoadAppConfig() {
   setting.output.width = config.vW;
   setting.output.height = config.vH;
+  shaderPath = config.shaderPath;
 }

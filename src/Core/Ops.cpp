@@ -32,13 +32,13 @@ bool LoadShader(std::string path) {
     return false;
   }
 
-  app.config.shaderPath = path;
+  app.shaderPath = path;
 
   app.timeline.Stop();
   app.renderer.DeleteShader();
 
   ShaderCompileResult result =
-      app.renderer.SetComputeShader(app.config.shaderPath.c_str());
+      app.renderer.SetComputeShader(app.shaderPath.c_str());
 
   if (!result.isSuccess) {
     Ops::ReportError(std::format("Compile Error: {:s}", result.error));
@@ -53,7 +53,7 @@ bool LoadShader(std::string path) {
 
 bool OpenOpenShaderDialog() {
   App& app = App::GetInstance();
-  fs::path defaultPath = fs::path(app.config.shaderPath).parent_path();
+  fs::path defaultPath = fs::path(app.shaderPath).parent_path();
 
   std::optional<std::string> outPath = FileDialog::OpenFile(defaultPath);
   if (!outPath) return false;
@@ -70,7 +70,7 @@ bool ShowOverlays(bool set) {
 
 bool ReloadShader() {
   App& app = App::GetInstance();
-  return Ops::LoadShader(app.config.shaderPath.c_str());
+  return Ops::LoadShader(app.shaderPath.c_str());
 }
 
 bool Report(std::string message, ReportLevel level) {
@@ -139,7 +139,7 @@ void RenderTask(Task::Task& task, bool animation) {
 
   Render::RenderContext context;
   Render::Params params{
-      .shaderPath = app.config.shaderPath,
+      .shaderPath = app.shaderPath,
       .width = output.width,
       .height = output.height,
   };

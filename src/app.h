@@ -18,13 +18,14 @@ class App {
     std::string shaderPath;
   };
 
-  Config config;
   Setting setting;
   Renderer renderer;
   UI::UI ui;
   Timeline timeline;
   Task::TaskManager taskManager;
   Reloader reloader;
+
+  std::string shaderPath;
 
   App(const Config config);
   App(App const&) = delete;
@@ -42,6 +43,7 @@ class App {
   }
 
  private:
+  Config config;
   static inline App* instance;
 
   void LoadAppConfig();
