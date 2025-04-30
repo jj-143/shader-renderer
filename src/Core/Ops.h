@@ -22,6 +22,11 @@ bool ShowOverlays(bool set);
 /// Reset the viewport size (and window size) to render output size.
 bool AlignViewportToOutput();
 
+/// Align Output to Viewport
+///
+/// Set the render output size to viewport size.
+bool AlignOutputToViewport();
+
 /// Reload current shader and reset timeline.
 /// NOTE: This should be called in the thread rendering
 /// viewport texture.

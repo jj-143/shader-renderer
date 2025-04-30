@@ -54,6 +54,9 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
       if (!mods) {
         Ops::AlignViewportToOutput();
         break;
+      } else if (mods == (GLFW_MOD_CONTROL | GLFW_MOD_ALT)) {
+        Ops::AlignOutputToViewport();
+        break;
       }
   }
 }

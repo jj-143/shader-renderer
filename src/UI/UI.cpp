@@ -259,6 +259,10 @@ void UI::RenderMainMenu() {
           Ops::AlignViewportToOutput();
         }
 
+        if (ImGui::MenuItem("Align Output to Viewport", "Ctrl Alt Home")) {
+          Ops::AlignOutputToViewport();
+        }
+
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu("Render")) {

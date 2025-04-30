@@ -78,6 +78,17 @@ bool AlignViewportToOutput() {
   return true;
 }
 
+bool AlignOutputToViewport() {
+  auto& ui = App::GetInstance().ui;
+  ImVec2 wWithoutV = UI::CalculateWindowSize(ImVec2(0, 0));
+  ImVec2 newVSize = ImVec2(ui.wW, ui.wH) - wWithoutV;
+
+  auto& output = App::GetInstance().setting.output;
+  output.width = newVSize.x;
+  output.height = newVSize.y;
+  return true;
+}
+
 bool ReloadShader() {
   App& app = App::GetInstance();
   return Ops::LoadShader(app.shaderPath.c_str());
