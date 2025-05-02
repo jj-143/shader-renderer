@@ -36,6 +36,7 @@ bool LoadShader(std::string path) {
 
   app.timeline.Stop();
   app.renderer.DeleteShader();
+  app.reloader.SetWatchFile(path);
 
   ShaderCompileResult result =
       app.renderer.SetComputeShader(app.shaderPath.c_str());
@@ -46,8 +47,6 @@ bool LoadShader(std::string path) {
   }
 
   app.timeline.Play();
-
-  app.reloader.SetWatchFile(path);
   return true;
 }
 
