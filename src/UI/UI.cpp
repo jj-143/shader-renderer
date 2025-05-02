@@ -183,14 +183,28 @@ void UI::OnWindowResize(int width, int height) {
 
 void UI::PopGlobalStyles() {
   // Colors
-  ImGui::PopStyleColor(2);
+  ImGui::PopStyleColor(12);
 }
 
 void UI::PushGlobalStyles() {
   // Colors
   // BG for the whole window, resulting only coloring the gaps
   ImGui::PushStyleColor(ImGuiCol_WindowBg, GAP_COLOR);
+
+  ImGui::PushStyleColor(ImGuiCol_Header, MENU_SELECTED);
+  ImGui::PushStyleColor(ImGuiCol_HeaderHovered, MENU_HOVERED);
+  ImGui::PushStyleColor(ImGuiCol_HeaderActive, ITEM_ACTIVE);
+  ImGui::PushStyleColor(ImGuiCol_PopupBg, BG_COLOR);
+
+  ImGui::PushStyleColor(ImGuiCol_Button, BG_COLOR);
+  ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ITEM_HOVERED);
+  ImGui::PushStyleColor(ImGuiCol_ButtonActive, ITEM_ACTIVE);
+
+  ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ITEM_ACTIVE);
+  ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ITEM_HOVERED);
+
   ImGui::PushStyleColor(ImGuiCol_Text, TEXT_COLOR);
+  ImGui::PushStyleColor(ImGuiCol_TextSelectedBg, ITEM_HOVERED);
 }
 
 void UI::RenderMain() {
@@ -226,9 +240,6 @@ void UI::RenderMainMenu() {
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, buttonPadding);
   ImGui::PushStyleColor(ImGuiCol_MenuBarBg, BG_COLOR);
   ImGui::PushStyleColor(ImGuiCol_WindowBg, BG_COLOR);
-  ImGui::PushStyleColor(ImGuiCol_Header, MENU_HOVERED);
-  ImGui::PushStyleColor(ImGuiCol_HeaderHovered, MENU_HOVERED);
-  ImGui::PushStyleColor(ImGuiCol_PopupBg, BG_COLOR);
 
   ImGui::SetNextWindowPos(containerPos);
   ImGui::SetNextWindowSize(containerSize);
@@ -292,7 +303,7 @@ void UI::RenderMainMenu() {
   }
   ImGui::EndChild();
   ImGui::End();
-  ImGui::PopStyleColor(5);
+  ImGui::PopStyleColor(2);
   ImGui::PopStyleVar(3);
 }
 
