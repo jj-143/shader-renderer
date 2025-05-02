@@ -10,7 +10,7 @@
 #include "../Core/Ops.h"
 #include "../Renderer/Camera.h"
 #include "../app.h"
-#include "DebugStat.h"
+#include "Overlay.h"
 
 namespace {
 void RenderTaskStatus();
@@ -61,8 +61,8 @@ bool UI::NewFrame() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   const Timeline& timeline = App::GetInstance().timeline;
 
-  DebugStat::Clear();
-  DebugStat::Log(std::format("t: {:.1f}", timeline.iTime));
+  Overlay::Stat::Clear();
+  Overlay::Stat::Log(std::format("t: {:.1f}", timeline.iTime));
 
   if (navigationMode == NavigationMode::Walk) {
     ImGui::SetMouseCursor(ImGuiMouseCursor_None);
@@ -153,10 +153,10 @@ void UI::UpdateCameraControl() {
 
   camera->Update();
 
-  DebugStat::Log(std::format("Position: ({:.1f}, {:.1f}, {:.1f})", position.x,
-                             position.y, position.z));
-  DebugStat::Log(std::format("Rotation: ({:.1f}, {:.1f}, {:.1f})", rotation.x,
-                             rotation.y, rotation.z));
+  Overlay::Stat::Log(std::format("Position: ({:.1f}, {:.1f}, {:.1f})",
+                                 position.x, position.y, position.z));
+  Overlay::Stat::Log(std::format("Rotation: ({:.1f}, {:.1f}, {:.1f})",
+                                 rotation.x, rotation.y, rotation.z));
 }
 
 void UI::UpdateStatus(const std::string message) {
@@ -347,7 +347,7 @@ void UI::RenderViewport() {
   if (showOverlays) {
     // Stat
     {
-      DebugStat::Render(
+      Overlay::Stat::Render(
           {INSET.x + MAIN_MARGIN.x + LAYOUT_INSET.x,
            INSET.y + MAIN_MARGIN.y + LAYOUT_INSET.y + MENU_BAR_HEIGHT},
           TEXT_COLOR);

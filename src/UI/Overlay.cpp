@@ -1,22 +1,20 @@
-#include "DebugStat.h"
+#include "Overlay.h"
 
-DebugStat& DebugStat::GetDebugStat() {
-  static DebugStat instance;
-  return instance;
-};
+#include "../app.h"
 
-void DebugStat::Clear() {
-  DebugStat& ds = GetDebugStat();
-  ds.messages.clear();
-};
+namespace Overlay {
 
-void DebugStat::Log(std::string msg) {
-  DebugStat& ds = GetDebugStat();
-  ds.messages.push_back(msg);
-};
+namespace Stat {
 
-void DebugStat::Render(const ImVec2& pos, ImColor textColor) {
-  DebugStat& ds = GetDebugStat();
+namespace {
+std::vector<std::string> messages = {};
+}
+
+void Clear() { messages.clear(); };
+
+void Log(std::string msg) { messages.push_back(msg); };
+
+void Render(const ImVec2& pos, ImColor textColor) {
   auto& io = ImGui::GetIO();
 
   ImGuiWindowFlags windowFlags =
@@ -30,9 +28,13 @@ void DebugStat::Render(const ImVec2& pos, ImColor textColor) {
                     windowFlags);
   {
     ImGui::TextColored(textColor, "fps: %.1f", io.Framerate);
-    for (auto& line : ds.messages) {
+    for (auto& line : messages) {
       ImGui::TextColored(textColor, "%s", line.c_str());
     }
   }
   ImGui::EndChild();
 }
+
+}  // namespace Stat
+
+}  // namespace Overlay
