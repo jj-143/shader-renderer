@@ -6,6 +6,9 @@ class Camera {
   glm::vec3 position{};
   glm::vec3 rotation{};
 
+  glm::vec3 defaultPosition{};
+  glm::vec3 defaultRotation{};
+
   glm::vec3 forwards{};
   glm::vec3 right{};
   glm::vec3 up{};
@@ -14,5 +17,9 @@ class Camera {
   glm::vec3 globalUp{0, 0, 1};
 
   Camera();
+
+  /// Reset position & rotation to default values
+  void Reset();
+
   void Update();
 };

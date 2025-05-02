@@ -118,6 +118,12 @@ bool Render(bool animation) {
   return true;
 }
 
+bool ResetCamera() {
+  Camera& camera = App::GetInstance().renderer.camera;
+  camera.Reset();
+  return true;
+}
+
 bool Quit() {
   App& app = App::GetInstance();
   app.ui.Quit();

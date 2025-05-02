@@ -4,6 +4,12 @@
 
 Camera::Camera() {}
 
+void Camera::Reset() {
+  position = defaultPosition;
+  rotation = defaultRotation;
+  Update();
+}
+
 void Camera::Update() {
   const float theta = glm::radians(rotation.z);
   const float phi = glm::radians(rotation.y);

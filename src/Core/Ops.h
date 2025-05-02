@@ -45,6 +45,9 @@ inline bool ReportError(std::string message) {
 /// Otherwise, renders current iTime in `Timeline`.
 bool Render(bool animation = false);
 
+/// Reset Camera's position & rotation to default values.
+bool ResetCamera();
+
 /// Quit the App.
 bool Quit();
 

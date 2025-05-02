@@ -258,12 +258,22 @@ void UI::RenderMainMenu() {
           Ops::ShowOverlays(!showOverlays);
         }
 
+        // Viewport
+        ImGui::Separator();
+
         if (ImGui::MenuItem("Align View to Render Output", "Home")) {
           Ops::AlignViewportToOutput();
         }
 
         if (ImGui::MenuItem("Align Output to Viewport", "Ctrl Alt Home")) {
           Ops::AlignOutputToViewport();
+        }
+
+        // Camera
+        ImGui::Separator();
+
+        if (ImGui::MenuItem("Reset Camera", "Alt G")) {
+          Ops::ResetCamera();
         }
 
         ImGui::EndMenu();

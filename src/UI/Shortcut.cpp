@@ -30,6 +30,11 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
         Ops::Render(false);
       }
       break;
+    case GLFW_KEY_G:
+      if (mods == GLFW_MOD_ALT) {
+        Ops::ResetCamera();
+      }
+      break;
     case GLFW_KEY_O:
       if (mods == GLFW_MOD_CONTROL) {
         Ops::OpenOpenShaderDialog();
