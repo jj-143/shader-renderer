@@ -2,7 +2,9 @@
 
 #include <stb/stb_write.h>
 
+#include <filesystem>
 #include <format>
+#include <string>
 
 #include "Core/Ops.h"
 
@@ -54,7 +56,15 @@ void App::Run() {
 }
 
 void App::LoadAppConfig() {
+  // Init Setting values
   setting.output.width = config.vW;
   setting.output.height = config.vH;
+
+  // Output path, use temp dir
+  std::string tempPath = std::filesystem::temp_directory_path().string();
+  size_t s = tempPath.copy(setting.output.path, MAX_PATH_SIZE);
+  setting.output.path[s] = '\0';
+
+  // Others
   shaderPath = config.shaderPath;
 }

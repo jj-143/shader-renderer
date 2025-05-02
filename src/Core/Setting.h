@@ -2,6 +2,8 @@
 
 #include <array>
 
+constexpr size_t MAX_PATH_SIZE = 256;
+
 struct Format {
   const char* label;
   const char* ext;
@@ -15,7 +17,7 @@ struct Output {
   int             frameStart          = 1;
   int             frameEnd            = 30;
   float           frameRate           = 30;
-  char            path[128]           = "/tmp/";
+  char            path[MAX_PATH_SIZE] = "/tmp/";
   Format          format              = FormatPNG;
   int             width               = 512;
   int             height              = 512;
