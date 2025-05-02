@@ -32,18 +32,26 @@ bool LoadShader(std::string path) {
     return false;
   }
 
-  app.shaderPath = path;
-
+  // Cleanup
   app.timeline.Stop();
   app.renderer.DeleteShader();
-  app.reloader.SetWatchFile(path);
 
+  // Initialize
+  app.shaderPath = path;
+  app.reloader.SetWatchFile(path);
+  bool hadErrorLastTime = app.renderer.IsCompileError();
+
+  // Compile shader
   ShaderCompileResult result =
       app.renderer.SetComputeShader(app.shaderPath.c_str());
 
   if (!result.isSuccess) {
-    Ops::ReportError(std::format("Compile Error: {:s}", result.error));
+    Ops::ReportError(std::format("Compile Error\n{:s}", result.error));
     return false;
+  }
+
+  if (hadErrorLastTime) {
+    Ops::Report("Compile Success");
   }
 
   app.timeline.Play();

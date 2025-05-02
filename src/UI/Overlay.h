@@ -1,4 +1,5 @@
 #pragma once
+
 #include <imgui/imgui.h>
 
 #include <string>
@@ -9,8 +10,14 @@ namespace Stat {
 
 void Clear();
 void Log(std::string msg);
-void Render(const ImVec2 &pos, ImColor textColor = IM_COL32_WHITE);
+void Render(const ImVec2& pos, ImColor textColor = IM_COL32_WHITE);
 
 }  // namespace Stat
+
+namespace ErrorLog {
+
+void Render(const ImVec2& pos, ImColor textColor);
+
+}  // namespace ErrorLog
 
 }  // namespace Overlay

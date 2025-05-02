@@ -11,6 +11,11 @@ class Renderer {
   GLuint viewLocation;
   GLuint iTimeLocation;
 
+  std::string errorLog;
+
+  inline bool IsCompileSuccess() { return state == State::RUNNING; }
+  inline bool IsCompileError() { return state == State::COMPILE_ERROR; }
+
   void Init(int width, int height, GLenum colorbufferFormat = GL_RGBA32F);
   ShaderCompileResult SetComputeShader(const char* path);
   void DeleteShader();
@@ -20,8 +25,10 @@ class Renderer {
  private:
   GLenum format;
   enum ShaderType { COMPUTE_SHADER };
+  enum class State { RUNNING, COMPILE_ERROR };
 
   bool initialized;
+  State state = State::RUNNING;
   GLuint shader;
   ShaderType shaderType = COMPUTE_SHADER;
 

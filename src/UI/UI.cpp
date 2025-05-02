@@ -377,6 +377,13 @@ void UI::RenderViewport() {
     }
   }
 
+  // Error Log. Always visible if any (unaffected by `showOverlays`)
+  {
+    // Same pos & size as Viewport
+    ImVec2 pos = INSET + MAIN_MARGIN + ImVec2(0, MENU_BAR_HEIGHT);
+    Overlay::ErrorLog::Render(pos, TEXT_COLOR);
+  }
+
   ImGui::End();
 }
 

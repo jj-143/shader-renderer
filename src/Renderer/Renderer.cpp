@@ -33,7 +33,15 @@ void Renderer::SetSize(int width, int height) {
 ShaderCompileResult Renderer::SetComputeShader(const char* path) {
   assert(initialized);
   ShaderCompileResult result = MakeComputeShader(path);
-  if (!result.isSuccess) return result;
+
+  if (!result.isSuccess) {
+    state = State::COMPILE_ERROR;
+    errorLog = result.error;
+    return result;
+  }
+
+  state = State::RUNNING;
+  errorLog = "";
 
   shader = result.program;
   shaderType = COMPUTE_SHADER;
