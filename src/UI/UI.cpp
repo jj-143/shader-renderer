@@ -78,6 +78,9 @@ void UI::Startup() {
 
   glfwSetCursorPos(window, (float)wW / 2, (float)wH / 2);
   ImGui::SetWindowFocus("Viewport");
+
+  // VSync
+  glfwSwapInterval(1);
 }
 
 void UI::Render() {
