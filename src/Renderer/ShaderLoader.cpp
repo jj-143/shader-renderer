@@ -1,5 +1,6 @@
 #include "ShaderLoader.h"
 
+#include <filesystem>
 #include <format>
 #include <fstream>
 #include <iostream>
@@ -26,19 +27,34 @@ std::optional<std::string> ReadFileContent(const std::string& filepath) {
 ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType) {
   // Read file contents
   std::vector<std::string> sources;
-  std::vector<std::string> paths = {
-      Global::CHUNK_COMMON,
-      filepath,
-  };
+  std::vector<std::string> paths = {Global::CHUNK_COMMON};
+  const int nPrependingPaths = paths.size();
 
-  for (const auto& path : paths) {
-    std::optional<std::string> src = ReadFileContent(path);
-    if (!src) {
+  // Append user file
+  paths.push_back(filepath);
+
+  // Read `paths` into `sources`
+  for (int i = 0; i < paths.size(); i++) {
+    auto& path = paths[i];
+    std::string src;
+    std::optional<std::string> content = ReadFileContent(path);
+
+    if (!content) {
       return ShaderCompileResult{
           .isSuccess = false,
           .error = std::format("Cannot read file \"{:s}\"", path)};
     }
-    sources.push_back(src.value());
+
+    // Prepend line directive for user paths
+    bool isUserFile = i >= nPrependingPaths;
+
+    if (isUserFile) {
+      src.append(std::format("#line 1 \"USER_{:d}\"\n", i - nPrependingPaths));
+    }
+
+    src.append(content.value());
+
+    sources.push_back(src);
   }
 
   // Prepare arguments
