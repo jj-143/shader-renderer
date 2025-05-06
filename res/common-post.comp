@@ -1,0 +1,16 @@
+
+#ifndef USE_RAW_MAIN
+
+void main() {
+  ivec2 fragCoord = ivec2(gl_GlobalInvocationID.xy);
+
+  if (fragCoord.x >= iResolution.x || fragCoord.y >= iResolution.y) {
+    return;
+  }
+
+  vec4 color;
+  mainImage(color, fragCoord);
+  imageStore(colorbuffer, fragCoord, color);
+}
+
+#endif

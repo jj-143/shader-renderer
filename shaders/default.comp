@@ -15,17 +15,11 @@ bool ray_intersect(vec3 orig, vec3 dir, inout float d, inout vec3 n, vec3 pos, f
   return true;
 }
 
-void main() {
-  ivec2 pixel_pos = ivec2(gl_GlobalInvocationID.xy);
-  ivec2 screen_size = imageSize(colorbuffer);
-  if (pixel_pos.x >= screen_size.x || pixel_pos.y >= screen_size.y) {
-    return;
-  }
-
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   // Build the Camera Ray
   float fov = radians(50.0);
-  float x = (2.0 * (pixel_pos.x + 0.5) / screen_size.x - 1.0) * tan(fov / 2.0);
-  float y = (2.0 * (pixel_pos.y + 0.5) / screen_size.y - 1.0) * tan(fov / 2.0) * screen_size.y / screen_size.x;
+  float x = (2.0 * (fragCoord.x + 0.5) / iResolution.x - 1.0) * tan(fov / 2.0);
+  float y = (2.0 * (fragCoord.y + 0.5) / iResolution.y - 1.0) * tan(fov / 2.0) * iResolution.y / iResolution.x;
   vec3 ray_dir = normalize(vec3(x, y, -1));
 
   // Scene
@@ -55,5 +49,5 @@ void main() {
     color = bg_color;
   }
 
-  imageStore(colorbuffer, pixel_pos, vec4(color, 1));
+  fragColor = vec4(color, 1);
 }

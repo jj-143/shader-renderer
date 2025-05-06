@@ -6,6 +6,7 @@
 #include <string>
 
 #include "PlatformUtils.h"
+#include "Renderer/ShaderLoader.h"
 
 namespace fs = std::filesystem;
 
@@ -19,6 +20,7 @@ inline const fs::path    BINARY_ROOT         = PlatformUtils::GetBinaryRoot();
 inline const std::string DEFAULT_SHADER      = (BINARY_ROOT / "shaders/default.comp").string();
 
 // Internal shader chunks
-inline const std::string CHUNK_COMMON  = (BINARY_ROOT / "res/common.comp").string();
+inline const ShaderFile CHUNK_COMMON         = {.path=(BINARY_ROOT / "res/common.comp").string()};
+inline const ShaderFile CHUNK_COMMON_POST    = {.path=(BINARY_ROOT / "res/common-post.comp").string()};
 }  // namespace Global
 // clang-format on

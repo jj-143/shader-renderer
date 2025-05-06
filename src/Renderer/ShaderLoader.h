@@ -3,6 +3,11 @@
 
 #include <string>
 
+struct ShaderFile {
+  std::string path = "";
+  bool isUserFile = false;
+};
+
 struct ShaderCompileResult {
   bool isSuccess;
   GLuint program;

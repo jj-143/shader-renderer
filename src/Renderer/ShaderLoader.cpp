@@ -27,33 +27,30 @@ std::optional<std::string> ReadFileContent(const std::string& filepath) {
 ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType) {
   // Read file contents
   std::vector<std::string> sources;
-  std::vector<std::string> paths = {Global::CHUNK_COMMON};
-  const int nPrependingPaths = paths.size();
-
-  // Append user file
-  paths.push_back(filepath);
+  std::vector<ShaderFile> files = {
+      Global::CHUNK_COMMON,
+      {.path = filepath, .isUserFile = true},
+      Global::CHUNK_COMMON_POST,
+  };
 
   // Read `paths` into `sources`
-  for (int i = 0; i < paths.size(); i++) {
-    auto& path = paths[i];
+  for (auto& file : files) {
     std::string src;
-    std::optional<std::string> content = ReadFileContent(path);
+    std::optional<std::string> content;
 
+    // Prepend #line directive for user file
+    if (file.isUserFile) {
+      src.append(std::format("#line 1 \"USER\"\n"));
+    }
+
+    content = ReadFileContent(file.path);
     if (!content) {
       return ShaderCompileResult{
           .isSuccess = false,
-          .error = std::format("Cannot read file \"{:s}\"", path)};
+          .error = std::format("Cannot read file \"{:s}\"", file.path),
+      };
     }
-
-    // Prepend line directive for user paths
-    bool isUserFile = i >= nPrependingPaths;
-
-    if (isUserFile) {
-      src.append(std::format("#line 1 \"USER_{:d}\"\n", i - nPrependingPaths));
-    }
-
     src.append(content.value());
-
     sources.push_back(src);
   }
 
