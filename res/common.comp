@@ -8,6 +8,8 @@ layout(rgba32f, binding = 0) uniform image2D colorbuffer;
 uniform mat4 view;
 uniform float iTime;
 
+#define iResolution imageSize(colorbuffer)
+
 vec3 view_transform(vec3 pos) {
   return (view * vec4(pos, 1)).xyz;
 }
