@@ -183,13 +183,14 @@ void UI::OnWindowResize(int width, int height) {
 
 void UI::PopGlobalStyles() {
   // Colors
-  ImGui::PopStyleColor(12);
+  ImGui::PopStyleColor(13);
 }
 
 void UI::PushGlobalStyles() {
   // Colors
   // BG for the whole window, resulting only coloring the gaps
   ImGui::PushStyleColor(ImGuiCol_WindowBg, GAP_COLOR);
+  ImGui::PushStyleColor(ImGuiCol_ChildBg, GAP_COLOR);
 
   ImGui::PushStyleColor(ImGuiCol_Header, MENU_SELECTED);
   ImGui::PushStyleColor(ImGuiCol_HeaderHovered, MENU_HOVERED);

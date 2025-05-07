@@ -50,13 +50,14 @@ void Render(const ImVec2& pos, ImColor textColor) {
       ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
       ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 
+  ImGuiChildFlags childFlags = ImGuiChildFlags_AlwaysUseWindowPadding;
+
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 8));
   ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 8));
 
   ImGui::SetNextWindowPos(pos);
-  ImGui::SetNextWindowSize(ImVec2(ui.vW, ui.vH));
   ImGui::SetNextWindowBgAlpha(0.85);
-  ImGui::Begin("Debug ErrorLog", nullptr, windowFlags);
+  ImGui::BeginChild("ErrorLog", ImVec2(ui.vW, ui.vH), childFlags, windowFlags);
   {
     // Header
     ImGui::TextColored(textColor, "%s", "[Compile Error]");
@@ -67,7 +68,7 @@ void Render(const ImVec2& pos, ImColor textColor) {
   }
 
   ImGui::PopStyleVar(2);
-  ImGui::End();
+  ImGui::EndChild();
 }
 
 }  // namespace ErrorLog
