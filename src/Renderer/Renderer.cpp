@@ -1,5 +1,6 @@
 #include "Renderer.h"
 
+#include <format>
 #include <glm/gtc/type_ptr.hpp>
 
 #include "ShaderLoader.h"
@@ -36,7 +37,8 @@ ShaderCompileResult Renderer::SetComputeShader(const char* path) {
 
   if (!result.isSuccess) {
     state = State::COMPILE_ERROR;
-    errorLog = result.error;
+    errorLog = std::format("{:s}\n\n", path);
+    errorLog.append(result.error);
     return result;
   }
 

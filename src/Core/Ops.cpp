@@ -50,7 +50,8 @@ bool LoadShader(std::string path, bool reload) {
       app.renderer.SetComputeShader(app.shaderPath.c_str());
 
   if (!result.isSuccess) {
-    Ops::ReportError(std::format("Compile Error\n{:s}", result.error));
+    Ops::ReportError(
+        std::format("Compile Error\nIn {:s}:\n{:s}", path, result.error));
     return false;
   }
 
