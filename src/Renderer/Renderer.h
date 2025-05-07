@@ -13,6 +13,7 @@ class Renderer {
 
   std::string errorLog;
 
+  inline bool IsIdle() { return state == State::IDLE; }
   inline bool IsCompileSuccess() { return state == State::RUNNING; }
   inline bool IsCompileError() { return state == State::COMPILE_ERROR; }
 
@@ -25,10 +26,10 @@ class Renderer {
  private:
   GLenum format;
   enum ShaderType { COMPUTE_SHADER };
-  enum class State { RUNNING, COMPILE_ERROR };
+  enum class State { IDLE, RUNNING, COMPILE_ERROR };
 
   bool initialized;
-  State state = State::RUNNING;
+  State state = State::IDLE;
   GLuint shader;
   ShaderType shaderType = COMPUTE_SHADER;
 

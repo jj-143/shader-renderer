@@ -51,7 +51,8 @@ ShaderCompileResult Renderer::SetComputeShader(const char* path) {
 }
 
 void Renderer::DeleteShader() {
-  glDeleteProgram(shader);  //
+  state = State::IDLE;
+  glDeleteProgram(shader);
 }
 
 void Renderer::InitRenderTexture(GLenum internalFormat) {
