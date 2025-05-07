@@ -9,7 +9,7 @@ enum class ReportLevel { Info, Error };
 bool CancelTask();
 
 /// Load / Replace currently running shader
-bool LoadShader(std::string path);
+bool LoadShader(std::string path, bool reload = false);
 
 /// Open Dialog for loading a shader.
 bool OpenOpenShaderDialog();

@@ -24,13 +24,18 @@ bool CancelTask() {
   return true;
 }
 
-bool LoadShader(std::string path) {
+bool LoadShader(std::string path, bool reload) {
   App& app = App::GetInstance();
 
   if (!fs::exists(path)) {
     Ops::ReportError(std::format("File Not Exist: {:s}", path));
     return false;
   }
+
+  // States, before loading this shader file
+  bool firstLoad = app.renderer.IsIdle() ||  // Cold start
+                   app.shaderPath != path;   // New file
+  bool hadErrorLastTime = app.renderer.IsCompileError();
 
   // Cleanup
   app.timeline.Stop();
@@ -39,7 +44,6 @@ bool LoadShader(std::string path) {
   // Initialize
   app.shaderPath = path;
   app.reloader.SetWatchFile(path);
-  bool hadErrorLastTime = app.renderer.IsCompileError();
 
   // Compile shader
   ShaderCompileResult result =
@@ -50,11 +54,23 @@ bool LoadShader(std::string path) {
     return false;
   }
 
-  if (hadErrorLastTime) {
-    Ops::Report("Compile Success");
+  app.timeline.Play();
+
+  if (firstLoad) {
+    Ops::Report(path);
+    return true;
   }
 
-  app.timeline.Play();
+  if (hadErrorLastTime) {
+    Ops::Report("Compile Success");
+    return true;
+  }
+
+  if (reload) {
+    Ops::Report("Reloaded");
+    return true;
+  }
+
   return true;
 }
 
@@ -98,7 +114,7 @@ bool AlignOutputToViewport() {
 
 bool ReloadShader() {
   App& app = App::GetInstance();
-  return Ops::LoadShader(app.shaderPath.c_str());
+  return Ops::LoadShader(app.shaderPath.c_str(), true);
 }
 
 bool Report(std::string message, ReportLevel level) {
