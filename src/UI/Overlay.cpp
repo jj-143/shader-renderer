@@ -54,20 +54,22 @@ void Render(const ImVec2& pos, ImColor textColor) {
 
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 8));
   ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 8));
+  ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(textColor));
 
   ImGui::SetNextWindowPos(pos);
   ImGui::SetNextWindowBgAlpha(0.85);
   ImGui::BeginChild("ErrorLog", ImVec2(ui.vW, ui.vH), childFlags, windowFlags);
   {
     // Header
-    ImGui::TextColored(textColor, "%s", "[Compile Error]");
+    ImGui::TextWrapped("%s", "[Compile Error]");
     ImGui::Spacing();
 
     // Error log
-    ImGui::TextColored(textColor, "%s", renderer.errorLog.c_str());
+    ImGui::TextWrapped("%s", renderer.errorLog.c_str());
   }
 
   ImGui::PopStyleVar(2);
+  ImGui::PopStyleColor(1);
   ImGui::EndChild();
 }
 
