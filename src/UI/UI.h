@@ -56,6 +56,8 @@ class UI {
 
   bool showOverlays = true;
   bool isViewportFocused = false;
+  bool isViewportMaximized = false;
+  bool shouldFocusViewport = true;
 
   NavigationMode navigationMode = NavigationMode::Normal;
 
@@ -66,7 +68,10 @@ class UI {
   bool NewFrame();
   void Startup();
   void Render();
+
+  void MaximizeViewport(bool set);
   void SetCamera(Camera& camera) { this->camera = &camera; }
+
   void UpdateCameraControl();
   void UpdateStatus(const std::string message);
   void Quit();
@@ -77,6 +82,8 @@ class UI {
   Camera* camera;
   std::string statusMessage;
   float statusClearTime;
+
+  void HandleFocusViewport();
 
   void PopGlobalStyles();
   void PushGlobalStyles();

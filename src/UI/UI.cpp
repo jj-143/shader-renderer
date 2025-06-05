@@ -102,6 +102,14 @@ void UI::Render() {
   glClear(GL_COLOR_BUFFER_BIT);
   ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
   glfwSwapBuffers(window);
+
+  HandleFocusViewport();
+}
+
+void UI::MaximizeViewport(bool set) {
+  isViewportMaximized = set;
+  // Trigger layout update
+  OnWindowResize(wW, wH);
 }
 
 void UI::UpdateCameraControl() {
@@ -170,8 +178,15 @@ void UI::OnWindowResize(int width, int height) {
   auto& app = App::GetInstance();
 
   wW = width, wH = height;
-  ImVec2 size = CalculateWindowSize({});
-  vW = width - size.x, vH = height - size.y;
+
+  if (isViewportMaximized) {
+    vW = wW;
+    vH = wH;
+  } else {
+    ImVec2 size = CalculateWindowSize({});
+    vW = width - size.x;
+    vH = height - size.y;
+  }
 
   app.renderer.SetSize(vW, vH);
 
@@ -179,6 +194,12 @@ void UI::OnWindowResize(int width, int height) {
   if (app.timeline.IsPaused()) {
     app.timeline.rendered = false;
   }
+}
+
+void UI::HandleFocusViewport() {
+  if (!shouldFocusViewport) return;
+  shouldFocusViewport = false;
+  ImGui::SetWindowFocus("Viewport");
 }
 
 void UI::PopGlobalStyles() {
@@ -224,6 +245,8 @@ void UI::RenderMain() {
 }
 
 void UI::RenderMainMenu() {
+  if (isViewportMaximized) return;
+
   const float menuBarSpacing = 8;  // Compensating first MenuBar Item Spacing
   const ImVec2 buttonPadding = {2, 2};
   const ImVec2 containerPos = {INSET.x, INSET.y};
@@ -265,7 +288,13 @@ void UI::RenderMainMenu() {
         }
         ImGui::EndMenu();
       }
+
       if (ImGui::BeginMenu("View")) {
+        if (ImGui::MenuItem("Toggle Maximize Viewport", "Ctrl Space",
+                            isViewportMaximized)) {
+          Ops::MaximizeViewport(!isViewportMaximized);
+        }
+
         if (ImGui::MenuItem("Show Overlays", "Alt Shift Z", showOverlays)) {
           Ops::ShowOverlays(!showOverlays);
         }
@@ -309,6 +338,8 @@ void UI::RenderMainMenu() {
 }
 
 void UI::RenderStatusBar() {
+  if (isViewportMaximized) return;
+
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, STATUS_BAR_PADDING);
   ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, ImVec2(0, 0));
@@ -335,9 +366,17 @@ void UI::RenderStatusBar() {
 }
 
 void UI::RenderViewport() {
-  ImGui::SetNextWindowPos(
-      {INSET.x + MAIN_MARGIN.x, INSET.y + MAIN_MARGIN.y + MENU_BAR_HEIGHT});
-  ImGui::SetNextWindowSize(ImVec2(vW, vH));
+  ImVec2 pos = {INSET.x + MAIN_MARGIN.x,
+                INSET.y + MAIN_MARGIN.y + MENU_BAR_HEIGHT};
+  ImVec2 size(vW, vH);
+
+  if (isViewportMaximized) {
+    pos = {0, 0};
+    size = ImVec2(wW, wH);
+  }
+
+  ImGui::SetNextWindowPos(pos);
+  ImGui::SetNextWindowSize(size);
 
   ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
 
@@ -352,17 +391,14 @@ void UI::RenderViewport() {
   // Viewport texture
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
-  ImGui::Image((ImTextureID)viewportTextureID, ImVec2(vW, vH), {0, 1}, {1, 0});
+  ImGui::Image((ImTextureID)viewportTextureID, size, {0, 1}, {1, 0});
 #pragma GCC diagnostic pop
 
   // Overlays
   if (showOverlays) {
     // Stat
     {
-      Overlay::Stat::Render(
-          {INSET.x + MAIN_MARGIN.x + LAYOUT_INSET.x,
-           INSET.y + MAIN_MARGIN.y + LAYOUT_INSET.y + MENU_BAR_HEIGHT},
-          TEXT_COLOR);
+      Overlay::Stat::Render(pos + LAYOUT_INSET, TEXT_COLOR);
     }
 
     // Render output region
@@ -371,20 +407,19 @@ void UI::RenderViewport() {
 
       // show only if it's not fit (different ratio)
       if (output.height * vW != vH * output.width) {
-        ImVec2 pos = INSET + MAIN_MARGIN;
-
         // Note: viewport width = showing 100% of Render output width
         // = cropped or letterboxed vertically.
         ImVec2 size(vW, float(output.height) / output.width * vW);
 
         // Center position
-        pos.y += (vH - size.y) / 2 + MENU_BAR_HEIGHT;
+        ImVec2 iPos = pos + ImVec2(0, (vH - size.y) / 2);
 
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         static const ImColor color(TEXT_COLOR);
         float thickness = 1.0;
 
-        draw_list->AddRect(pos, pos + size, color, 0.0f, ImDrawFlags_None, 1.0);
+        draw_list->AddRect(iPos, iPos + size, color, 0.0f, ImDrawFlags_None,
+                           1.0);
       }
     }
   }
@@ -392,7 +427,6 @@ void UI::RenderViewport() {
   // Error Log. Always visible if any (unaffected by `showOverlays`)
   {
     // Same pos & size as Viewport
-    ImVec2 pos = INSET + MAIN_MARGIN + ImVec2(0, MENU_BAR_HEIGHT);
     Overlay::ErrorLog::Render(pos, TEXT_COLOR);
   }
 

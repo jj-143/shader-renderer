@@ -27,6 +27,9 @@ bool AlignViewportToOutput();
 /// Set the render output size to viewport size.
 bool AlignOutputToViewport();
 
+/// Maximize the viewport to window size
+bool MaximizeViewport(bool set);
+
 /// Reload current shader and reset timeline.
 /// NOTE: This should be called in the thread rendering
 /// viewport texture.

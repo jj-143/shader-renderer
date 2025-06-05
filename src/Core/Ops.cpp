@@ -113,6 +113,27 @@ bool AlignOutputToViewport() {
   return true;
 }
 
+bool MaximizeViewport(bool set) {
+  auto& ui = App::GetInstance().ui;
+
+  ui.MaximizeViewport(set);
+
+  // Auto hide overlays upon entering
+  static bool oldShowOverlays = ui.showOverlays;
+
+  if (set) {
+    oldShowOverlays = ui.showOverlays;
+    ui.showOverlays = false;
+  } else {
+    ui.showOverlays = oldShowOverlays;
+  }
+
+  // Focus Viewport
+  ui.shouldFocusViewport = true;
+
+  return true;
+}
+
 bool ReloadShader() {
   App& app = App::GetInstance();
   return Ops::LoadShader(app.shaderPath.c_str(), true);

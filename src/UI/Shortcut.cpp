@@ -17,8 +17,14 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
       ui.ToggleNavigationMode();
       break;
     case GLFW_KEY_SPACE:
-      if (!ui.isViewportFocused) break;
-      ui.ToggleTimelinePlay();
+      if (mods == GLFW_MOD_CONTROL) {
+        Ops::MaximizeViewport(!ui.isViewportMaximized);
+        break;
+      }
+      if (ui.isViewportFocused) {
+        ui.ToggleTimelinePlay();
+        break;
+      }
       break;
     case GLFW_KEY_ESCAPE:
       Ops::CancelTask();

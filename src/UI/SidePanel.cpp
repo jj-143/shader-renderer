@@ -27,6 +27,7 @@ void Help();
 
 namespace UI {
 void UI::RenderSidePanel() {
+  if (isViewportMaximized) return;
   ImGui::SetNextWindowPos({INSET.x + MAIN_MARGIN.x + vW + INNER_GAP,
                            INSET.y + MAIN_MARGIN.y + MENU_BAR_HEIGHT});
   ImGui::SetNextWindowSize(ImVec2(SIDE_PANEL_WIDTH, vH));
