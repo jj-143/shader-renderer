@@ -39,6 +39,7 @@ int GLAD_GL_VERSION_4_0 = 0;
 int GLAD_GL_VERSION_4_1 = 0;
 int GLAD_GL_VERSION_4_2 = 0;
 int GLAD_GL_ARB_compute_shader = 0;
+int GLAD_GL_ARB_shading_language_include = 0;
 
 
 
@@ -90,6 +91,7 @@ PFNGLCLIENTWAITSYNCPROC glad_glClientWaitSync = NULL;
 PFNGLCOLORMASKPROC glad_glColorMask = NULL;
 PFNGLCOLORMASKIPROC glad_glColorMaski = NULL;
 PFNGLCOMPILESHADERPROC glad_glCompileShader = NULL;
+PFNGLCOMPILESHADERINCLUDEARBPROC glad_glCompileShaderIncludeARB = NULL;
 PFNGLCOMPRESSEDTEXIMAGE1DPROC glad_glCompressedTexImage1D = NULL;
 PFNGLCOMPRESSEDTEXIMAGE2DPROC glad_glCompressedTexImage2D = NULL;
 PFNGLCOMPRESSEDTEXIMAGE3DPROC glad_glCompressedTexImage3D = NULL;
@@ -108,6 +110,7 @@ PFNGLCREATESHADERPROGRAMVPROC glad_glCreateShaderProgramv = NULL;
 PFNGLCULLFACEPROC glad_glCullFace = NULL;
 PFNGLDELETEBUFFERSPROC glad_glDeleteBuffers = NULL;
 PFNGLDELETEFRAMEBUFFERSPROC glad_glDeleteFramebuffers = NULL;
+PFNGLDELETENAMEDSTRINGARBPROC glad_glDeleteNamedStringARB = NULL;
 PFNGLDELETEPROGRAMPROC glad_glDeleteProgram = NULL;
 PFNGLDELETEPROGRAMPIPELINESPROC glad_glDeleteProgramPipelines = NULL;
 PFNGLDELETEQUERIESPROC glad_glDeleteQueries = NULL;
@@ -210,6 +213,8 @@ PFNGLGETINTEGERI_VPROC glad_glGetIntegeri_v = NULL;
 PFNGLGETINTEGERVPROC glad_glGetIntegerv = NULL;
 PFNGLGETINTERNALFORMATIVPROC glad_glGetInternalformativ = NULL;
 PFNGLGETMULTISAMPLEFVPROC glad_glGetMultisamplefv = NULL;
+PFNGLGETNAMEDSTRINGARBPROC glad_glGetNamedStringARB = NULL;
+PFNGLGETNAMEDSTRINGIVARBPROC glad_glGetNamedStringivARB = NULL;
 PFNGLGETPROGRAMBINARYPROC glad_glGetProgramBinary = NULL;
 PFNGLGETPROGRAMINFOLOGPROC glad_glGetProgramInfoLog = NULL;
 PFNGLGETPROGRAMPIPELINEINFOLOGPROC glad_glGetProgramPipelineInfoLog = NULL;
@@ -264,6 +269,7 @@ PFNGLISBUFFERPROC glad_glIsBuffer = NULL;
 PFNGLISENABLEDPROC glad_glIsEnabled = NULL;
 PFNGLISENABLEDIPROC glad_glIsEnabledi = NULL;
 PFNGLISFRAMEBUFFERPROC glad_glIsFramebuffer = NULL;
+PFNGLISNAMEDSTRINGARBPROC glad_glIsNamedStringARB = NULL;
 PFNGLISPROGRAMPROC glad_glIsProgram = NULL;
 PFNGLISPROGRAMPIPELINEPROC glad_glIsProgramPipeline = NULL;
 PFNGLISQUERYPROC glad_glIsQuery = NULL;
@@ -284,6 +290,7 @@ PFNGLMINSAMPLESHADINGPROC glad_glMinSampleShading = NULL;
 PFNGLMULTIDRAWARRAYSPROC glad_glMultiDrawArrays = NULL;
 PFNGLMULTIDRAWELEMENTSPROC glad_glMultiDrawElements = NULL;
 PFNGLMULTIDRAWELEMENTSBASEVERTEXPROC glad_glMultiDrawElementsBaseVertex = NULL;
+PFNGLNAMEDSTRINGARBPROC glad_glNamedStringARB = NULL;
 PFNGLPATCHPARAMETERFVPROC glad_glPatchParameterfv = NULL;
 PFNGLPATCHPARAMETERIPROC glad_glPatchParameteri = NULL;
 PFNGLPAUSETRANSFORMFEEDBACKPROC glad_glPauseTransformFeedback = NULL;
@@ -1079,6 +1086,15 @@ static void glad_gl_load_GL_ARB_compute_shader( GLADuserptrloadfunc load, void* 
     glad_glDispatchCompute = (PFNGLDISPATCHCOMPUTEPROC) load(userptr, "glDispatchCompute");
     glad_glDispatchComputeIndirect = (PFNGLDISPATCHCOMPUTEINDIRECTPROC) load(userptr, "glDispatchComputeIndirect");
 }
+static void glad_gl_load_GL_ARB_shading_language_include( GLADuserptrloadfunc load, void* userptr) {
+    if(!GLAD_GL_ARB_shading_language_include) return;
+    glad_glCompileShaderIncludeARB = (PFNGLCOMPILESHADERINCLUDEARBPROC) load(userptr, "glCompileShaderIncludeARB");
+    glad_glDeleteNamedStringARB = (PFNGLDELETENAMEDSTRINGARBPROC) load(userptr, "glDeleteNamedStringARB");
+    glad_glGetNamedStringARB = (PFNGLGETNAMEDSTRINGARBPROC) load(userptr, "glGetNamedStringARB");
+    glad_glGetNamedStringivARB = (PFNGLGETNAMEDSTRINGIVARBPROC) load(userptr, "glGetNamedStringivARB");
+    glad_glIsNamedStringARB = (PFNGLISNAMEDSTRINGARBPROC) load(userptr, "glIsNamedStringARB");
+    glad_glNamedStringARB = (PFNGLNAMEDSTRINGARBPROC) load(userptr, "glNamedStringARB");
+}
 
 
 
@@ -1175,6 +1191,7 @@ static int glad_gl_find_extensions_gl(void) {
     if (!glad_gl_get_extensions(&exts, &exts_i)) return 0;
 
     GLAD_GL_ARB_compute_shader = glad_gl_has_extension(exts, exts_i, "GL_ARB_compute_shader");
+    GLAD_GL_ARB_shading_language_include = glad_gl_has_extension(exts, exts_i, "GL_ARB_shading_language_include");
 
     glad_gl_free_extensions(exts_i);
 
@@ -1249,6 +1266,7 @@ int gladLoadGLUserPtr( GLADuserptrloadfunc load, void *userptr) {
 
     if (!glad_gl_find_extensions_gl()) return 0;
     glad_gl_load_GL_ARB_compute_shader(load, userptr);
+    glad_gl_load_GL_ARB_shading_language_include(load, userptr);
 
 
 
