@@ -1,9 +1,9 @@
 #include <format>
 
-#include "../Core/Ops.h"
-#include "../Core/Timeline.h"
-#include "../app.h"
+#include "Ops.h"
+#include "Timeline.h"
 #include "UI.h"
+#include "app.h"
 
 namespace UI {
 // static function [GLFWkeyfun] for relaying

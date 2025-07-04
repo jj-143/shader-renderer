@@ -17,6 +17,13 @@ file (GLOB_RECURSE src
   "src/*.c"
 )
 
+set(inc
+  "src/Core"
+  "src/Renderer"
+  "src/UI"
+  "src"
+)
+
 file(GLOB imgui_src
   "dependencies/imgui/*.cpp"
 )
@@ -35,6 +42,8 @@ set_property(DIRECTORY PROPERTY EP_BASE ${CMAKE_BINARY_DIR}/subprojects)
 add_subdirectory(thirdparty)
 
 # Includes
+target_include_directories(${PROJECT_NAME} PRIVATE ${inc})
+
 target_include_directories(${PROJECT_NAME}
   PRIVATE dependencies
   ${STAGED_INSTALL_PREFIX}/include

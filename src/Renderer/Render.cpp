@@ -4,8 +4,8 @@
 
 #include <string>
 
-#include "../UI/UI.h"
-#include "../app.h"
+#include "UI.h"
+#include "app.h"
 
 namespace {
 bool WriteToPNG(const char* filename, void* data, const int& width,

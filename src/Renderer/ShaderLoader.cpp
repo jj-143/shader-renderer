@@ -8,7 +8,7 @@
 #include <sstream>
 #include <vector>
 
-#include "../Global.h"
+#include "Global.h"
 
 std::optional<std::string> ReadFileContent(const std::string& filepath) {
   std::stringstream buffer;

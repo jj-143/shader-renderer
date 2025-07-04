@@ -5,11 +5,11 @@
 #include <string>
 #include <thread>
 
-#include "../Global.h"
-#include "../Renderer/Render.h"
-#include "../app.h"
-#include "./FileDialog.h"
+#include "FileDialog.h"
+#include "Global.h"
+#include "Render.h"
 #include "Task.h"
+#include "app.h"
 
 namespace {
 void RenderTask(Task::Task& task, bool animation);

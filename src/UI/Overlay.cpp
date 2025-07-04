@@ -1,6 +1,6 @@
 #include "Overlay.h"
 
-#include "../app.h"
+#include "app.h"
 
 namespace Overlay {
 

@@ -6,7 +6,7 @@
 #include <string>
 
 #include "PlatformUtils.h"
-#include "Renderer/ShaderLoader.h"
+#include "ShaderLoader.h"
 
 namespace fs = std::filesystem;
 

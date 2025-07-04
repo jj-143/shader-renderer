@@ -1,6 +1,8 @@
-#include "../app.h"
-#include "../common.h"
+#pragma once
+
 #include "Renderer.h"
+#include "app.h"
+#include "common.h"
 
 namespace Render {
 struct Params {

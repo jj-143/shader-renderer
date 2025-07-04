@@ -6,7 +6,7 @@
 #include <format>
 #include <string>
 
-#include "Core/Ops.h"
+#include "Ops.h"
 
 App::App(const Config config) : config(config) {
   assert(instance == nullptr && "App already instantiated.");

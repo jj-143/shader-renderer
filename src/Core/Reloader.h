@@ -3,7 +3,7 @@
 #include <FileWatch/FileWatch.hpp>
 #include <string>
 
-#include "../common.h"
+#include "common.h"
 
 class Reloader {
  public:

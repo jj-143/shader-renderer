@@ -7,10 +7,10 @@
 #include <glm/glm.hpp>
 #include <string>
 
-#include "../Core/Ops.h"
-#include "../Renderer/Camera.h"
-#include "../app.h"
+#include "Camera.h"
+#include "Ops.h"
 #include "Overlay.h"
+#include "app.h"
 
 namespace {
 void RenderTaskStatus();

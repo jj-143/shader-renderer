@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "../Renderer/Camera.h"
-#include "../common.h"
+#include "Camera.h"
+#include "common.h"
 
 class Camera;
 
