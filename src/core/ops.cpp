@@ -85,7 +85,7 @@ bool OpenOpenShaderDialog() {
   std::optional<std::string> outPath = file_dialog::OpenFile(defaultPath);
   if (!outPath) return false;
 
-  LoadShader(outPath.value());
+  LoadSingleShaderProject(outPath.value());
   return true;
 }
 

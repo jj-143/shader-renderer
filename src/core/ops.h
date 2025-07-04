@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "project.h"
+
 namespace ops {
 
 /// Cancel Current running task in [App::taskManager]
@@ -9,6 +11,9 @@ bool CancelTask();
 
 /// Load / Replace currently running shader
 bool LoadShader(std::string path, bool reload = false);
+
+/// Load a single shader file as a new project
+bool LoadSingleShaderProject(const std::string& path);
 
 /// Open Dialog for loading a shader.
 bool OpenOpenShaderDialog();

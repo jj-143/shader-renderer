@@ -35,7 +35,7 @@ void App::Run() {
   renderer.camera.defaultRotation = {0, 0, 90};
   renderer.camera.Reset();
 
-  ops::LoadShader(shaderPath.c_str());
+  ops::LoadSingleShaderProject(shaderPath);
 
   while (ui.NewFrame()) {
     if (timeline.IsPlaying()) timeline.Update();
