@@ -24,17 +24,13 @@ set(inc
   "src"
 )
 
-file(GLOB imgui_src
-  "dependencies/imgui/*.cpp"
-)
-
 add_executable(
   ${PROJECT_NAME}
   ${src}
-  ${imgui_src}
 )
 
-add_definitions(-DIMGUI_DEFINE_MATH_OPERATORS)
+# Common dependencies
+add_subdirectory(dependencies)
 
 # 3rd party
 set(STAGED_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/stage)
