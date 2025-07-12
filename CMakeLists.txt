@@ -12,10 +12,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/output)
 
 find_package(OpenGL REQUIRED)
 
-file (GLOB_RECURSE src
-  "src/*.cpp"
-  "src/*.c"
-)
+file (GLOB_RECURSE src "src/*.cpp")
 
 set(inc
   "src/Core"
