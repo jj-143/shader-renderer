@@ -4,8 +4,9 @@
 #include <optional>
 #include <string>
 
-namespace FileDialog {
+namespace file_dialog {
+
 namespace fs = std::filesystem;
 std::optional<std::string> OpenFile(fs::path path);
 
-}  // namespace FileDialog
+}  // namespace file_dialog

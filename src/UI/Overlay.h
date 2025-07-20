@@ -4,20 +4,16 @@
 
 #include <string>
 
-namespace Overlay {
-
-namespace Stat {
+namespace overlay::stat {
 
 void Clear();
 void Log(std::string msg);
 void Render(const ImVec2& pos, ImColor textColor = IM_COL32_WHITE);
 
-}  // namespace Stat
+}  // namespace overlay::stat
 
-namespace ErrorLog {
+namespace overlay::error_log {
 
 void Render(const ImVec2& pos, ImColor textColor);
 
-}  // namespace ErrorLog
-
-}  // namespace Overlay
+}  // namespace overlay::error_log

@@ -6,7 +6,8 @@
 #include "app.h"
 
 namespace {
-using namespace UI;
+
+using namespace ui;
 struct FrameRateItem {
   const float value;
   const char* label;
@@ -23,9 +24,11 @@ void FrameSettings();
 void OutputSettings();
 void DevPanel();
 void Help();
+
 }  // namespace
 
-namespace UI {
+namespace ui {
+
 void UI::RenderSidePanel() {
   if (isViewportMaximized) return;
   ImGui::SetNextWindowPos({INSET.x + MAIN_MARGIN.x + vW + INNER_GAP,
@@ -63,14 +66,16 @@ void UI::RenderSidePanel() {
 
   ImGui::End();
 }
-}  // namespace UI
+
+}  // namespace ui
 
 // Locals
 namespace {
 
 const float dragSpeed = .2f;
 
-using namespace UI;
+using namespace ui;
+
 void DevPanel() {
   App& app = App::GetInstance();
   Timeline& timeline = app.timeline;

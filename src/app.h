@@ -20,9 +20,9 @@ class App {
 
   Setting setting;
   Renderer renderer;
-  UI::UI ui;
+  ui::UI ui;
   Timeline timeline;
-  Task::TaskManager taskManager;
+  task::TaskManager taskManager;
   Reloader reloader;
 
   std::string shaderPath;

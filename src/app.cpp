@@ -35,13 +35,13 @@ void App::Run() {
   renderer.camera.defaultRotation = {0, 0, 90};
   renderer.camera.Reset();
 
-  Ops::LoadShader(shaderPath.c_str());
+  ops::LoadShader(shaderPath.c_str());
 
   while (ui.NewFrame()) {
     if (timeline.IsPlaying()) timeline.Update();
 
     const bool shouldRender =
-        !timeline.rendered || ui.navigationMode == UI::NavigationMode::Walk;
+        !timeline.rendered || ui.navigationMode == ui::NavigationMode::Walk;
 
     if (shouldRender) {
       renderer.Render(timeline.iTime);

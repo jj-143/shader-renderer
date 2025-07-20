@@ -13,10 +13,13 @@
 #include "app.h"
 
 namespace {
+
 void RenderTaskStatus();
+
 }  // namespace
 
-namespace UI {
+namespace ui {
+
 void WindowSizeCallback(GLFWwindow* window, int width, int height) {
   App::GetInstance().ui.OnWindowResize(width, height);
 };
@@ -61,8 +64,8 @@ bool UI::NewFrame() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   const Timeline& timeline = App::GetInstance().timeline;
 
-  Overlay::Stat::Clear();
-  Overlay::Stat::Log(std::format("t: {:.1f}", timeline.iTime));
+  overlay::stat::Clear();
+  overlay::stat::Log(std::format("t: {:.1f}", timeline.iTime));
 
   if (navigationMode == NavigationMode::Walk) {
     ImGui::SetMouseCursor(ImGuiMouseCursor_None);
@@ -161,9 +164,9 @@ void UI::UpdateCameraControl() {
 
   camera->Update();
 
-  Overlay::Stat::Log(std::format("Position: ({:.1f}, {:.1f}, {:.1f})",
+  overlay::stat::Log(std::format("Position: ({:.1f}, {:.1f}, {:.1f})",
                                  position.x, position.y, position.z));
-  Overlay::Stat::Log(std::format("Rotation: ({:.1f}, {:.1f}, {:.1f})",
+  overlay::stat::Log(std::format("Rotation: ({:.1f}, {:.1f}, {:.1f})",
                                  rotation.x, rotation.y, rotation.z));
 }
 
@@ -275,16 +278,16 @@ void UI::RenderMainMenu() {
     if (ImGui::BeginMenuBar()) {
       if (ImGui::BeginMenu("File")) {
         if (ImGui::MenuItem("Open Shader...", "Ctrl O")) {
-          Ops::OpenOpenShaderDialog();
+          ops::OpenOpenShaderDialog();
         }
         if (ImGui::MenuItem("Reload Shader", "Ctrl R")) {
-          Ops::ReloadShader();
+          ops::ReloadShader();
         }
 
         ImGui::Separator();
 
         if (ImGui::MenuItem("Quit", "Ctrl Q")) {
-          Ops::Quit();
+          ops::Quit();
         }
         ImGui::EndMenu();
       }
@@ -292,39 +295,39 @@ void UI::RenderMainMenu() {
       if (ImGui::BeginMenu("View")) {
         if (ImGui::MenuItem("Toggle Maximize Viewport", "Ctrl Space",
                             isViewportMaximized)) {
-          Ops::MaximizeViewport(!isViewportMaximized);
+          ops::MaximizeViewport(!isViewportMaximized);
         }
 
         if (ImGui::MenuItem("Show Overlays", "Alt Shift Z", showOverlays)) {
-          Ops::ShowOverlays(!showOverlays);
+          ops::ShowOverlays(!showOverlays);
         }
 
         // Viewport
         ImGui::Separator();
 
         if (ImGui::MenuItem("Align View to Render Output", "Home")) {
-          Ops::AlignViewportToOutput();
+          ops::AlignViewportToOutput();
         }
 
         if (ImGui::MenuItem("Align Output to Viewport", "Ctrl Alt Home")) {
-          Ops::AlignOutputToViewport();
+          ops::AlignOutputToViewport();
         }
 
         // Camera
         ImGui::Separator();
 
         if (ImGui::MenuItem("Reset Camera", "Alt G")) {
-          Ops::ResetCamera();
+          ops::ResetCamera();
         }
 
         ImGui::EndMenu();
       }
       if (ImGui::BeginMenu("Render")) {
         if (ImGui::MenuItem("Render Image", "F12")) {
-          Ops::Render(false);
+          ops::Render(false);
         }
         if (ImGui::MenuItem("Render Animation", "Ctrl F12")) {
-          Ops::Render(true);
+          ops::Render(true);
         }
         ImGui::EndMenu();
       }
@@ -398,7 +401,7 @@ void UI::RenderViewport() {
   if (showOverlays) {
     // Stat
     {
-      Overlay::Stat::Render(pos + LAYOUT_INSET, TEXT_COLOR);
+      overlay::stat::Render(pos + LAYOUT_INSET, TEXT_COLOR);
     }
 
     // Render output region
@@ -427,7 +430,7 @@ void UI::RenderViewport() {
   // Error Log. Always visible if any (unaffected by `showOverlays`)
   {
     // Same pos & size as Viewport
-    Overlay::ErrorLog::Render(pos, TEXT_COLOR);
+    overlay::error_log::Render(pos, TEXT_COLOR);
   }
 
   ImGui::End();
@@ -468,10 +471,13 @@ GLFWwindow* InitWindow(const int width, const int height, const char* title) {
 
   return window;
 }
-}  // namespace UI
+
+}  // namespace ui
 
 namespace {
-using namespace UI;
+
+using namespace ui;
+
 void RenderTaskStatus() {
   const App& app = App::GetInstance();
   const int PROGRESS_WIDTH = 100;
@@ -494,10 +500,11 @@ void RenderTaskStatus() {
     ImGui::SameLine();
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, {2, 2});
     if (ImGui::SmallButton("x")) {
-      Ops::CancelTask();
+      ops::CancelTask();
     }
     ImGui::PopStyleVar();
   }
   ImGui::PopStyleVar(2);
 }
+
 }  // namespace

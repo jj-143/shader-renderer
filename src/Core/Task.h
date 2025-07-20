@@ -4,7 +4,7 @@
 #include <functional>
 #include <thread>
 
-namespace Task {
+namespace task {
 
 class Task {
   using Function = std::function<void(Task &)>;
@@ -45,4 +45,5 @@ std::unique_ptr<Task> CreateTask(const char *name, F const f, Args... args) {
   return std::make_unique<Task>(name,
                                 std::bind(f, std::placeholders::_1, args...));
 }
-}  // namespace Task
+
+}  // namespace task

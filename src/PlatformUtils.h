@@ -16,7 +16,8 @@
 
 namespace fs = std::filesystem;
 
-namespace PlatformUtils {
+namespace platform_utils {
+
 inline fs::path GetBinaryRoot() {
 #ifdef _WIN32
   // Windows specific
@@ -37,4 +38,5 @@ inline fs::path GetBinaryRoot() {
 #endif
   return std::filesystem::path{szPath}.parent_path() / "";  // railing slash
 }
-}  // namespace PlatformUtils
+
+}  // namespace platform_utils

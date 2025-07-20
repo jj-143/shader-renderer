@@ -7,7 +7,7 @@
 void Reloader::HandleReload() {
   if (needReload) {
     needReload = false;
-    Ops::ReloadShader();
+    ops::ReloadShader();
   }
 }
 

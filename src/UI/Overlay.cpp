@@ -2,12 +2,12 @@
 
 #include "app.h"
 
-namespace Overlay {
-
-namespace Stat {
+namespace overlay::stat {
 
 namespace {
+
 std::vector<std::string> messages = {};
+
 }
 
 void Clear() { messages.clear(); };
@@ -35,10 +35,10 @@ void Render(const ImVec2& pos, ImColor textColor) {
   ImGui::EndChild();
 }
 
-}  // namespace Stat
+}  // namespace overlay::stat
 
 /// Text logger for shader compile error, fully covers viewport
-namespace ErrorLog {
+namespace overlay::error_log {
 
 void Render(const ImVec2& pos, ImColor textColor) {
   auto& renderer = App::GetInstance().renderer;
@@ -73,6 +73,4 @@ void Render(const ImVec2& pos, ImColor textColor) {
   ImGui::EndChild();
 }
 
-}  // namespace ErrorLog
-
-}  // namespace Overlay
+}  // namespace overlay::error_log

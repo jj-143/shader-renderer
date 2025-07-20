@@ -4,7 +4,8 @@
 #include "app.h"
 #include "common.h"
 
-namespace Render {
+namespace render {
+
 struct Params {
   std::string shaderPath;
   int width;
@@ -38,4 +39,5 @@ class RenderContext {
   GLFWwindow* window;
   Output output;
 };
-}  // namespace Render
+
+}  // namespace render

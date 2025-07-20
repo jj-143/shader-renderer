@@ -8,18 +8,21 @@
 #include "app.h"
 
 namespace {
+
 bool WriteToPNG(const char* filename, void* data, const int& width,
                 const int& height);
 void GetTextureData(GLubyte* data);
+
 }  // namespace
 
-namespace Render {
+namespace render {
+
 RenderContext::~RenderContext() { delete[] data; }
 
 void RenderContext::Setup(const Params params, const Camera& camera) {
   // Create invisible Window for new GL Context
   glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-  window = UI::InitWindow(1, 1, "Render Result");
+  window = ui::InitWindow(1, 1, "Render Result");
 
   // Init renderer for output
   renderer.Init(params.width, params.height);
@@ -28,7 +31,7 @@ void RenderContext::Setup(const Params params, const Camera& camera) {
 
   data = new GLubyte[params.width * params.height * 4];
   output = {.width = params.width, .height = params.height};
-}  // namespace Render
+}
 
 void RenderContext::Teardown() { glfwDestroyWindow(window); }
 
@@ -40,9 +43,11 @@ void RenderContext::Render(float iTime) {
 bool RenderContext::WriteToFile(const char* filename) {
   return WriteToPNG(filename, data, output.width, output.height);
 }
-}  // namespace Render
+
+}  // namespace render
 
 namespace {
+
 bool WriteToPNG(const char* filename, void* data, const int& width,
                 const int& height) {
   const int comp = 4;  // "RGBA". see: "stb_image_write"
@@ -54,4 +59,5 @@ bool WriteToPNG(const char* filename, void* data, const int& width,
 void GetTextureData(GLubyte* data) {
   glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 }
+
 }  // namespace

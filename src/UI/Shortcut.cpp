@@ -5,7 +5,8 @@
 #include "UI.h"
 #include "app.h"
 
-namespace UI {
+namespace ui {
+
 // static function [GLFWkeyfun] for relaying
 void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
                       int mods) {
@@ -18,7 +19,7 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
       break;
     case GLFW_KEY_SPACE:
       if (mods == GLFW_MOD_CONTROL) {
-        Ops::MaximizeViewport(!ui.isViewportMaximized);
+        ops::MaximizeViewport(!ui.isViewportMaximized);
         break;
       }
       if (ui.isViewportFocused) {
@@ -27,46 +28,46 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
       }
       break;
     case GLFW_KEY_ESCAPE:
-      Ops::CancelTask();
+      ops::CancelTask();
       break;
     case GLFW_KEY_F12:
       if (mods == GLFW_MOD_CONTROL) {
-        Ops::Render(true);
+        ops::Render(true);
       } else {
-        Ops::Render(false);
+        ops::Render(false);
       }
       break;
     case GLFW_KEY_G:
       if (mods == GLFW_MOD_ALT) {
-        Ops::ResetCamera();
+        ops::ResetCamera();
       }
       break;
     case GLFW_KEY_O:
       if (mods == GLFW_MOD_CONTROL) {
-        Ops::OpenOpenShaderDialog();
+        ops::OpenOpenShaderDialog();
       }
       break;
     case GLFW_KEY_R:
       if (mods == GLFW_MOD_CONTROL) {
-        Ops::ReloadShader();
+        ops::ReloadShader();
       }
       break;
     case GLFW_KEY_Q:
       if (mods == GLFW_MOD_CONTROL) {
-        Ops::Quit();
+        ops::Quit();
       }
       break;
     case GLFW_KEY_Z:
       if (mods == (GLFW_MOD_ALT | GLFW_MOD_SHIFT)) {
-        Ops::ShowOverlays(!ui.showOverlays);
+        ops::ShowOverlays(!ui.showOverlays);
       }
       break;
     case GLFW_KEY_HOME:
       if (!mods) {
-        Ops::AlignViewportToOutput();
+        ops::AlignViewportToOutput();
         break;
       } else if (mods == (GLFW_MOD_CONTROL | GLFW_MOD_ALT)) {
-        Ops::AlignOutputToViewport();
+        ops::AlignOutputToViewport();
         break;
       }
   }
@@ -90,4 +91,5 @@ void UI::ToggleNavigationMode() {
     glfwSetCursorPos(window, (float)vW / 2, (float)vH / 2);
   }
 }
-}  // namespace UI
+
+}  // namespace ui

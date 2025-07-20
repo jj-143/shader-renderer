@@ -12,15 +12,18 @@
 #include "app.h"
 
 namespace {
-void RenderTask(Task::Task& task, bool animation);
+
+void RenderTask(task::Task& task, bool animation);
+
 }
 
-namespace Ops {
+namespace ops {
+
 bool CancelTask() {
-  Task::TaskManager& taskManager = App::GetInstance().taskManager;
+  task::TaskManager& taskManager = App::GetInstance().taskManager;
   if (!taskManager.HasTask()) return false;
   taskManager.CancelTask();
-  Ops::Report(std::format("Canceling [{:s}]", taskManager.task->name));
+  ops::Report(std::format("Canceling [{:s}]", taskManager.task->name));
   return true;
 }
 
@@ -28,7 +31,7 @@ bool LoadShader(std::string path, bool reload) {
   App& app = App::GetInstance();
 
   if (!fs::exists(path)) {
-    Ops::ReportError(std::format("File Not Exist: {:s}", path));
+    ops::ReportError(std::format("File Not Exist: {:s}", path));
     return false;
   }
 
@@ -50,7 +53,7 @@ bool LoadShader(std::string path, bool reload) {
       app.renderer.SetComputeShader(app.shaderPath.c_str());
 
   if (!result.isSuccess) {
-    Ops::ReportError(
+    ops::ReportError(
         std::format("Compile Error\nIn {:s}:\n{:s}", path, result.error));
     return false;
   }
@@ -58,17 +61,17 @@ bool LoadShader(std::string path, bool reload) {
   app.timeline.Play();
 
   if (firstLoad) {
-    Ops::Report(path);
+    ops::Report(path);
     return true;
   }
 
   if (hadErrorLastTime) {
-    Ops::Report("Compile Success");
+    ops::Report("Compile Success");
     return true;
   }
 
   if (reload) {
-    Ops::Report("Reloaded");
+    ops::Report("Reloaded");
     return true;
   }
 
@@ -79,7 +82,7 @@ bool OpenOpenShaderDialog() {
   App& app = App::GetInstance();
   fs::path defaultPath = fs::path(app.shaderPath).parent_path();
 
-  std::optional<std::string> outPath = FileDialog::OpenFile(defaultPath);
+  std::optional<std::string> outPath = file_dialog::OpenFile(defaultPath);
   if (!outPath) return false;
 
   LoadShader(outPath.value());
@@ -95,7 +98,7 @@ bool ShowOverlays(bool set) {
 bool AlignViewportToOutput() {
   auto& output = App::GetInstance().setting.output;
   ImVec2 newVSize(output.width, output.height);
-  ImVec2 newWSize = UI::CalculateWindowSize(newVSize);
+  ImVec2 newWSize = ui::CalculateWindowSize(newVSize);
 
   auto& ui = App::GetInstance().ui;
   glfwSetWindowSize(ui.window, newWSize.x, newWSize.y);
@@ -104,7 +107,7 @@ bool AlignViewportToOutput() {
 
 bool AlignOutputToViewport() {
   auto& ui = App::GetInstance().ui;
-  ImVec2 wWithoutV = UI::CalculateWindowSize(ImVec2(0, 0));
+  ImVec2 wWithoutV = ui::CalculateWindowSize(ImVec2(0, 0));
   ImVec2 newVSize = ImVec2(ui.wW, ui.wH) - wWithoutV;
 
   auto& output = App::GetInstance().setting.output;
@@ -136,7 +139,7 @@ bool MaximizeViewport(bool set) {
 
 bool ReloadShader() {
   App& app = App::GetInstance();
-  return Ops::LoadShader(app.shaderPath.c_str(), true);
+  return ops::LoadShader(app.shaderPath.c_str(), true);
 }
 
 bool Report(std::string message, ReportLevel level) {
@@ -159,7 +162,7 @@ bool Render(bool animation) {
   if (app.taskManager.HasTask()) return false;
   app.timeline.Pause();
   const char* taskName = animation ? "Render Animation" : "Render Image";
-  app.taskManager.RunTask(Task::CreateTask(taskName, RenderTask, animation));
+  app.taskManager.RunTask(task::CreateTask(taskName, RenderTask, animation));
   return true;
 }
 
@@ -174,10 +177,12 @@ bool Quit() {
   app.ui.Quit();
   return true;
 }
-}  // namespace Ops
+
+}  // namespace ops
 
 // Locals
 namespace {
+
 namespace fs = std::filesystem;
 
 /// Create directories if needed.
@@ -187,7 +192,7 @@ fs::path PrepareOutDir(const char* dirpath) {
   fs::path out(dirpath);
 
   if (out.is_relative()) {
-    out = Global::BINARY_ROOT / out;
+    out = global::BINARY_ROOT / out;
   }
 
   if (!fs::is_directory(out)) {
@@ -198,19 +203,19 @@ fs::path PrepareOutDir(const char* dirpath) {
 
 // iFrame is calculated from current [Timeline.iTime]
 // and starts with #0001. e.g, iTime(0) = iFrame(1).
-void RenderTask(Task::Task& task, bool animation) {
+void RenderTask(task::Task& task, bool animation) {
   App& app = App::GetInstance();
   const Output& output = app.setting.output;
   fs::path outDir;
   try {
     outDir = PrepareOutDir(output.path);
   } catch (fs::filesystem_error error) {
-    Ops::ReportError(error.what());
+    ops::ReportError(error.what());
     return;
   }
 
-  Render::RenderContext context;
-  Render::Params params{
+  render::RenderContext context;
+  render::Params params{
       .shaderPath = app.shaderPath,
       .width = output.width,
       .height = output.height,
@@ -239,16 +244,17 @@ void RenderTask(Task::Task& task, bool animation) {
   }
 
   if (writeErrors > 0) {
-    Ops::ReportError(
+    ops::ReportError(
         std::format("ERROR: Coudn't write output {:s} for {:d} {:s}",
                     writeErrors > 1 ? "files" : "file", writeErrors,
                     writeErrors > 1 ? "frames" : "frame"));
   } else {
-    Ops::Report(animation ? std::format("Animation Saved in {:s}",
+    ops::Report(animation ? std::format("Animation Saved in {:s}",
                                         outDir.string().c_str())
                           : std::format("Image Saved to {:s}",
                                         currentFilepath.string().c_str()));
   }
   context.Teardown();
 }
+
 }  // namespace

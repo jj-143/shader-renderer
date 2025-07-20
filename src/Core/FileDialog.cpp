@@ -6,7 +6,8 @@
 
 #include "Ops.h"
 
-namespace FileDialog {
+namespace file_dialog {
+
 std::optional<std::string> OpenFile(fs::path path) {
   nfdchar_t* outChar;
   nfdresult_t result =
@@ -16,7 +17,7 @@ std::optional<std::string> OpenFile(fs::path path) {
 
   switch (result) {
     case NFD_ERROR:
-      Ops::ReportError(std::format("Cannot load file ({:s})", NFD_GetError()));
+      ops::ReportError(std::format("Cannot load file ({:s})", NFD_GetError()));
       break;
     case NFD_OKAY:
       selected = outChar;
@@ -28,4 +29,5 @@ std::optional<std::string> OpenFile(fs::path path) {
 
   return selected;
 }
-}  // namespace FileDialog
+
+}  // namespace file_dialog

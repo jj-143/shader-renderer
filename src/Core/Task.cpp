@@ -2,7 +2,8 @@
 
 #include <cassert>
 
-namespace Task {
+namespace task {
+
 Task::Task(const char *name, const Function &f) : name(name), fn(f) {}
 
 Task::~Task() { thread.reset(); }
@@ -19,9 +20,7 @@ void Task::_Run() {
   fn(*this);
   if (cleanup) cleanup();
 }
-}  // namespace Task
 
-namespace Task {
 void TaskManager::RunTask(std::unique_ptr<Task> _task) {
   assert(!HasTask() && "There's already a running Task.");
   task = std::move(_task);
@@ -30,4 +29,5 @@ void TaskManager::RunTask(std::unique_ptr<Task> _task) {
 }
 
 void TaskManager::CancelTask() { task->Cancel(); }
-}  // namespace Task
+
+}  // namespace task

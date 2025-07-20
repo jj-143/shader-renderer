@@ -2,7 +2,8 @@
 
 #include <string>
 
-namespace Ops {
+namespace ops {
+
 enum class ReportLevel { Info, Error };
 
 /// Cancel Current running task in [App::taskManager]
@@ -54,4 +55,4 @@ bool ResetCamera();
 /// Quit the App.
 bool Quit();
 
-}  // namespace Ops
+}  // namespace ops
