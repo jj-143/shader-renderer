@@ -143,21 +143,6 @@ bool ReloadShader() {
   return ops::LoadShader(app.shaderPath.c_str(), true);
 }
 
-bool Report(std::string message, ReportLevel level) {
-  App& app = App::GetInstance();
-
-  std::string firstLine = message.substr(0, message.find_first_of("\n"));
-
-  app.ui.UpdateStatus(firstLine);
-
-  if (level == ReportLevel::Error) {
-    logger::Error("(Report): {}", message);
-  } else {
-    logger::Info("(Report): {}", message);
-  }
-  return true;
-}
-
 bool Render(bool animation) {
   App& app = App::GetInstance();
   if (app.taskManager.HasTask()) return false;

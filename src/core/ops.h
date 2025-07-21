@@ -4,8 +4,6 @@
 
 namespace ops {
 
-enum class ReportLevel { Info, Error };
-
 /// Cancel Current running task in [App::taskManager]
 bool CancelTask();
 
@@ -36,14 +34,6 @@ bool MaximizeViewport(bool set);
 /// viewport texture.
 bool ReloadShader();
 
-/// Display a message in Status Bar.
-bool Report(std::string message, ReportLevel level = ReportLevel::Info);
-
-/// Shorthand for Reporting Error
-inline bool ReportError(std::string message) {
-  return Report(message, ReportLevel::Error);
-}
-
 /// Render to output file.
 /// if `animation` is set, renders frames in the range defined in the Setting.
 /// Otherwise, renders current iTime in `Timeline`.
@@ -56,3 +46,5 @@ bool ResetCamera();
 bool Quit();
 
 }  // namespace ops
+
+#include "report.h"
