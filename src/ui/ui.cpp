@@ -9,6 +9,7 @@
 
 #include "app.h"
 #include "camera.h"
+#include "logger.h"
 #include "ops.h"
 #include "overlay.h"
 
@@ -51,7 +52,7 @@ bool UI::InitUI(const int width, const int height, const char* title) {
 }
 
 void UI::Terminate() {
-  printf("Program terminated.\n");
+  logger::Info("Terminate program..");
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();
   ImGui::DestroyContext();
@@ -455,7 +456,7 @@ GLFWwindow* InitWindow(const int width, const int height, const char* title) {
   GLFWwindow* window;
 
   if (!glfwInit()) {
-    fprintf(stderr, "GLFW couldn't start.\n");
+    logger::Error("GLFW couldn't start.");
     return nullptr;
   }
 
@@ -464,7 +465,7 @@ GLFWwindow* InitWindow(const int width, const int height, const char* title) {
 
   int version = gladLoadGL(glfwGetProcAddress);
   if (version == 0) {
-    fprintf(stderr, "Falied to initialize OpenGL context.\n");
+    logger::Error("Falied to initialize OpenGL context.");
     glfwTerminate();
     return nullptr;
   }

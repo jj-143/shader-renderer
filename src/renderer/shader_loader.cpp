@@ -3,12 +3,12 @@
 #include <filesystem>
 #include <format>
 #include <fstream>
-#include <iostream>
 #include <optional>
 #include <sstream>
 #include <vector>
 
 #include "global.h"
+#include "logger.h"
 
 std::optional<std::string> ReadFileContent(const std::string& filepath) {
   std::stringstream buffer;
@@ -102,7 +102,9 @@ GLuint MakeShader(const std::string& vertexFilepath,
   if (!success) {
     char errorLog[1024];
     glGetProgramInfoLog(shader, 1024, nullptr, errorLog);
-    std::cout << "Shader Linking error:\n" << errorLog << std::endl;
+    logger::Error("Shader Linking error: {}", errorLog);
+    // TODO: Handle linking error
+    return 0;
   }
 
   // shaders are separate from module

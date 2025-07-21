@@ -8,6 +8,7 @@
 #include "app.h"
 #include "file_dialog.h"
 #include "global.h"
+#include "logger.h"
 #include "render.h"
 #include "task.h"
 
@@ -150,9 +151,9 @@ bool Report(std::string message, ReportLevel level) {
   app.ui.UpdateStatus(firstLine);
 
   if (level == ReportLevel::Error) {
-    fprintf(stderr, "[Error] %s\n", message.c_str());
+    logger::Error("(Report): {}", message);
   } else {
-    fprintf(stdout, "[Info] %s\n", message.c_str());
+    logger::Info("(Report): {}", message);
   }
   return true;
 }
