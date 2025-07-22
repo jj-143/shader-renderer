@@ -24,7 +24,7 @@ bool CancelTask() {
   task::TaskManager& taskManager = App::GetInstance().taskManager;
   if (!taskManager.HasTask()) return false;
   taskManager.CancelTask();
-  ops::Report(std::format("Canceling [{:s}]", taskManager.task->name));
+  ops::Report("Canceling [{}]", taskManager.task->name);
   return true;
 }
 
@@ -32,7 +32,7 @@ bool LoadShader(std::string path, bool reload) {
   App& app = App::GetInstance();
 
   if (!fs::exists(path)) {
-    ops::ReportError(std::format("File Not Exist: {:s}", path));
+    ops::ReportError("File Not Exist: {}", path);
     return false;
   }
 
@@ -54,8 +54,7 @@ bool LoadShader(std::string path, bool reload) {
       app.renderer.SetComputeShader(app.shaderPath.c_str());
 
   if (!result.isSuccess) {
-    ops::ReportError(
-        std::format("Compile Error\nIn {:s}:\n{:s}", path, result.error));
+    ops::ReportError("Compile Error\nIn {}:\n{}", path, result.error);
     return false;
   }
 
@@ -230,15 +229,15 @@ void RenderTask(task::Task& task, bool animation) {
   }
 
   if (writeErrors > 0) {
-    ops::ReportError(
-        std::format("ERROR: Coudn't write output {:s} for {:d} {:s}",
-                    writeErrors > 1 ? "files" : "file", writeErrors,
-                    writeErrors > 1 ? "frames" : "frame"));
+    ops::ReportError("ERROR: Coudn't write output {} for {} {}",
+                     writeErrors > 1 ? "files" : "file", writeErrors,
+                     writeErrors > 1 ? "frames" : "frame");
   } else {
-    ops::Report(animation ? std::format("Animation Saved in {:s}",
-                                        outDir.string().c_str())
-                          : std::format("Image Saved to {:s}",
-                                        currentFilepath.string().c_str()));
+    if (animation) {
+      ops::Report("Animation Saved in {}", outDir.string());
+    } else {
+      ops::Report("Image Saved to {}", currentFilepath.string());
+    }
   }
   context.Teardown();
 }

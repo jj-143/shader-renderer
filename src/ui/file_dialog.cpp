@@ -17,7 +17,7 @@ std::optional<std::string> OpenFile(fs::path path) {
 
   switch (result) {
     case NFD_ERROR:
-      ops::ReportError(std::format("Cannot load file ({:s})", NFD_GetError()));
+      ops::ReportError("Cannot load file ({})", NFD_GetError());
       break;
     case NFD_OKAY:
       selected = outChar;
