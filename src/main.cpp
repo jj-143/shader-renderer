@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include <string>
 
-#include "Global.h"
 #include "app.h"
+#include "global.h"
 
 int main(int argc, char* argv[]) {
   const int width = argc > 1 ? atoi(argv[1]) : global::DEFAULT_VIEWPORT_WIDTH;

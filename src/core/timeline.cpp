@@ -1,4 +1,4 @@
-#include "Timeline.h"
+#include "timeline.h"
 
 void Timeline::Play() {
   timeStarted = glfwGetTime();

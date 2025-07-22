@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Camera.h"
+#include "camera.h"
 #include "common.h"
 
 class Camera;

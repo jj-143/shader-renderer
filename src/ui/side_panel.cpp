@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <array>
 
-#include "Timeline.h"
-#include "UI.h"
 #include "app.h"
+#include "timeline.h"
+#include "ui.h"
 
 namespace {
 

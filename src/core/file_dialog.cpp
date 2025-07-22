@@ -1,10 +1,10 @@
-#include "FileDialog.h"
+#include "file_dialog.h"
 
 #include <nfd/nfd.h>
 
 #include <format>
 
-#include "Ops.h"
+#include "ops.h"
 
 namespace file_dialog {
 

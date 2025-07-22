@@ -1,9 +1,9 @@
 #include <format>
 
-#include "Ops.h"
-#include "Timeline.h"
-#include "UI.h"
 #include "app.h"
+#include "ops.h"
+#include "timeline.h"
+#include "ui.h"
 
 namespace ui {
 

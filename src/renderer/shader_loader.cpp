@@ -1,4 +1,4 @@
-#include "ShaderLoader.h"
+#include "shader_loader.h"
 
 #include <filesystem>
 #include <format>
@@ -8,7 +8,7 @@
 #include <sstream>
 #include <vector>
 
-#include "Global.h"
+#include "global.h"
 
 std::optional<std::string> ReadFileContent(const std::string& filepath) {
   std::stringstream buffer;

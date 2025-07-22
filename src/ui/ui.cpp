@@ -1,4 +1,4 @@
-#include "UI.h"
+#include "ui.h"
 
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
@@ -7,10 +7,10 @@
 #include <glm/glm.hpp>
 #include <string>
 
-#include "Camera.h"
-#include "Ops.h"
-#include "Overlay.h"
 #include "app.h"
+#include "camera.h"
+#include "ops.h"
+#include "overlay.h"
 
 namespace {
 

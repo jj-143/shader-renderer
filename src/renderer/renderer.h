@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Camera.h"
-#include "ShaderLoader.h"
+#include "camera.h"
 #include "common.h"
+#include "shader_loader.h"
 
 class Renderer {
  public:

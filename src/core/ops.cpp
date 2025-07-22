@@ -1,15 +1,15 @@
-#include "Ops.h"
+#include "ops.h"
 
 #include <filesystem>
 #include <format>
 #include <string>
 #include <thread>
 
-#include "FileDialog.h"
-#include "Global.h"
-#include "Render.h"
-#include "Task.h"
 #include "app.h"
+#include "file_dialog.h"
+#include "global.h"
+#include "render.h"
+#include "task.h"
 
 namespace {
 

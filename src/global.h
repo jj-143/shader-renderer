@@ -5,8 +5,8 @@
 #include <filesystem>
 #include <string>
 
-#include "PlatformUtils.h"
-#include "ShaderLoader.h"
+#include "platform_utils.h"
+#include "shader_loader.h"
 
 namespace fs = std::filesystem;
 

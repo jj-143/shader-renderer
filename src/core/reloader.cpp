@@ -1,8 +1,8 @@
-#include "Reloader.h"
+#include "reloader.h"
 
 #include <filesystem>
 
-#include "Ops.h"
+#include "ops.h"
 
 void Reloader::HandleReload() {
   if (needReload) {

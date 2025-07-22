@@ -1,11 +1,11 @@
-#include "Render.h"
+#include "render.h"
 
 #include <stb/stb_write.h>
 
 #include <string>
 
-#include "UI.h"
 #include "app.h"
+#include "ui.h"
 
 namespace {
 

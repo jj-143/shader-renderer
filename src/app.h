@@ -2,12 +2,12 @@
 
 #include <string>
 
-#include "Reloader.h"
-#include "Renderer.h"
-#include "Setting.h"
-#include "Task.h"
-#include "Timeline.h"
-#include "UI.h"
+#include "reloader.h"
+#include "renderer.h"
+#include "setting.h"
+#include "task.h"
+#include "timeline.h"
+#include "ui.h"
 
 class App {
  public:

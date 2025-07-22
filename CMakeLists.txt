@@ -15,9 +15,9 @@ find_package(OpenGL REQUIRED)
 file (GLOB_RECURSE src "src/*.cpp")
 
 set(inc
-  "src/Core"
-  "src/Renderer"
-  "src/UI"
+  "src/core"
+  "src/renderer"
+  "src/ui"
   "src"
 )
 

@@ -1,9 +1,9 @@
-#include "Renderer.h"
+#include "renderer.h"
 
 #include <format>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "ShaderLoader.h"
+#include "shader_loader.h"
 
 void Renderer::Init(int w, int h, GLenum colorbufferFormat) {
   format = colorbufferFormat;
