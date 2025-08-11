@@ -4,6 +4,8 @@
 #include "common.h"
 #include "shader_loader.h"
 
+namespace renderer {
+
 class Renderer {
  public:
   GLuint renderTexture;
@@ -40,3 +42,5 @@ class Renderer {
   void InitRenderTexture(GLenum internalFormat);
   void RenderWithComputeShader(float iTime);
 };
+
+}  // namespace renderer

@@ -19,7 +19,7 @@ class App {
   };
 
   Setting setting;
-  Renderer renderer;
+  renderer::Renderer renderer;
   ui::UI ui;
   Timeline timeline;
   task::TaskManager taskManager;

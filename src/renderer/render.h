@@ -14,7 +14,7 @@ struct Params {
 
 class RenderContext {
  public:
-  Renderer renderer;
+  renderer::Renderer renderer;
 
   ~RenderContext();
 

@@ -5,6 +5,8 @@
 
 #include "shader_loader.h"
 
+namespace renderer {
+
 void Renderer::Init(int w, int h, GLenum colorbufferFormat) {
   format = colorbufferFormat;
   InitRenderTexture(colorbufferFormat);
@@ -74,4 +76,6 @@ void Renderer::RenderWithComputeShader(float iTime) {
                      GL_RGBA32F);
   glDispatchCompute(workgroupCountX, workgroupCountY, 1);
   glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+}
+
 }
