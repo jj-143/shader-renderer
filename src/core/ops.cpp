@@ -43,18 +43,16 @@ bool LoadShader(std::string path, bool reload) {
 
   // Cleanup
   app.timeline.Stop();
-  app.renderer.DeleteShader();
 
   // Initialize
   app.shaderPath = path;
   app.reloader.SetWatchFile(path);
 
   // Compile shader
-  ShaderCompileResult result =
-      app.renderer.SetComputeShader(app.shaderPath.c_str());
+  app.renderer.SetComputeShader(app.shaderPath.c_str());
 
-  if (!result.isSuccess) {
-    ops::ReportError("Compile Error\nIn {}:\n{}", path, result.error);
+  if (app.renderer.IsCompileError()) {
+    ops::ReportError("Compile Error in {}\n\n{}", path, app.renderer.errorLog);
     ops::SetErrorLog(app.renderer.errorLog);
     return false;
   }

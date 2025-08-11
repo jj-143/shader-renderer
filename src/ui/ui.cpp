@@ -395,7 +395,7 @@ void UI::RenderViewport() {
   // Viewport texture
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
-  ImGui::Image((ImTextureID)viewportTextureID, size, {0, 1}, {1, 0});
+  ImGui::Image((ImTextureID)*viewportTextureID, size, {0, 1}, {1, 0});
 #pragma GCC diagnostic pop
 
   // Overlays

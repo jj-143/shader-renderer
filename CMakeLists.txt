@@ -18,6 +18,8 @@ file (GLOB_RECURSE src "src/*.cpp")
 
 set(inc
   "src/core"
+  "src/node"
+  "src/nodes"
   "src/renderer"
   "src/ui"
   "src"

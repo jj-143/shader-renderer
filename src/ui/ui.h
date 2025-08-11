@@ -66,7 +66,7 @@ class UI {
 
   std::optional<std::string> errorLog;
 
-  GLuint viewportTextureID;
+  GLuint* viewportTextureID;
 
   bool InitUI(const int width, const int height, const char* title);
   void Terminate();
