@@ -453,7 +453,8 @@ ImVec2 CalculateWindowSize(ImVec2 viewport) {
   return {viewport.x + delta.x, viewport.y + delta.y};
 }
 
-GLFWwindow* InitWindow(const int width, const int height, const char* title) {
+GLFWwindow* InitWindow(const int width, const int height, const char* title,
+                       GLFWwindow* share) {
   GLFWwindow* window;
 
   if (!glfwInit()) {
@@ -461,7 +462,7 @@ GLFWwindow* InitWindow(const int width, const int height, const char* title) {
     return nullptr;
   }
 
-  window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+  window = glfwCreateWindow(width, height, title, nullptr, share);
   glfwMakeContextCurrent(window);
 
   int version = gladLoadGL(glfwGetProcAddress);

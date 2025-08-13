@@ -18,7 +18,7 @@ class RenderContext {
 
   ~RenderContext();
 
-  void Setup(const Params params, const Camera& camera);
+  void Setup(const Params params, const Camera& camera, GLFWwindow* window);
 
   void Teardown();
 

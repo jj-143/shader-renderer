@@ -105,6 +105,7 @@ class UI {
 };
 
 ImVec2 CalculateWindowSize(ImVec2 viewport);
-GLFWwindow* InitWindow(const int width, const int height, const char* title);
+GLFWwindow* InitWindow(const int width, const int height, const char* title,
+                       GLFWwindow* share = nullptr);
 
 }  // namespace ui

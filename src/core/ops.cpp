@@ -168,7 +168,7 @@ void RenderTask(task::Task& task, bool animation) {
       .height = output.height,
   };
 
-  context.Setup(params, app.renderer.camera);
+  context.Setup(params, app.renderer.camera, app.ui.window);
   fs::path currentFilepath;
   int writeErrors = 0;
 

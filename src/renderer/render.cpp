@@ -19,10 +19,11 @@ namespace render {
 
 RenderContext::~RenderContext() { delete[] data; }
 
-void RenderContext::Setup(const Params params, const Camera& camera) {
+void RenderContext::Setup(const Params params, const Camera& camera,
+                          GLFWwindow* share) {
   // Create invisible Window for new GL Context
   glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-  window = ui::InitWindow(1, 1, "Render Result");
+  window = ui::InitWindow(1, 1, "Render Result", share);
 
   // Init renderer for output
   renderer.Init(params.width, params.height);
