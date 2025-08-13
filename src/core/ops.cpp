@@ -28,57 +28,6 @@ bool CancelTask() {
   return true;
 }
 
-bool LoadShader(std::string path, bool reload) {
-  App& app = App::GetInstance();
-
-  if (!fs::exists(path)) {
-    ops::ReportError("File Not Exist: {}", path);
-    return false;
-  }
-
-  // States, before loading this shader file
-  bool firstLoad = app.renderer.IsIdle() ||  // Cold start
-                   app.shaderPath != path;   // New file
-  bool hadErrorLastTime = app.renderer.IsCompileError();
-
-  // Cleanup
-  app.timeline.Stop();
-
-  // Initialize
-  app.shaderPath = path;
-  app.reloader.SetWatchFile(path);
-
-  // Compile shader
-  app.renderer.SetComputeShader(app.shaderPath.c_str());
-
-  if (app.renderer.IsCompileError()) {
-    ops::ReportError("Compile Error in {}\n\n{}", path, app.renderer.errorLog);
-    ops::SetErrorLog(app.renderer.errorLog);
-    return false;
-  }
-
-  ops::SetErrorLog();
-
-  app.timeline.Play();
-
-  if (firstLoad) {
-    ops::Report(path);
-    return true;
-  }
-
-  if (hadErrorLastTime) {
-    ops::Report("Compile Success");
-    return true;
-  }
-
-  if (reload) {
-    ops::Report("Reloaded");
-    return true;
-  }
-
-  return true;
-}
-
 bool OpenOpenShaderDialog() {
   App& app = App::GetInstance();
   fs::path defaultPath = fs::path(app.shaderPath).parent_path();
@@ -152,7 +101,7 @@ bool MaximizeViewport(bool set) {
 
 bool ReloadShader() {
   App& app = App::GetInstance();
-  return ops::LoadShader(app.shaderPath.c_str(), true);
+  return LoadSingleShaderProject(app.shaderPath.c_str());
 }
 
 bool Render(bool animation) {
