@@ -4,7 +4,7 @@
 #include <string>
 
 #include "camera.h"
-#include "common.h"
+#include "gl.h"
 
 class Camera;
 

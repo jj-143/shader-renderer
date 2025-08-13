@@ -1,7 +1,7 @@
 #pragma once
 
 #include "app.h"
-#include "common.h"
+#include "gl.h"
 #include "renderer.h"
 
 namespace render {

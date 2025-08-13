@@ -1,7 +1,7 @@
 #pragma once
 
 #include "camera.h"
-#include "common.h"
+#include "gl.h"
 #include "shader_loader.h"
 
 namespace renderer {

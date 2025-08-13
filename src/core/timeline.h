@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common.h"
+#include "gl.h"
 
 class Timeline {
  public:
