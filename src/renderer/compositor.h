@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include "gl.h"
 #include "node.h"
@@ -13,9 +14,9 @@ class Compositor {
   bool isValid = false;
   std::string errorLog;
 
-  std::shared_ptr<node::Node> node;
-
   GLuint output;
+
+  std::vector<std::shared_ptr<node::Node>> GetNodes();
 
   void Init();
 
@@ -28,6 +29,10 @@ class Compositor {
  private:
   int width;
   int height;
+
+  std::vector<std::shared_ptr<node::Node>> nodes;
+
+  void LinkNodes();
 };
 
 }  // namespace renderer

@@ -25,7 +25,13 @@ void Renderer::SetSize(int width, int height) {
 }
 
 void Renderer::SetComputeShader(const char* path) {
-  compositor.node->SetProgramPath(path);
+  auto nodes = compositor.GetNodes();
+
+  if (nodes.size()) {
+    // DEV: single hard-coded node for now
+    nodes[0]->SetProgramPath(path);
+  }
+
   Validate();
 }
 
