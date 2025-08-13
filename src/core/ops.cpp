@@ -55,8 +55,11 @@ bool LoadShader(std::string path, bool reload) {
 
   if (!result.isSuccess) {
     ops::ReportError("Compile Error\nIn {}:\n{}", path, result.error);
+    ops::SetErrorLog(app.renderer.errorLog);
     return false;
   }
+
+  ops::SetErrorLog();
 
   app.timeline.Play();
 
@@ -92,6 +95,18 @@ bool OpenOpenShaderDialog() {
 bool ShowOverlays(bool set) {
   App& app = App::GetInstance();
   app.ui.showOverlays = set;
+  return true;
+}
+
+bool SetErrorLog(const std::string& content) {
+  auto& ui = App::GetInstance().ui;
+  ui.errorLog = content;
+  return true;
+}
+
+bool SetErrorLog() {
+  auto& ui = App::GetInstance().ui;
+  ui.errorLog.reset();
   return true;
 }
 

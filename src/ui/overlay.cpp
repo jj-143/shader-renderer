@@ -41,10 +41,9 @@ void Render(const ImVec2& pos, ImColor textColor) {
 namespace overlay::error_log {
 
 void Render(const ImVec2& pos, ImColor textColor) {
-  auto& renderer = App::GetInstance().renderer;
   auto& ui = App::GetInstance().ui;
 
-  if (renderer.IsCompileSuccess()) return;
+  if (!ui.errorLog) return;
 
   ImGuiWindowFlags windowFlags =
       ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
@@ -64,8 +63,8 @@ void Render(const ImVec2& pos, ImColor textColor) {
     ImGui::TextWrapped("%s", "[Compile Error]");
     ImGui::Spacing();
 
-    // Error log
-    ImGui::TextWrapped("%s", renderer.errorLog.c_str());
+    // Content
+    ImGui::TextWrapped("%s", ui.errorLog.value().c_str());
   }
 
   ImGui::PopStyleVar(2);

@@ -428,7 +428,8 @@ void UI::RenderViewport() {
     }
   }
 
-  // Error Log. Always visible if any (unaffected by `showOverlays`)
+  // Screen - Covers Viewport and always visible if any (unaffected by
+  // `showOverlays`)
   {
     // Same pos & size as Viewport
     overlay::error_log::Render(pos, TEXT_COLOR);

@@ -21,6 +21,11 @@ bool OpenOpenShaderDialog();
 /// Show/Hide every overlays, leaving only the scene texture
 bool ShowOverlays(bool set);
 
+/// Set the content compile errors to overlay
+bool SetErrorLog(const std::string& content);
+
+bool SetErrorLog();
+
 /// Align View to Render Output
 ///
 /// Reset the viewport size (and window size) to render output size.

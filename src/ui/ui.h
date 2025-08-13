@@ -1,6 +1,7 @@
 #pragma once
 #include <imgui/imgui.h>
 
+#include <optional>
 #include <string>
 
 #include "camera.h"
@@ -62,6 +63,8 @@ class UI {
   bool shouldFocusViewport = true;
 
   NavigationMode navigationMode = NavigationMode::Normal;
+
+  std::optional<std::string> errorLog;
 
   GLuint viewportTextureID;
 
