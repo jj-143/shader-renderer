@@ -10,6 +10,8 @@ namespace node {
 
 class ComputeShaderNode : public Node {
  public:
+  std::shared_ptr<Node> Clone() override;
+
   void Init() override;
 
   void Execute(renderer::Context& ctx) override;

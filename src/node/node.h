@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include "gl.h"
@@ -18,6 +19,10 @@ class Node {
   bool isValid = false;
 
   virtual ~Node() = default;
+
+  inline virtual std::shared_ptr<Node> Clone() {
+    return std::make_shared<Node>(*this);
+  }
 
   virtual void Init() {}
 

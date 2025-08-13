@@ -10,9 +10,19 @@ std::vector<std::shared_ptr<node::Node>> Compositor::GetNodes() {
   return nodes;
 }
 
-void Compositor::Init() {
-  nodes = {std::make_shared<node::ComputeShaderNode>()};
+Compositor Compositor::Clone() {
+  Compositor cloned = *this;
 
+  cloned.nodes.clear();
+
+  for (auto node : nodes) {
+    cloned.nodes.emplace_back(node->Clone());
+  }
+
+  return cloned;
+}
+
+void Compositor::Init() {
   for (auto node : nodes) {
     node->Init();
   }

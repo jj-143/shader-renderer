@@ -9,6 +9,10 @@
 
 namespace node {
 
+std::shared_ptr<Node> ComputeShaderNode::Clone() {
+  return std::make_shared<ComputeShaderNode>(*this);
+}
+
 void ComputeShaderNode::Init() {
   glGenTextures(1, &colorbuffer);
   glBindTexture(GL_TEXTURE_2D, colorbuffer);

@@ -165,6 +165,7 @@ void RenderTask(task::Task& task, bool animation) {
   output::FileRendererParams params{
       .shaderPath = app.shaderPath,
       .shaderManager = *app.shaderManager,
+      .compositor = app.renderer.compositor,
       .width = output.width,
       .height = output.height,
   };

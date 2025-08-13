@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <format>
 
+#include "compositor.h"
 #include "ops.h"
 
 namespace project {
@@ -51,7 +52,7 @@ bool LoadProjectInfo(const ProjectInfo& info) {
 
   app.shaderPath = path;
 
-  app.renderer.SetComputeShader(app.shaderPath.c_str());
+  app.renderer.CopyCompositor(renderer::BuildCompositor(info));
 
   // Reset
   app.renderer.compositor.needValidation = true;

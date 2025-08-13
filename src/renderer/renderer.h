@@ -22,9 +22,13 @@ class Renderer {
 
   void Init(int width, int height);
   void InitContext(ShaderManager& shaderManager);
-  void SetComputeShader(const char* path);
+  void CopyCompositor(const Compositor& target);
   void Render(float iTime);
   void SetSize(int width, int height);
+
+ private:
+  int width;
+  int height;
 };
 
 }  // namespace renderer

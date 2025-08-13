@@ -3,8 +3,6 @@
 namespace renderer {
 
 void Renderer::Init(int w, int h) {
-  compositor.Init();
-
   renderTexture = &compositor.output;
 
   SetSize(w, h);
@@ -21,16 +19,15 @@ void Renderer::Render(float iTime) {
 }
 
 void Renderer::SetSize(int width, int height) {
+  this->width = width;
+  this->height = height;
   compositor.SetSize(width, height);
 }
 
-void Renderer::SetComputeShader(const char* path) {
-  auto nodes = compositor.GetNodes();
-
-  if (nodes.size()) {
-    // DEV: single hard-coded node for now
-    nodes[0]->SetProgramPath(path);
-  }
+void Renderer::CopyCompositor(const Compositor& target) {
+  compositor = target;
+  compositor.Init();
+  compositor.SetSize(width, height);
 }
 
 }  // namespace renderer

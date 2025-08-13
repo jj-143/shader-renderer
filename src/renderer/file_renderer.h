@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "app.h"
+#include "compositor.h"
 #include "error.h"
 #include "gl.h"
 #include "renderer.h"
@@ -14,6 +15,7 @@ namespace output {
 struct FileRendererParams {
   std::string shaderPath;
   ShaderManager& shaderManager;
+  renderer::Compositor& compositor;
   int width;
   int height;
 };

@@ -24,7 +24,7 @@ std::optional<std::vector<error::Error>> FileRenderer::Setup(
   // Init renderer for output
   renderer.Init(params.width, params.height);
   renderer.InitContext(params.shaderManager);
-  renderer.SetComputeShader(params.shaderPath.c_str());
+  renderer.CopyCompositor(params.compositor.Clone());
 
   std::vector<error::Error> errors;
   renderer.compositor.Validate(*renderer.ctx, errors);

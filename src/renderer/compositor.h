@@ -8,6 +8,10 @@
 #include "node.h"
 #include "render_context.h"
 
+namespace project {
+struct ProjectInfo;
+}
+
 namespace renderer {
 
 class Compositor {
@@ -20,6 +24,8 @@ class Compositor {
   GLuint output;
 
   std::vector<std::shared_ptr<node::Node>> GetNodes();
+
+  Compositor Clone();
 
   void Init();
 
@@ -36,6 +42,10 @@ class Compositor {
   std::vector<std::shared_ptr<node::Node>> nodes;
 
   void LinkNodes();
+
+  friend Compositor BuildCompositor(project::ProjectInfo);
 };
+
+Compositor BuildCompositor(project::ProjectInfo);
 
 }  // namespace renderer
