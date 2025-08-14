@@ -29,7 +29,14 @@ bool App::Init() {
 
   App::LoadAppConfig();
 
+  shaderManager = ShaderManager::Create();
+
   renderer.Init(config.vW, config.vH);
+  renderer.InitContext(*shaderManager);
+
+  contextManager =
+      std::make_shared<ContextManager>(*renderer.ctx, *shaderManager, timeline);
+
   ui.viewportTextureID = renderer.renderTexture;
   ui.SetCamera(renderer.camera);
 
@@ -56,7 +63,7 @@ void App::Run() {
       timeline.rendered = true;
     }
 
-    contextManager.Validate();
+    contextManager->Validate();
 
     ui.Render();
   }

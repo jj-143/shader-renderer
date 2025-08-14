@@ -164,11 +164,20 @@ void RenderTask(task::Task& task, bool animation) {
   output::FileRenderer fileRenderer;
   output::FileRendererParams params{
       .shaderPath = app.shaderPath,
+      .shaderManager = *app.shaderManager,
       .width = output.width,
       .height = output.height,
   };
 
-  fileRenderer.Setup(params, app.renderer.camera, app.ui.window);
+  auto errors = fileRenderer.Setup(params, app.renderer.camera, app.ui.window);
+
+  if (errors) {
+    auto errorLog = error::MergeErrors(*errors);
+    ops::ReportError("Render failed\n{}", errorLog);
+    ops::SetErrorLog(errorLog);
+    return;
+  }
+
   fs::path currentFilepath;
   int writeErrors = 0;
 

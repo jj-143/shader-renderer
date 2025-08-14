@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "error.h"
 #include "gl.h"
 #include "node.h"
 #include "render_context.h"
@@ -11,8 +12,10 @@ namespace renderer {
 
 class Compositor {
  public:
-  bool isValid = false;
-  std::string errorLog;
+  bool isValid = true;
+  bool needValidation = false;
+
+  std::vector<error::Error> errors;
 
   GLuint output;
 
@@ -22,7 +25,7 @@ class Compositor {
 
   void Execute(Context &ctx);
 
-  void Validate();
+  void Validate(Context &ctx, std::vector<error::Error> &errors);
 
   void SetSize(int width, int height);
 

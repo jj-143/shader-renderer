@@ -1,13 +1,18 @@
 #pragma once
 
+#include <optional>
+
 #include "app.h"
+#include "error.h"
 #include "gl.h"
 #include "renderer.h"
+#include "shader_manager.h"
 
 namespace output {
 
 struct FileRendererParams {
   std::string shaderPath;
+  ShaderManager& shaderManager;
   int width;
   int height;
 };
@@ -18,8 +23,9 @@ class FileRenderer {
 
   ~FileRenderer();
 
-  void Setup(const FileRendererParams params, const Camera& camera,
-             GLFWwindow* window);
+  std::optional<std::vector<error::Error>> Setup(
+      const FileRendererParams params, const Camera& camera,
+      GLFWwindow* window);
 
   void Teardown();
 

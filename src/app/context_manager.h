@@ -1,9 +1,12 @@
 #pragma once
 
+#include <optional>
 #include <string>
+#include <vector>
 
-#include "reloader.h"
+#include "error.h"
 #include "render_context.h"
+#include "shader_manager.h"
 #include "timeline.h"
 
 namespace app {
@@ -11,27 +14,32 @@ namespace app {
 class ContextManager {
  public:
   renderer::Context& ctx;
-  Reloader& reloader;
+  ShaderManager& shaderManager;
   Timeline& timeline;
-  std::string& projectPath;
 
-  std::string errorLog;
+  std::optional<std::vector<error::Error>> errors;
 
   bool firstValidation = true;
+  bool needEvaluation = true;
 
-  ContextManager(renderer::Context& ctx, Reloader& reloader, Timeline& timeline,
-                 std::string& projectPath)
-      : ctx(ctx),
-        reloader(reloader),
-        timeline(timeline),
-        projectPath(projectPath) {}
+  ContextManager(renderer::Context& ctx, ShaderManager& shaderManager,
+                 Timeline& timeline)
+      : ctx(ctx), shaderManager(shaderManager), timeline(timeline) {}
 
   void Validate();
 
  private:
-  void SyncValidationResult();
+  std::optional<bool> wasTimelinePlaying;
+
+  void ValidateShaderManager();
 
   void ValidateRenderContext();
+
+  void SyncValidationResult();
+
+  void SuspendTimeline();
+
+  void ResumeTimeline();
 };
 
 }  // namespace app

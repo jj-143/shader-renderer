@@ -9,40 +9,76 @@
 namespace app {
 
 void ContextManager::Validate() {
-  if (!reloader.needReload) return;
+  errors.reset();
 
-  logger::Debug("[ContextManager] Valiate");
-
-  reloader.needReload = false;
+  ValidateShaderManager();
 
   ValidateRenderContext();
 
   SyncValidationResult();
 }
 
-void ContextManager::SyncValidationResult() {
-  timeline.Stop();
+void ContextManager::ValidateShaderManager() {
+  if (!shaderManager.needRefresh) return;
 
-  errorLog = ctx.compositor->errorLog;
+  logger::Debug("[ContextManager] Validate ShaderManager");
 
-  if (!ctx.compositor->isValid) {
-    ops::ReportError("Compile Error\n{}", errorLog);
-    ops::SetErrorLog(errorLog);
-    return;
+  if (!errors) errors.emplace();
+
+  shaderManager.Refresh(*errors);
+
+  if (!shaderManager.HasCompileErrors()) {
+    ctx.compositor.needValidation = true;
+
+    if (!firstValidation) {
+      ops::Report("Reloaded");
+    }
   }
 
   if (firstValidation) {
     firstValidation = false;
-    ops::Report("Loaded: {}", projectPath);
-  } else {
-    ops::Report("Reloaded");
   }
-
-  ops::SetErrorLog();
-
-  timeline.Play();
 }
 
-void ContextManager::ValidateRenderContext() { ctx.compositor->Validate(); }
+void ContextManager::ValidateRenderContext() {
+  if (!ctx.compositor.needValidation) return;
+
+  logger::Debug("[ContextManager] Validate RenderContext");
+
+  if (!errors) errors.emplace();
+
+  ctx.compositor.Validate(ctx, *errors);
+}
+
+void ContextManager::SyncValidationResult() {
+  if (!errors) return;
+
+  if (errors->size()) {
+    auto errorLog = error::MergeErrors(*errors);
+
+    ops::ReportError("Compositor Error\n{}", errorLog);
+    ops::SetErrorLog(errorLog);
+
+    SuspendTimeline();
+    return;
+  }
+
+  ResumeTimeline();
+  ops::SetErrorLog();
+}
+
+void ContextManager::SuspendTimeline() {
+  if (!wasTimelinePlaying.has_value()) {
+    wasTimelinePlaying = timeline.IsPlaying();
+  }
+  timeline.Pause();
+}
+
+void ContextManager::ResumeTimeline() {
+  if (wasTimelinePlaying.value_or(false)) {
+    timeline.Play();
+  }
+  wasTimelinePlaying.reset();
+}
 
 };  // namespace app

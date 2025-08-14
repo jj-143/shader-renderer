@@ -26,17 +26,24 @@ void Compositor::Execute(Context& ctx) {
   }
 }
 
-void Compositor::Validate() {
-  errorLog.clear();
+void Compositor::Validate(Context& ctx, std::vector<error::Error>& errors) {
   isValid = true;
 
   for (auto node : nodes) {
-    node->Validate();
-    isValid &= node->isValid;
+    node->Validate(ctx);
+
     if (!node->isValid) {
-      errorLog.append(node->errorLog);
+      isValid = false;
+
+      // Generic invalid node error
+      errors.emplace_back(error::Error{
+          .label = "Node Error",
+          .log = "Invalid",
+      });
     }
   }
+
+  needValidation = false;
 }
 
 void Compositor::SetSize(int width, int height) {

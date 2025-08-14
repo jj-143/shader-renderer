@@ -146,3 +146,5 @@ ShaderCompileResult MakeComputeShader(const std::string& filepath) {
   result.program = shader;
   return result;
 }
+
+void DeleteProgram(GLuint program) { glDeleteProgram(program); }

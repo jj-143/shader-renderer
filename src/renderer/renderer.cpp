@@ -6,16 +6,18 @@ void Renderer::Init(int w, int h) {
   compositor.Init();
 
   renderTexture = &compositor.output;
-  ctx.view = &camera.view;
-  ctx.compositor = &compositor;
 
   SetSize(w, h);
 }
 
+void Renderer::InitContext(ShaderManager& shaderManager) {
+  ctx = std::make_shared<Context>(compositor, shaderManager, camera.view);
+}
+
 void Renderer::Render(float iTime) {
   if (!compositor.isValid) return;
-  ctx.iTime = iTime;
-  compositor.Execute(ctx);
+  ctx->iTime = iTime;
+  compositor.Execute(*ctx);
 }
 
 void Renderer::SetSize(int width, int height) {

@@ -19,20 +19,29 @@ namespace output {
 
 FileRenderer::~FileRenderer() { delete[] data; }
 
-void FileRenderer::Setup(const FileRendererParams params, const Camera& camera,
-                         GLFWwindow* share) {
+std::optional<std::vector<error::Error>> FileRenderer::Setup(
+    const FileRendererParams params, const Camera& camera, GLFWwindow* share) {
   // Create invisible Window for new GL Context
   glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
   window = ui::InitWindow(1, 1, "Render Result", share);
 
   // Init renderer for output
   renderer.Init(params.width, params.height);
+  renderer.InitContext(params.shaderManager);
   renderer.SetComputeShader(params.shaderPath.c_str());
-  renderer.compositor.Validate();
+
+  std::vector<error::Error> errors;
+  renderer.compositor.Validate(*renderer.ctx, errors);
+  params.shaderManager.Refresh(errors);
+
+  if (errors.size()) return errors;
+
   renderer.camera = camera;
 
   data = new GLubyte[params.width * params.height * 4];
   output = {.width = params.width, .height = params.height};
+
+  return std::nullopt;
 }
 
 void FileRenderer::Teardown() { glfwDestroyWindow(window); }

@@ -50,12 +50,14 @@ bool LoadProjectInfo(const ProjectInfo& info) {
   }
 
   app.shaderPath = path;
-  app.contextManager.firstValidation = true;
-  app.contextManager.reloader.needReload = true;
-
-  app.reloader.SetWatchFile(path);
 
   app.renderer.SetComputeShader(app.shaderPath.c_str());
+
+  // Reset
+  app.renderer.compositor.needValidation = true;
+  app.contextManager->firstValidation = true;
+  app.timeline.Stop();
+  app.timeline.Play();
 
   return true;
 }
@@ -67,6 +69,8 @@ bool LoadSingleShaderProject(const std::string& path) {
     HandleLoadError(path, info.error());
     return false;
   }
+
+  ops::Report("Load: {}", path);
 
   return LoadProjectInfo(*info);
 }

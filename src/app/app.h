@@ -1,11 +1,12 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include "context_manager.h"
-#include "reloader.h"
 #include "renderer.h"
 #include "setting.h"
+#include "shader_manager.h"
 #include "task.h"
 #include "timeline.h"
 #include "ui.h"
@@ -25,9 +26,10 @@ class App {
   renderer::Renderer renderer;
   ui::UI ui;
   Timeline timeline;
+
   task::TaskManager taskManager;
-  Reloader reloader;
-  ContextManager contextManager{renderer.ctx, reloader, timeline, shaderPath};
+  std::shared_ptr<ShaderManager> shaderManager;
+  std::shared_ptr<ContextManager> contextManager;
 
   std::string shaderPath;
 

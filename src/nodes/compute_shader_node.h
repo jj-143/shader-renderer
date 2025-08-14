@@ -4,6 +4,7 @@
 #include "gl.h"
 #include "node.h"
 #include "render_context.h"
+#include "shader.h"
 
 namespace node {
 
@@ -17,20 +18,18 @@ class ComputeShaderNode : public Node {
 
   void SetProgramPath(const std::string& path) override;
 
-  void Validate() override;
+  void Validate(renderer::Context& ctx) override;
 
  private:
   int workgroupCountX = 1;
   int workgroupCountY = 1;
 
   GLuint colorbuffer;
-  std::shared_ptr<GLuint> shader;
+  std::shared_ptr<Shader> shader;
   std::string shaderPath;
 
   GLuint viewLocation;
   GLuint iTimeLocation;
-
-  void CompileShader();
 };
 
 }  // namespace node

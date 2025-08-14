@@ -5,7 +5,7 @@
 
 #include "gl.h"
 #include "logger.h"
-#include "shader_loader.h"
+#include "shader_manager.h"
 
 namespace node {
 
@@ -21,11 +21,13 @@ void ComputeShaderNode::Init() {
 }
 
 void ComputeShaderNode::Execute(renderer::Context& ctx) {
-  glUseProgram(*shader);
+  if (!isValid) return;
+
+  glUseProgram(shader->program);
   glBindImageTexture(0, colorbuffer, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
 
   glUniform1f(iTimeLocation, ctx.iTime);
-  glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(*ctx.view));
+  glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(ctx.view));
 
   glDispatchCompute(workgroupCountX, workgroupCountY, 1);
   glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
@@ -45,27 +47,18 @@ void ComputeShaderNode::SetProgramPath(const std::string& path) {
   shaderPath = path;
 }
 
-void ComputeShaderNode::Validate() { CompileShader(); }
+void ComputeShaderNode::Validate(renderer::Context& ctx) {
+  shader = ctx.shaderManager.GetShader(shaderPath);
 
-void ComputeShaderNode::CompileShader() {
-  if (shader) {
-    glDeleteProgram(*shader);
-  }
-
-  ShaderCompileResult result = MakeComputeShader(shaderPath);
-
-  if (!result.isSuccess) {
+  if (!shader) {
     isValid = false;
-    errorLog = std::format("{}\n\n{}", shaderPath, result.error);
     return;
   }
 
   isValid = true;
-  errorLog = "";
 
-  shader = std::make_shared<GLuint>(result.program);
-  viewLocation = glGetUniformLocation(*shader, "view");
-  iTimeLocation = glGetUniformLocation(*shader, "iTime");
+  viewLocation = glGetUniformLocation(shader->program, "view");
+  iTimeLocation = glGetUniformLocation(shader->program, "iTime");
 }
 
 }  // namespace node

@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "gl.h"
+
 namespace renderer {
 struct Context;
 }
@@ -14,7 +16,6 @@ class Node {
   GLuint output;
 
   bool isValid = false;
-  std::string errorLog = "";
 
   virtual ~Node() = default;
 
@@ -27,7 +28,7 @@ class Node {
 
   virtual void SetProgramPath([[maybe_unused]] const std::string& path) {}
 
-  virtual void Validate() {}
+  virtual void Validate([[maybe_unused]] renderer::Context& ctx) {}
 
  protected:
   int width;
