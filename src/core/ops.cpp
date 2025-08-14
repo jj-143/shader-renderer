@@ -7,9 +7,9 @@
 
 #include "app.h"
 #include "file_dialog.h"
+#include "file_renderer.h"
 #include "global.h"
 #include "logger.h"
-#include "render.h"
 #include "task.h"
 
 namespace {
@@ -161,14 +161,14 @@ void RenderTask(task::Task& task, bool animation) {
     return;
   }
 
-  render::RenderContext context;
-  render::Params params{
+  output::FileRenderer fileRenderer;
+  output::FileRendererParams params{
       .shaderPath = app.shaderPath,
       .width = output.width,
       .height = output.height,
   };
 
-  context.Setup(params, app.renderer.camera, app.ui.window);
+  fileRenderer.Setup(params, app.renderer.camera, app.ui.window);
   fs::path currentFilepath;
   int writeErrors = 0;
 
@@ -185,8 +185,9 @@ void RenderTask(task::Task& task, bool animation) {
     const auto filename = std::format("{:04d}{:s}", iFrame, output.format.ext);
     currentFilepath = outDir / filename;
 
-    context.Render(iTime);
-    if (!context.WriteToFile(currentFilepath.string().c_str())) writeErrors++;
+    fileRenderer.Render(iTime);
+    if (!fileRenderer.WriteToFile(currentFilepath.string().c_str()))
+      writeErrors++;
     task.progress = (i + 1.f) / (nFrames);
   }
 
@@ -201,7 +202,7 @@ void RenderTask(task::Task& task, bool animation) {
       ops::Report("Image Saved to {}", currentFilepath.string());
     }
   }
-  context.Teardown();
+  fileRenderer.Teardown();
 }
 
 }  // namespace

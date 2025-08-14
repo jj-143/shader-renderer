@@ -4,21 +4,22 @@
 #include "gl.h"
 #include "renderer.h"
 
-namespace render {
+namespace output {
 
-struct Params {
+struct FileRendererParams {
   std::string shaderPath;
   int width;
   int height;
 };
 
-class RenderContext {
+class FileRenderer {
  public:
   renderer::Renderer renderer;
 
-  ~RenderContext();
+  ~FileRenderer();
 
-  void Setup(const Params params, const Camera& camera, GLFWwindow* window);
+  void Setup(const FileRendererParams params, const Camera& camera,
+             GLFWwindow* window);
 
   void Teardown();
 
@@ -40,4 +41,4 @@ class RenderContext {
   Output output;
 };
 
-}  // namespace render
+}  // namespace output

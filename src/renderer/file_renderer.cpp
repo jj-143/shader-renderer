@@ -1,4 +1,4 @@
-#include "render.h"
+#include "file_renderer.h"
 
 #include <stb/stb_write.h>
 
@@ -15,12 +15,12 @@ void GetTextureData(GLubyte* data);
 
 }  // namespace
 
-namespace render {
+namespace output {
 
-RenderContext::~RenderContext() { delete[] data; }
+FileRenderer::~FileRenderer() { delete[] data; }
 
-void RenderContext::Setup(const Params params, const Camera& camera,
-                          GLFWwindow* share) {
+void FileRenderer::Setup(const FileRendererParams params, const Camera& camera,
+                         GLFWwindow* share) {
   // Create invisible Window for new GL Context
   glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
   window = ui::InitWindow(1, 1, "Render Result", share);
@@ -34,18 +34,18 @@ void RenderContext::Setup(const Params params, const Camera& camera,
   output = {.width = params.width, .height = params.height};
 }
 
-void RenderContext::Teardown() { glfwDestroyWindow(window); }
+void FileRenderer::Teardown() { glfwDestroyWindow(window); }
 
-void RenderContext::Render(float iTime) {
+void FileRenderer::Render(float iTime) {
   renderer.Render(iTime);
   GetTextureData(data);
 }
 
-bool RenderContext::WriteToFile(const char* filename) {
+bool FileRenderer::WriteToFile(const char* filename) {
   return WriteToPNG(filename, data, output.width, output.height);
 }
 
-}  // namespace render
+}  // namespace output
 
 namespace {
 
