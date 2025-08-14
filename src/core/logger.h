@@ -14,7 +14,10 @@ void Info(std::string_view fmt, Args &&...args) {
 
 template <class... Args>
 void Error(std::string_view fmt, Args &&...args) {
-  std::println(stderr, "[Error] {}",
+  std::println(stderr,
+               "\033[31m"
+               "[Error] {}"
+               "\033[0m",
                std::vformat(fmt, std::make_format_args(args...)));
 };
 
@@ -23,8 +26,12 @@ struct Debug {
   Debug(
       std::string_view fmt, Args &&...args,
       const std::source_location &location = std::source_location::current()) {
-    std::println("[Debug] ({}:{}): {}", location.file_name(), location.line(),
-                 std::vformat(fmt, std::make_format_args(args...)));
+    std::println(
+        "\033[36m"
+        "[Debug] {} ({}:{})"
+        "\033[0m",
+        std::vformat(fmt, std::make_format_args(args...)), location.file_name(),
+        location.line());
   };
 };
 
