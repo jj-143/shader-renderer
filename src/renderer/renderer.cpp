@@ -7,11 +7,9 @@ void Renderer::Init(int w, int h) {
 
   renderTexture = &compositor.output;
   ctx.view = &camera.view;
+  ctx.compositor = &compositor;
 
   SetSize(w, h);
-
-  initialized = true;
-  state = State::RUNNING;
 }
 
 void Renderer::Render(float iTime) {
@@ -31,14 +29,6 @@ void Renderer::SetComputeShader(const char* path) {
     // DEV: single hard-coded node for now
     nodes[0]->SetProgramPath(path);
   }
-
-  Validate();
-}
-
-void Renderer::Validate() {
-  compositor.Validate();
-  errorLog = compositor.errorLog;
-  state = compositor.isValid ? State::RUNNING : State::COMPILE_ERROR;
 }
 
 }  // namespace renderer

@@ -24,6 +24,8 @@ class Node {
 
   virtual void SetProgramPath(const std::string& path) {}
 
+  virtual void Validate() {}
+
  protected:
   int width;
   int height;

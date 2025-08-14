@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "context_manager.h"
 #include "reloader.h"
 #include "renderer.h"
 #include "setting.h"
@@ -26,6 +27,7 @@ class App {
   Timeline timeline;
   task::TaskManager taskManager;
   Reloader reloader;
+  ContextManager contextManager{renderer.ctx, reloader, timeline, shaderPath};
 
   std::string shaderPath;
 

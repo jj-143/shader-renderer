@@ -42,15 +42,21 @@ void ComputeShaderNode::SetSize(int width, int height) {
 }
 
 void ComputeShaderNode::SetProgramPath(const std::string& path) {
+  shaderPath = path;
+}
+
+void ComputeShaderNode::Validate() { CompileShader(); }
+
+void ComputeShaderNode::CompileShader() {
   if (shader) {
     glDeleteProgram(*shader);
   }
 
-  ShaderCompileResult result = MakeComputeShader(path);
+  ShaderCompileResult result = MakeComputeShader(shaderPath);
 
   if (!result.isSuccess) {
     isValid = false;
-    errorLog = std::format("{}\n\n{}", path, result.error);
+    errorLog = std::format("{}\n\n{}", shaderPath, result.error);
     return;
   }
 

@@ -56,8 +56,9 @@ void App::Run() {
       timeline.rendered = true;
     }
 
+    contextManager.Validate();
+
     ui.Render();
-    reloader.HandleReload();
   }
 
   ui.Terminate();

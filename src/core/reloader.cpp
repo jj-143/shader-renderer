@@ -4,13 +4,6 @@
 
 #include "ops.h"
 
-void Reloader::HandleReload() {
-  if (needReload) {
-    needReload = false;
-    ops::ReloadShader();
-  }
-}
-
 void Reloader::SetWatchFile(const std::string& newPath) {
   std::filesystem::path p{newPath};
   p = std::filesystem::absolute(p);

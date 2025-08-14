@@ -31,6 +31,7 @@ void Compositor::Validate() {
   isValid = true;
 
   for (auto node : nodes) {
+    node->Validate();
     isValid &= node->isValid;
     if (!node->isValid) {
       errorLog.append(node->errorLog);

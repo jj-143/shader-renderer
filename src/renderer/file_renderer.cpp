@@ -28,6 +28,7 @@ void FileRenderer::Setup(const FileRendererParams params, const Camera& camera,
   // Init renderer for output
   renderer.Init(params.width, params.height);
   renderer.SetComputeShader(params.shaderPath.c_str());
+  renderer.compositor.Validate();
   renderer.camera = camera;
 
   data = new GLubyte[params.width * params.height * 4];

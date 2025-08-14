@@ -7,8 +7,7 @@
 
 class Reloader {
  public:
-  /// Do the checking and reloading
-  void HandleReload();
+  bool needReload = true;
 
   /// Set the watching file and start watching
   void SetWatchFile(const std::string& newPath);
@@ -19,7 +18,6 @@ class Reloader {
  private:
   std::string watchPath;
   std::unique_ptr<filewatch::FileWatch<std::string>> watcher;
-  bool needReload = false;
   float lastChanged = 0;
 
   void StartWatch(std::string& path);
