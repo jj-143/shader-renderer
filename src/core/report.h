@@ -10,7 +10,7 @@ namespace {
 enum class ReportLevel { Info, Error };
 
 void ReportEx(const std::string& message, ReportLevel level) {
-  App& app = App::GetInstance();
+  auto& app = app::GetInstance();
   std::string firstLine = message.substr(0, message.find_first_of("\n"));
 
   app.ui.UpdateStatus(firstLine);

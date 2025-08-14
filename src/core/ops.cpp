@@ -21,7 +21,7 @@ void RenderTask(task::Task& task, bool animation);
 namespace ops {
 
 bool CancelTask() {
-  task::TaskManager& taskManager = App::GetInstance().taskManager;
+  task::TaskManager& taskManager = app::GetInstance().taskManager;
   if (!taskManager.HasTask()) return false;
   taskManager.CancelTask();
   ops::Report("Canceling [{}]", taskManager.task->name);
@@ -29,7 +29,7 @@ bool CancelTask() {
 }
 
 bool OpenOpenShaderDialog() {
-  App& app = App::GetInstance();
+  auto& app = app::GetInstance();
   fs::path defaultPath = fs::path(app.shaderPath).parent_path();
 
   std::optional<std::string> outPath = file_dialog::OpenFile(defaultPath);
@@ -40,46 +40,46 @@ bool OpenOpenShaderDialog() {
 }
 
 bool ShowOverlays(bool set) {
-  App& app = App::GetInstance();
+  auto& app = app::GetInstance();
   app.ui.showOverlays = set;
   return true;
 }
 
 bool SetErrorLog(const std::string& content) {
-  auto& ui = App::GetInstance().ui;
+  auto& ui = app::GetInstance().ui;
   ui.errorLog = content;
   return true;
 }
 
 bool SetErrorLog() {
-  auto& ui = App::GetInstance().ui;
+  auto& ui = app::GetInstance().ui;
   ui.errorLog.reset();
   return true;
 }
 
 bool AlignViewportToOutput() {
-  auto& output = App::GetInstance().setting.output;
+  auto& output = app::GetInstance().setting.output;
   ImVec2 newVSize(output.width, output.height);
   ImVec2 newWSize = ui::CalculateWindowSize(newVSize);
 
-  auto& ui = App::GetInstance().ui;
+  auto& ui = app::GetInstance().ui;
   glfwSetWindowSize(ui.window, newWSize.x, newWSize.y);
   return true;
 }
 
 bool AlignOutputToViewport() {
-  auto& ui = App::GetInstance().ui;
+  auto& ui = app::GetInstance().ui;
   ImVec2 wWithoutV = ui::CalculateWindowSize(ImVec2(0, 0));
   ImVec2 newVSize = ImVec2(ui.wW, ui.wH) - wWithoutV;
 
-  auto& output = App::GetInstance().setting.output;
+  auto& output = app::GetInstance().setting.output;
   output.width = newVSize.x;
   output.height = newVSize.y;
   return true;
 }
 
 bool MaximizeViewport(bool set) {
-  auto& ui = App::GetInstance().ui;
+  auto& ui = app::GetInstance().ui;
 
   ui.MaximizeViewport(set);
 
@@ -100,12 +100,12 @@ bool MaximizeViewport(bool set) {
 }
 
 bool ReloadShader() {
-  App& app = App::GetInstance();
+  auto& app = app::GetInstance();
   return LoadSingleShaderProject(app.shaderPath.c_str());
 }
 
 bool Render(bool animation) {
-  App& app = App::GetInstance();
+  auto& app = app::GetInstance();
   if (app.taskManager.HasTask()) return false;
   app.timeline.Pause();
   const char* taskName = animation ? "Render Animation" : "Render Image";
@@ -114,13 +114,13 @@ bool Render(bool animation) {
 }
 
 bool ResetCamera() {
-  Camera& camera = App::GetInstance().renderer.camera;
+  Camera& camera = app::GetInstance().renderer.camera;
   camera.Reset();
   return true;
 }
 
 bool Quit() {
-  App& app = App::GetInstance();
+  auto& app = app::GetInstance();
   app.ui.Quit();
   return true;
 }
@@ -151,7 +151,7 @@ fs::path PrepareOutDir(const char* dirpath) {
 // iFrame is calculated from current [Timeline.iTime]
 // and starts with #0001. e.g, iTime(0) = iFrame(1).
 void RenderTask(task::Task& task, bool animation) {
-  App& app = App::GetInstance();
+  auto& app = app::GetInstance();
   const Output& output = app.setting.output;
   fs::path outDir;
   try {

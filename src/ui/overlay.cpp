@@ -41,7 +41,7 @@ void Render(const ImVec2& pos, ImColor textColor) {
 namespace overlay::error_log {
 
 void Render(const ImVec2& pos, ImColor textColor) {
-  auto& ui = App::GetInstance().ui;
+  auto& ui = app::GetInstance().ui;
 
   if (!ui.errorLog) return;
 

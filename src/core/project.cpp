@@ -37,7 +37,7 @@ void HandleLoadError(const std::string& path, const LoadError& error) {
 }  // namespace
 
 bool LoadProjectInfo(const ProjectInfo& info) {
-  App& app = App::GetInstance();
+  auto& app = app::GetInstance();
 
   const std::string& path = info.singleShaderPath;
   bool reload = app.shaderPath == info.singleShaderPath;

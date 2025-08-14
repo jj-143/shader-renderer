@@ -77,7 +77,7 @@ const float dragSpeed = .2f;
 using namespace ui;
 
 void DevPanel() {
-  App& app = App::GetInstance();
+  auto& app = app::GetInstance();
   Timeline& timeline = app.timeline;
 
   ImGui::SeparatorText("Dev Panel");
@@ -117,7 +117,7 @@ void Help() {
 }
 
 void FrameSettings() {
-  Output& output = App::GetInstance().setting.output;
+  Output& output = app::GetInstance().setting.output;
   ImGui::SeparatorText("Frame");
 
   {
@@ -162,7 +162,7 @@ void FrameSettings() {
 }
 
 void OutputSettings() {
-  Output& output = App::GetInstance().setting.output;
+  Output& output = app::GetInstance().setting.output;
   ImGui::SeparatorText("Output");
 
   {

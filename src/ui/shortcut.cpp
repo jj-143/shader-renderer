@@ -11,7 +11,7 @@ namespace ui {
 void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
                       int mods) {
   if (action != GLFW_PRESS) return;
-  UI& ui = App::GetInstance().ui;
+  UI& ui = app::GetInstance().ui;
   switch (key) {
     case GLFW_KEY_TAB:
       if (!ui.isViewportFocused) break;
@@ -74,7 +74,7 @@ void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
 }
 
 void UI::ToggleTimelinePlay() {
-  Timeline& timeline = App::GetInstance().timeline;
+  Timeline& timeline = app::GetInstance().timeline;
   if (timeline.IsPlaying()) {
     timeline.Pause();
   } else {

@@ -9,6 +9,8 @@
 #include "timeline.h"
 #include "ui.h"
 
+namespace app {
+
 class App {
  public:
   struct Config {
@@ -37,14 +39,12 @@ class App {
   /// Start the main loop
   void Run();
 
-  static inline App& GetInstance() {
-    assert(instance != nullptr && "App not instantiated.");
-    return *instance;
-  }
-
  private:
   Config config;
-  static inline App* instance;
 
   void LoadAppConfig();
 };
+
+App& GetInstance();
+
+}  // namespace app

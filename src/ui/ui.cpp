@@ -22,7 +22,7 @@ void RenderTaskStatus();
 namespace ui {
 
 void WindowSizeCallback(GLFWwindow* window, int width, int height) {
-  App::GetInstance().ui.OnWindowResize(width, height);
+  app::GetInstance().ui.OnWindowResize(width, height);
 };
 
 bool UI::InitUI(const int width, const int height, const char* title) {
@@ -63,7 +63,7 @@ bool UI::NewFrame() {
   if (glfwWindowShouldClose(window)) return false;
   glfwPollEvents();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  const Timeline& timeline = App::GetInstance().timeline;
+  const Timeline& timeline = app::GetInstance().timeline;
 
   overlay::stat::Clear();
   overlay::stat::Log(std::format("t: {:.1f}", timeline.iTime));
@@ -179,7 +179,7 @@ void UI::UpdateStatus(const std::string message) {
 void UI::Quit() { glfwSetWindowShouldClose(window, GLFW_TRUE); }
 
 void UI::OnWindowResize(int width, int height) {
-  auto& app = App::GetInstance();
+  auto& app = app::GetInstance();
 
   wW = width, wH = height;
 
@@ -407,7 +407,7 @@ void UI::RenderViewport() {
 
     // Render output region
     {
-      const Output& output = App::GetInstance().setting.output;
+      const Output& output = app::GetInstance().setting.output;
 
       // show only if it's not fit (different ratio)
       if (output.height * vW != vH * output.width) {
@@ -482,7 +482,7 @@ namespace {
 using namespace ui;
 
 void RenderTaskStatus() {
-  const App& app = App::GetInstance();
+  const auto& app = app::GetInstance();
   const int PROGRESS_WIDTH = 100;
   const int SPACING = 8;
   const int CANCEL_BUTTON_SIZE = 16;

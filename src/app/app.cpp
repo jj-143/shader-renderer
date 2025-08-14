@@ -8,6 +8,14 @@
 
 #include "ops.h"
 
+namespace {
+
+app::App* instance;
+
+}
+
+namespace app {
+
 App::App(const Config config) : config(config) {
   assert(instance == nullptr && "App already instantiated.");
   instance = this;
@@ -68,3 +76,10 @@ void App::LoadAppConfig() {
   // Others
   shaderPath = config.shaderPath;
 }
+
+App& GetInstance() {
+  assert(instance != nullptr && "App not instantiated.");
+  return *instance;
+}
+
+}  // namespace app

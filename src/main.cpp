@@ -11,10 +11,10 @@ int main(int argc, char* argv[]) {
   const char* title = argc > 3 ? argv[3] : global::DEFAULT_WINDOW_TITLE;
   const std::string shaderPath = argc > 4 ? argv[4] : global::DEFAULT_SHADER;
 
-  const App::Config config = {
+  const app::App::Config config = {
       .vW = width, .vH = height, .title = title, .shaderPath = shaderPath};
 
-  App app = App(config);
+  auto app = app::App(config);
 
   if (!app.Init()) {
     logger::Error("Cannot start the App. Exiting..");
