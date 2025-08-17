@@ -20,5 +20,5 @@ class Reloader {
   std::unique_ptr<filewatch::FileWatch<std::string>> watcher;
   float lastChanged = 0;
 
-  void StartWatch(std::string& path);
+  void StartWatch();
 };

@@ -8,8 +8,8 @@
 namespace ui {
 
 // static function [GLFWkeyfun] for relaying
-void UI::OnKeyPressed(GLFWwindow* window, int key, int scancode, int action,
-                      int mods) {
+void UI::OnKeyPressed([[maybe_unused]] GLFWwindow* window, int key,
+                      [[maybe_unused]] int scancode, int action, int mods) {
   if (action != GLFW_PRESS) return;
   UI& ui = app::GetInstance().ui;
   switch (key) {

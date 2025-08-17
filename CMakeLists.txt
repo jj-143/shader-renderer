@@ -11,6 +11,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/output)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/output)
 
 add_compile_options(-fmacro-prefix-map=${CMAKE_SOURCE_DIR}/=)
+add_compile_options(-Wall -Wextra -pedantic)
 
 find_package(OpenGL REQUIRED)
 

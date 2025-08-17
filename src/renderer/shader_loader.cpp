@@ -47,6 +47,7 @@ ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType) {
     if (!content) {
       return ShaderCompileResult{
           .isSuccess = false,
+          .program = 0,
           .error = std::format("Cannot read file \"{:s}\"", file.path),
       };
     }
@@ -72,7 +73,11 @@ ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType) {
   if (success == GL_FALSE) {
     char errorLog[1024];
     glGetShaderInfoLog(shaderModule, 1024, nullptr, errorLog);
-    return ShaderCompileResult{.isSuccess = false, .error = errorLog};
+    return ShaderCompileResult{
+        .isSuccess = false,
+        .program = 0,
+        .error = errorLog,
+    };
   }
 
   return ShaderCompileResult{.isSuccess = true, .program = shaderModule};

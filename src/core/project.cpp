@@ -13,7 +13,10 @@ std::expected<ProjectInfo, LoadError> MakeSingleShaderProject(
   if (!std::filesystem::exists(path)) {
     return std::unexpected(LoadError::FileRead);
   }
-  return ProjectInfo{.singleShaderPath = path};
+  return ProjectInfo{
+      .path = "",
+      .singleShaderPath = path,
+  };
 }
 
 }  // namespace project

@@ -9,7 +9,7 @@ namespace {
 
 enum class ReportLevel { Info, Error };
 
-void ReportEx(const std::string& message, ReportLevel level) {
+inline void ReportEx(const std::string& message, ReportLevel level) {
   auto& app = app::GetInstance();
   std::string firstLine = message.substr(0, message.find_first_of("\n"));
 

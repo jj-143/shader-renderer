@@ -16,13 +16,16 @@ class Node {
   bool isValid = false;
   std::string errorLog = "";
 
+  virtual ~Node() = default;
+
   virtual void Init() {}
 
-  virtual void Execute(renderer::Context& ctx) {}
+  virtual void Execute([[maybe_unused]] renderer::Context& ctx) {}
 
-  virtual void SetSize(int width, int height) {}
+  virtual void SetSize([[maybe_unused]] int width,
+                       [[maybe_unused]] int height) {}
 
-  virtual void SetProgramPath(const std::string& path) {}
+  virtual void SetProgramPath([[maybe_unused]] const std::string& path) {}
 
   virtual void Validate() {}
 

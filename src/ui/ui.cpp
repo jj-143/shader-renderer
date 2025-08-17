@@ -21,7 +21,8 @@ void RenderTaskStatus();
 
 namespace ui {
 
-void WindowSizeCallback(GLFWwindow* window, int width, int height) {
+void WindowSizeCallback([[maybe_unused]] GLFWwindow* window, int width,
+                        int height) {
   app::GetInstance().ui.OnWindowResize(width, height);
 };
 
@@ -420,7 +421,6 @@ void UI::RenderViewport() {
 
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         static const ImColor color(TEXT_COLOR);
-        float thickness = 1.0;
 
         draw_list->AddRect(iPos, iPos + size, color, 0.0f, ImDrawFlags_None,
                            1.0);
