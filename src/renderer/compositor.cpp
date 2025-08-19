@@ -2,8 +2,6 @@
 
 #include <ranges>
 
-#include "compute_shader_node.h"
-
 namespace renderer {
 
 std::vector<std::shared_ptr<node::ShaderNode>> Compositor::GetNodes() {
