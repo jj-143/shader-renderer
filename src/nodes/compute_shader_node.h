@@ -10,6 +10,12 @@ namespace node {
 
 class ComputeShaderNode : public ShaderNode {
  public:
+  ComputeShaderNode() : ShaderNode("ComputeShaderNode") {}
+
+  static const NodeInfo Spec;
+
+  const NodeInfo& GetSpec() const override;
+
   std::shared_ptr<ShaderNode> Clone() override;
 
   void Init() override;
@@ -28,7 +34,6 @@ class ComputeShaderNode : public ShaderNode {
 
   GLuint colorbuffer;
   std::shared_ptr<Shader> shader;
-  std::string shaderPath;
 
   GLuint viewLocation;
   GLuint iTimeLocation;

@@ -8,11 +8,13 @@ namespace renderer {
 renderer::Compositor BuildCompositor(project::ProjectInfo info) {
   renderer::Compositor compositor;
 
-  auto node = std::make_shared<node::ComputeShaderNode>();
+  for (const auto& nodeInfo : info.nodes) {
+    auto node = std::make_shared<node::ComputeShaderNode>();
 
-  node->SetProgramPath(info.singleShaderPath);
+    node->SetProgramPath(nodeInfo.shaderPath);
 
-  compositor.nodes = {node};
+    compositor.nodes.emplace_back(node);
+  }
 
   return compositor;
 }

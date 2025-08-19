@@ -9,6 +9,16 @@
 
 namespace node {
 
+const NodeInfo ComputeShaderNode::Spec = NodeInfo{
+    .name = "ComputeShaderNode",
+    .label = "",
+    .shaderPath = "",
+};
+
+const NodeInfo& ComputeShaderNode::GetSpec() const {
+  return ComputeShaderNode::Spec;
+}
+
 std::shared_ptr<ShaderNode> ComputeShaderNode::Clone() {
   return std::make_shared<ComputeShaderNode>(*this);
 }

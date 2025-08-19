@@ -5,6 +5,7 @@
 #include <format>
 
 #include "compositor.h"
+#include "compute_shader_node.h"
 #include "ops.h"
 
 namespace project {
@@ -14,9 +15,14 @@ std::expected<ProjectInfo, LoadError> MakeSingleShaderProject(
   if (!std::filesystem::exists(path)) {
     return std::unexpected(LoadError::FileRead);
   }
+
+  auto nodeInfo = node::ComputeShaderNode::Spec;
+
+  nodeInfo.shaderPath = path;
+
   return ProjectInfo{
-      .path = "",
-      .singleShaderPath = path,
+      .path = path,
+      .nodes = {nodeInfo},
   };
 }
 
@@ -42,15 +48,7 @@ void HandleLoadError(const std::string& path, const LoadError& error) {
 
 bool LoadProjectInfo(const ProjectInfo& info) {
   auto& app = app::GetInstance();
-
-  const std::string& path = info.singleShaderPath;
-
-  if (!std::filesystem::exists(path)) {
-    ops::ReportError("File Not Exist: {}", path);
-    return false;
-  }
-
-  app.shaderPath = path;
+  app.shaderPath = info.path;
 
   app.renderer.CopyCompositor(renderer::BuildCompositor(info));
 
