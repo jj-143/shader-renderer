@@ -17,13 +17,9 @@ void GetTextureData(GLubyte* data);
 
 namespace output {
 
-FileRenderer::~FileRenderer() { delete[] data; }
-
 std::optional<std::vector<error::Error>> FileRenderer::Setup(
     const FileRendererParams params, const Camera& camera, GLFWwindow* share) {
-  // Create invisible Window for new GL Context
-  glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-  window = ui::InitWindow(1, 1, "Render Result", share);
+  CreateWindow(share);
 
   // Init renderer for output
   renderer.Init(params.width, params.height);
@@ -38,21 +34,29 @@ std::optional<std::vector<error::Error>> FileRenderer::Setup(
 
   renderer.camera = camera;
 
-  data = new GLubyte[params.width * params.height * 4];
+  data = std::make_unique<GLubyte[]>(params.width * params.height * 4);
   output = {.width = params.width, .height = params.height};
 
   return std::nullopt;
 }
 
-void FileRenderer::Teardown() { glfwDestroyWindow(window); }
-
 void FileRenderer::Render(float iTime) {
   renderer.Render(iTime);
-  GetTextureData(data);
+  GetTextureData(data.get());
 }
 
 bool FileRenderer::WriteToFile(const char* filename) {
-  return WriteToPNG(filename, data, output.width, output.height);
+  return WriteToPNG(filename, data.get(), output.width, output.height);
+}
+
+void FileRenderer::CreateWindow(GLFWwindow* share) {
+  // Create invisible Window for new GL Context
+  glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+
+  auto deleter = [](GLFWwindow* ptr) { glfwDestroyWindow(ptr); };
+
+  window = std::shared_ptr<GLFWwindow>(
+      ui::InitWindow(1, 1, "Render Result", share), deleter);
 }
 
 }  // namespace output

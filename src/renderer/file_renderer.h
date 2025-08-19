@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <optional>
 
 #include "app.h"
@@ -21,13 +22,9 @@ class FileRenderer {
  public:
   renderer::Renderer renderer;
 
-  ~FileRenderer();
-
   std::optional<std::vector<error::Error>> Setup(
       const FileRendererParams params, const Camera& camera,
       GLFWwindow* window);
-
-  void Teardown();
 
   /// Render current scene to internal buffer.
   void Render(float iTime);
@@ -42,9 +39,11 @@ class FileRenderer {
     int height;
   };
 
-  GLubyte* data;
-  GLFWwindow* window;
+  std::unique_ptr<GLubyte[]> data;
+  std::shared_ptr<GLFWwindow> window;
   Output output;
+
+  void CreateWindow(GLFWwindow* share);
 };
 
 }  // namespace output

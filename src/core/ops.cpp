@@ -211,7 +211,6 @@ void RenderTask(task::Task& task, bool animation) {
       ops::Report("Image Saved to {}", currentFilepath.string());
     }
   }
-  fileRenderer.Teardown();
 }
 
 }  // namespace
