@@ -5,7 +5,7 @@
 #include <format>
 
 #include "compositor.h"
-#include "compute_shader_node.h"
+#include "node_registry.h"
 #include "ops.h"
 
 namespace project {
@@ -16,7 +16,10 @@ std::expected<ProjectInfo, LoadError> MakeSingleShaderProject(
     return std::unexpected(LoadError::FileRead);
   }
 
-  auto nodeInfo = node::ComputeShaderNode::Spec;
+  auto entry = node::registry::GetNodeEntry("ComputeShaderNode");
+  if (!entry) return std::unexpected(LoadError::FileRead);
+
+  auto nodeInfo = entry->spec;
 
   nodeInfo.shaderPath = path;
 

@@ -5,6 +5,7 @@
 
 #include "gl.h"
 #include "logger.h"
+#include "node_registry.h"
 #include "shader_manager.h"
 
 namespace node {
@@ -57,10 +58,6 @@ void ComputeShaderNode::SetSize(int width, int height) {
                GL_FLOAT, NULL);
 }
 
-void ComputeShaderNode::SetProgramPath(const std::string& path) {
-  shaderPath = path;
-}
-
 void ComputeShaderNode::Validate(renderer::Context& ctx) {
   shader = ctx.shaderManager.GetShader(shaderPath);
 
@@ -76,3 +73,15 @@ void ComputeShaderNode::Validate(renderer::Context& ctx) {
 }
 
 }  // namespace node
+
+namespace node::registry {
+
+void RegisterComputeShaderNode() {
+  NodeEntry entry{
+      .spec = ComputeShaderNode::Spec,
+      .Create = [] { return std::make_shared<ComputeShaderNode>(); },
+  };
+  RegisterNode(entry);
+}
+
+}  // namespace node::registry

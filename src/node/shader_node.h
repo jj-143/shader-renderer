@@ -30,8 +30,6 @@ class ShaderNode : public Node {
   virtual void SetSize([[maybe_unused]] int width,
                        [[maybe_unused]] int height) {}
 
-  virtual void SetProgramPath([[maybe_unused]] const std::string& path) {}
-
  protected:
   int width;
   int height;

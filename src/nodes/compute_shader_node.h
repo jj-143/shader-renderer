@@ -24,8 +24,6 @@ class ComputeShaderNode : public ShaderNode {
 
   void SetSize(int width, int height) override;
 
-  void SetProgramPath(const std::string& path) override;
-
   void Validate(renderer::Context& ctx) override;
 
  private:

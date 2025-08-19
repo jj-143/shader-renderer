@@ -6,6 +6,7 @@
 #include <format>
 #include <string>
 
+#include "node_registry.h"
 #include "ops.h"
 
 namespace {
@@ -30,6 +31,8 @@ bool App::Init() {
   App::LoadAppConfig();
 
   shaderManager = ShaderManager::Create();
+
+  node::registry::RegisterAllNodes();
 
   renderer.Init(config.vW, config.vH);
   renderer.InitContext(*shaderManager);

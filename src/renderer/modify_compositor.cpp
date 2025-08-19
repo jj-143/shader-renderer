@@ -1,6 +1,6 @@
 
 #include "compositor.h"
-#include "compute_shader_node.h"
+#include "node_registry.h"
 #include "project.h"
 
 namespace renderer {
@@ -8,12 +8,10 @@ namespace renderer {
 renderer::Compositor BuildCompositor(project::ProjectInfo info) {
   renderer::Compositor compositor;
 
-  for (const auto& nodeInfo : info.nodes) {
-    auto node = std::make_shared<node::ComputeShaderNode>();
-
-    node->SetProgramPath(nodeInfo.shaderPath);
-
-    compositor.nodes.emplace_back(node);
+  for (const auto &nodeInfo : info.nodes) {
+    if (auto node = node::registry::CreateNode(nodeInfo); node) {
+      compositor.nodes.emplace_back(node);
+    }
   }
 
   return compositor;
