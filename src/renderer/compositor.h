@@ -5,8 +5,8 @@
 
 #include "error.h"
 #include "gl.h"
-#include "node.h"
 #include "render_context.h"
+#include "shader_node.h"
 
 namespace project {
 struct ProjectInfo;
@@ -23,7 +23,7 @@ class Compositor {
 
   GLuint output;
 
-  std::vector<std::shared_ptr<node::Node>> GetNodes();
+  std::vector<std::shared_ptr<node::ShaderNode>> GetNodes();
 
   Compositor Clone();
 
@@ -39,7 +39,7 @@ class Compositor {
   int width;
   int height;
 
-  std::vector<std::shared_ptr<node::Node>> nodes;
+  std::vector<std::shared_ptr<node::ShaderNode>> nodes;
 
   void LinkNodes();
 

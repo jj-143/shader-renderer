@@ -9,7 +9,7 @@
 
 namespace node {
 
-std::shared_ptr<Node> ComputeShaderNode::Clone() {
+std::shared_ptr<ShaderNode> ComputeShaderNode::Clone() {
   return std::make_shared<ComputeShaderNode>(*this);
 }
 

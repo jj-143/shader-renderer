@@ -6,7 +6,7 @@
 
 namespace renderer {
 
-std::vector<std::shared_ptr<node::Node>> Compositor::GetNodes() {
+std::vector<std::shared_ptr<node::ShaderNode>> Compositor::GetNodes() {
   return nodes;
 }
 

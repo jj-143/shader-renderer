@@ -11,17 +11,17 @@ struct Context;
 
 namespace node {
 
-class Node {
+class ShaderNode {
  public:
   GLuint input;
   GLuint output;
 
   bool isValid = false;
 
-  virtual ~Node() = default;
+  virtual ~ShaderNode() = default;
 
-  inline virtual std::shared_ptr<Node> Clone() {
-    return std::make_shared<Node>(*this);
+  inline virtual std::shared_ptr<ShaderNode> Clone() {
+    return std::make_shared<ShaderNode>(*this);
   }
 
   virtual void Init() {}

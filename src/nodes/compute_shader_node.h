@@ -2,15 +2,15 @@
 #include <string>
 
 #include "gl.h"
-#include "node.h"
 #include "render_context.h"
 #include "shader.h"
+#include "shader_node.h"
 
 namespace node {
 
-class ComputeShaderNode : public Node {
+class ComputeShaderNode : public ShaderNode {
  public:
-  std::shared_ptr<Node> Clone() override;
+  std::shared_ptr<ShaderNode> Clone() override;
 
   void Init() override;
 
