@@ -2,6 +2,9 @@
 
 namespace node::registry {
 
-void RegisterAllNodes() { RegisterComputeShaderNode(); }
+void RegisterAllNodes() {
+  RegisterComputeShaderNode();
+  RegisterFragShaderNode();
+}
 
 }  // namespace node::registry
