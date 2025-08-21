@@ -21,8 +21,8 @@ inline const fs::path    BINARY_ROOT         = platform_utils::GetBinaryRoot();
 inline const std::string DEFAULT_SHADER      = (BINARY_ROOT / "shaders/default.comp").string();
 
 // Internal shader chunks
-inline const ShaderFile CHUNK_COMMON         = {.path=(BINARY_ROOT / "res/common.comp").string()};
-inline const ShaderFile CHUNK_COMMON_POST    = {.path=(BINARY_ROOT / "res/common-post.comp").string()};
+inline const ShaderSource CHUNK_COMMON       = {.path=(BINARY_ROOT / "res/common.comp").string()};
+inline const ShaderSource CHUNK_COMMON_POST  = {.path=(BINARY_ROOT / "res/common-post.comp").string()};
 
 }  // namespace global
 // clang-format on

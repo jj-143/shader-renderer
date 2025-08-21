@@ -4,9 +4,9 @@
 
 #include <string>
 
-struct ShaderFile {
+struct ShaderSource {
   std::string path = "";
-  bool isUserFile = false;
+  std::string text = "";
 };
 
 struct ShaderCompileResult {

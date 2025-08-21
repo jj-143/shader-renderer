@@ -1,5 +1,6 @@
 #include "shader_loader.h"
 
+#include <expected>
 #include <filesystem>
 #include <format>
 #include <fstream>
@@ -24,41 +25,53 @@ std::optional<std::string> ReadFileContent(const std::string& filepath) {
   return buffer.str();
 }
 
-ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType) {
-  // Read file contents
-  std::vector<std::string> sources;
-  std::vector<ShaderFile> files = {
+std::expected<std::vector<std::string>, std::string> PrepareSources(
+    const std::string& filepath, [[maybe_unused]] GLuint moduleType) {
+  std::vector<std::string> result;
+
+  std::vector<ShaderSource> sources = {
+      {.text = "#version 430"},
+      {.text = "#extension GL_ARB_shading_language_include : enable"},
       global::CHUNK_COMMON,
-      {.path = filepath, .isUserFile = true},
+      {.text = "#line 1"},
+      {.path = filepath},
       global::CHUNK_COMMON_POST,
   };
 
-  // Read `paths` into `sources`
-  for (auto& file : files) {
-    std::string src;
+  for (auto& file : sources) {
     std::optional<std::string> content;
 
-    // Prepend #line directive for user file
-    if (file.isUserFile) {
-      src.append(std::format("#line 1 \"USER\"\n"));
+    if (!file.path.empty()) {
+      content = ReadFileContent(file.path);
+      if (!content) {
+        return std::unexpected(
+            std::format("Cannot read file \"{}\"", file.path));
+      }
+    } else {
+      content = file.text + "\n";
     }
+    result.push_back(content.value());
+  }
 
-    content = ReadFileContent(file.path);
-    if (!content) {
-      return ShaderCompileResult{
-          .isSuccess = false,
-          .program = 0,
-          .error = std::format("Cannot read file \"{:s}\"", file.path),
-      };
-    }
-    src.append(content.value());
-    sources.push_back(src);
+  return result;
+}
+
+ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType) {
+  // Prepare sources
+  auto sources = PrepareSources(filepath, moduleType);
+
+  if (!sources) {
+    return ShaderCompileResult{
+        .isSuccess = false,
+        .program = 0,
+        .error = sources.error(),
+    };
   }
 
   // Prepare arguments
   std::vector<const GLchar*> srcPtrs;
 
-  for (const auto& src : sources) {
+  for (const auto& src : *sources) {
     srcPtrs.push_back(src.c_str());
   }
 
