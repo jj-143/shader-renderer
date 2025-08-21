@@ -1,2 +1,3 @@
 add_subdirectory(nativefiledialog)
 add_subdirectory(FileWatch)
+add_subdirectory(nlohmann_json)

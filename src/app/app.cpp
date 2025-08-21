@@ -74,6 +74,16 @@ void App::Run() {
   ui.Terminate();
 }
 
+project::ProjectInfo App::SerializeProject() {
+  project::ProjectInfo result;
+
+  for (auto node : renderer.compositor.GetNodes()) {
+    result.nodes.push_back(*node);
+  }
+
+  return result;
+}
+
 void App::LoadAppConfig() {
   // Init Setting values
   setting.output.width = config.vW;

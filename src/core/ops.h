@@ -9,8 +9,14 @@ namespace ops {
 /// Cancel Current running task in [App::taskManager]
 bool CancelTask();
 
+/// Load a project file
+bool LoadProjectFile(const std::string& path);
+
 /// Load a single shader file as a new project
 bool LoadSingleShaderProject(const std::string& path);
+
+/// Save App state, including compositor configurations, into a project file
+bool SaveProject(std::string path);
 
 /// Open Dialog for loading a shader.
 bool OpenOpenShaderDialog();

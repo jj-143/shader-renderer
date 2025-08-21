@@ -7,6 +7,7 @@
 #include "compositor.h"
 #include "node_registry.h"
 #include "ops.h"
+#include "project_io.h"
 
 namespace project {
 
@@ -42,6 +43,9 @@ void HandleLoadError(const std::string& path, const LoadError& error) {
     case LoadError::FileRead:
       ops::Report("Cannot Read File: {}", path);
       break;
+    case LoadError::FileParse:
+      ops::Report("Cannot Parse File: {}", path);
+      break;
     default:
       break;
   }
@@ -64,6 +68,21 @@ bool LoadProjectInfo(const ProjectInfo& info) {
   return true;
 }
 
+bool LoadProjectFile(const std::string& path) {
+  auto info = ReadProjectFile(path);
+
+  if (!info) {
+    HandleLoadError(path, info.error());
+    return false;
+  }
+
+  info->path = path;
+
+  ops::Report("Load: {}", path);
+
+  return LoadProjectInfo(*info);
+}
+
 bool LoadSingleShaderProject(const std::string& path) {
   auto info = MakeSingleShaderProject(path);
 
@@ -75,6 +94,14 @@ bool LoadSingleShaderProject(const std::string& path) {
   ops::Report("Load: {}", path);
 
   return LoadProjectInfo(*info);
+}
+
+bool SaveProject(std::string path) {
+  auto projectInfo = app::GetInstance().SerializeProject();
+
+  SaveProjectInfo(projectInfo, path);
+
+  return true;
 }
 
 }  // namespace ops

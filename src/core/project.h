@@ -14,6 +14,7 @@ struct ProjectInfo {
 
 enum class LoadError {
   FileRead,
+  FileParse,
 };
 
 }  // namespace project

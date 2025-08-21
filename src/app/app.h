@@ -11,6 +11,10 @@
 #include "timeline.h"
 #include "ui.h"
 
+namespace project {
+struct ProjectInfo;
+}
+
 namespace app {
 
 class App {
@@ -42,6 +46,8 @@ class App {
 
   /// Start the main loop
   void Run();
+
+  project::ProjectInfo SerializeProject();
 
  private:
   Config config;
