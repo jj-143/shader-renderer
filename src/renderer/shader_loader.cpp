@@ -96,15 +96,14 @@ ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType) {
   return ShaderCompileResult{.isSuccess = true, .program = shaderModule};
 }
 
-GLuint MakeShader(const std::string& vertexFilepath,
-                  const std::string& fragmentFilepath) {
+ShaderCompileResult MakeShader(const std::string& vertexFilepath,
+                               const std::string& fragmentFilepath) {
   std::vector<GLuint> modules;
   auto vertResult = MakeModule(vertexFilepath, GL_VERTEX_SHADER);
   auto fragResult = MakeModule(fragmentFilepath, GL_FRAGMENT_SHADER);
 
-  if (!vertResult.isSuccess || !fragResult.isSuccess) {
-    return 0;
-  }
+  if (!vertResult.isSuccess) return vertResult;
+  if (!fragResult.isSuccess) return fragResult;
 
   modules.push_back(vertResult.program);
   modules.push_back(fragResult.program);
@@ -117,12 +116,16 @@ GLuint MakeShader(const std::string& vertexFilepath,
 
   int success;
   glGetProgramiv(shader, GL_LINK_STATUS, &success);
+
   if (!success) {
     char errorLog[1024];
     glGetProgramInfoLog(shader, 1024, nullptr, errorLog);
     logger::Error("Shader Linking error: {}", errorLog);
-    // TODO: Handle linking error
-    return 0;
+    return {
+        .isSuccess = false,
+        .program = 0,
+        .error = errorLog,
+    };
   }
 
   // shaders are separate from module
@@ -131,7 +134,7 @@ GLuint MakeShader(const std::string& vertexFilepath,
     glDeleteShader(shaderModule);
   }
 
-  return shader;
+  return {.isSuccess = true, .program = shader};
 }
 
 ShaderCompileResult MakeComputeShader(const std::string& filepath) {
