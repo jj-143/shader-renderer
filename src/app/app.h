@@ -23,7 +23,7 @@ class App {
     int vW;
     int vH;
     const char* title;
-    std::string shaderPath;
+    std::string path;
   };
 
   Setting setting;
@@ -35,7 +35,7 @@ class App {
   std::shared_ptr<ShaderManager> shaderManager;
   std::shared_ptr<ContextManager> contextManager;
 
-  std::string shaderPath;
+  std::string projectPath;
 
   App(const Config config);
   App(App const&) = delete;

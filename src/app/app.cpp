@@ -53,7 +53,7 @@ void App::Run() {
   renderer.camera.defaultRotation = {0, 0, 90};
   renderer.camera.Reset();
 
-  ops::LoadSingleShaderProject(shaderPath);
+  ops::LoadSingleShaderOrProjectFile(projectPath);
 
   while (ui.NewFrame()) {
     if (timeline.IsPlaying()) timeline.Update();
@@ -95,7 +95,7 @@ void App::LoadAppConfig() {
   setting.output.path[s] = '\0';
 
   // Others
-  shaderPath = config.shaderPath;
+  projectPath = config.path;
 }
 
 App& GetInstance() {

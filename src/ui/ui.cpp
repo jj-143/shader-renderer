@@ -281,8 +281,8 @@ void UI::RenderMainMenu() {
   {
     if (ImGui::BeginMenuBar()) {
       if (ImGui::BeginMenu("File")) {
-        if (ImGui::MenuItem("Open Shader...", "Ctrl O")) {
-          ops::OpenOpenShaderDialog();
+        if (ImGui::MenuItem("Open Project / Shader File...", "Ctrl O")) {
+          ops::OpenOpenProjectDialog();
         }
         if (ImGui::MenuItem("Reload Shader", "Ctrl R")) {
           ops::ReloadShader();

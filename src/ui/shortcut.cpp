@@ -44,7 +44,7 @@ void UI::OnKeyPressed([[maybe_unused]] GLFWwindow* window, int key,
       break;
     case GLFW_KEY_O:
       if (mods == GLFW_MOD_CONTROL) {
-        ops::OpenOpenShaderDialog();
+        ops::OpenOpenProjectDialog();
       }
       break;
     case GLFW_KEY_R:

@@ -55,7 +55,7 @@ void HandleLoadError(const std::string& path, const LoadError& error) {
 
 bool LoadProjectInfo(const ProjectInfo& info) {
   auto& app = app::GetInstance();
-  app.shaderPath = info.path;
+  app.projectPath = info.path;
 
   app.renderer.CopyCompositor(renderer::BuildCompositor(info));
 
@@ -94,6 +94,16 @@ bool LoadSingleShaderProject(const std::string& path) {
   ops::Report("Load: {}", path);
 
   return LoadProjectInfo(*info);
+}
+
+bool LoadSingleShaderOrProjectFile(const std::string& path) {
+  std::filesystem::path p(path);
+
+  if (p.extension() == ".json") {
+    return ops::LoadProjectFile(p);
+  } else {
+    return ops::LoadSingleShaderProject(p);
+  }
 }
 
 bool SaveProject(std::string path) {

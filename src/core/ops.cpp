@@ -28,14 +28,14 @@ bool CancelTask() {
   return true;
 }
 
-bool OpenOpenShaderDialog() {
+bool OpenOpenProjectDialog() {
   auto& app = app::GetInstance();
-  fs::path defaultPath = fs::path(app.shaderPath).parent_path();
+  fs::path defaultPath = fs::path(app.projectPath).parent_path();
 
   std::optional<std::string> outPath = file_dialog::OpenFile(defaultPath);
   if (!outPath) return false;
 
-  LoadSingleShaderProject(outPath.value());
+  LoadSingleShaderOrProjectFile(outPath.value());
   return true;
 }
 
@@ -101,7 +101,7 @@ bool MaximizeViewport(bool set) {
 
 bool ReloadShader() {
   auto& app = app::GetInstance();
-  return LoadSingleShaderProject(app.shaderPath.c_str());
+  return LoadSingleShaderOrProjectFile(app.projectPath.c_str());
 }
 
 bool Render(bool animation) {
@@ -163,7 +163,6 @@ void RenderTask(task::Task& task, bool animation) {
 
   output::FileRenderer fileRenderer;
   output::FileRendererParams params{
-      .shaderPath = app.shaderPath,
       .shaderManager = *app.shaderManager,
       .compositor = app.renderer.compositor,
       .width = output.width,

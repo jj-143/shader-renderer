@@ -13,7 +13,6 @@
 namespace output {
 
 struct FileRendererParams {
-  std::string shaderPath;
   ShaderManager& shaderManager;
   renderer::Compositor& compositor;
   int width;

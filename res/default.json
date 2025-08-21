@@ -1,0 +1,14 @@
+{
+  "nodes": [
+    {
+      "label": "",
+      "name": "ComputeShaderNode",
+      "shaderPath": "shaders/default.comp"
+    },
+    {
+      "label": "",
+      "name": "FragShaderNode",
+      "shaderPath": "shaders/screen-slider.frag"
+    }
+  ]
+}
