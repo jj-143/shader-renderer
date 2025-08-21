@@ -23,6 +23,7 @@ inline const std::string DEFAULT_SHADER      = (BINARY_ROOT / "shaders/default.c
 // Internal shader chunks
 inline const ShaderSource CHUNK_COMMON       = {.path=(BINARY_ROOT / "res/common.comp").string()};
 inline const ShaderSource CHUNK_COMMON_POST  = {.path=(BINARY_ROOT / "res/common-post.comp").string()};
+inline const ShaderSource FULL_SCREEN_VERT   = {.path=(BINARY_ROOT / "res/full-screen.vert").string()};
 
 }  // namespace global
 // clang-format on

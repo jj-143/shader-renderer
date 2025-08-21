@@ -3,7 +3,6 @@
 #include <filesystem>
 
 #include "logger.h"
-#include "shader.h"
 #include "shader_loader.h"
 
 namespace {
@@ -11,7 +10,23 @@ namespace {
 void CompileShader(Shader& shader) {
   shader.isDirty = false;
 
-  auto result = MakeComputeShader(shader.path);
+  ShaderCompileResult result;
+
+  switch (shader.type) {
+    case ShaderType::ComputeShader:
+      result = MakeComputeShader(shader.path);
+      break;
+    case ShaderType::FragShader:
+      result = MakeFragShader(shader.path);
+      break;
+    default:
+      result = {
+          .isSuccess = false,
+          .program = 0,
+          .error = "Not Implemented ShaderType",
+      };
+      break;
+  }
 
   if (!result.isSuccess) {
     shader.isValid = false;
@@ -34,7 +49,8 @@ std::shared_ptr<ShaderManager> ShaderManager::Create() {
 
 bool ShaderManager::HasCompileErrors() { return compileErrors.size(); }
 
-std::shared_ptr<Shader> ShaderManager::GetShader(std::string path) {
+std::shared_ptr<Shader> ShaderManager::GetShader(std::string path,
+                                                 ShaderType type) {
   if (path.empty()) return nullptr;
 
   Key id = path;
@@ -43,7 +59,7 @@ std::shared_ptr<Shader> ShaderManager::GetShader(std::string path) {
     return cached;
   }
 
-  if (auto shader = CreateShader(path, id); shader) {
+  if (auto shader = CreateShader(path, id, type); shader) {
     Watch(*shader);
     cache[id] = shader;
     needRefresh = true;
@@ -76,7 +92,8 @@ void ShaderManager::Refresh(std::vector<error::Error>& reports) {
 }
 
 std::shared_ptr<Shader> ShaderManager::CreateShader(const std::string& path,
-                                                    const std::string& id) {
+                                                    const std::string& id,
+                                                    ShaderType type) {
   if (path.empty() || !std::filesystem::exists(path)) return nullptr;
 
   auto deleter = [weakSelf = weak_from_this()](Shader* ptr) {
@@ -90,6 +107,7 @@ std::shared_ptr<Shader> ShaderManager::CreateShader(const std::string& path,
 
   shader->id = id;
   shader->path = path;
+  shader->type = type;
   shader->isDirty = true;
 
   return shader;

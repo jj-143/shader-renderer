@@ -6,11 +6,17 @@
 #include "error.h"
 #include "gl.h"
 
+enum class ShaderType {
+  ComputeShader,
+  FragShader,
+};
+
 struct Shader {
-  public:
+ public:
   std::string id;
   std::string path;
   GLuint program;
+  ShaderType type;
 
   bool isValid;
   bool isDirty;

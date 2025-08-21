@@ -7,8 +7,7 @@
 #include <vector>
 
 #include "error.h"
-
-struct Shader;
+#include "shader.h"
 
 class ShaderManager : public std::enable_shared_from_this<ShaderManager> {
   using FileWatch = filewatch::FileWatch<std::string>;
@@ -21,7 +20,7 @@ class ShaderManager : public std::enable_shared_from_this<ShaderManager> {
 
   bool HasCompileErrors();
 
-  std::shared_ptr<Shader> GetShader(std::string path);
+  std::shared_ptr<Shader> GetShader(std::string path, ShaderType type);
 
   void Refresh(std::vector<error::Error>& reports);
 
@@ -34,7 +33,7 @@ class ShaderManager : public std::enable_shared_from_this<ShaderManager> {
   ShaderManager() = default;
 
   std::shared_ptr<Shader> CreateShader(const std::string& path,
-                                       const std::string& id);
+                                       const std::string& id, ShaderType type);
 
   void DeleteShader(Shader& sp);
 

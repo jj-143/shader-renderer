@@ -18,6 +18,8 @@ struct ShaderCompileResult {
 ShaderCompileResult MakeModule(const std::string& filepath, GLuint moduleType);
 ShaderCompileResult MakeShader(const std::string& vertexFilepath,
                                const std::string& fragmentFilepath);
+
 ShaderCompileResult MakeComputeShader(const std::string& filepath);
+ShaderCompileResult MakeFragShader(const std::string& filepath);
 
 void DeleteProgram(GLuint program);

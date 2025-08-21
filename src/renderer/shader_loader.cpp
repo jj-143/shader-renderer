@@ -29,14 +29,23 @@ std::expected<std::vector<std::string>, std::string> PrepareSources(
     const std::string& filepath, [[maybe_unused]] GLuint moduleType) {
   std::vector<std::string> result;
 
-  std::vector<ShaderSource> sources = {
-      {.text = "#version 430"},
-      {.text = "#extension GL_ARB_shading_language_include : enable"},
-      global::CHUNK_COMMON,
-      {.text = "#line 1"},
-      {.path = filepath},
-      global::CHUNK_COMMON_POST,
-  };
+  std::vector<ShaderSource> sources;
+
+  if (moduleType == GL_COMPUTE_SHADER) {
+    sources = {
+        {.text = "#version 430"},
+        {.text = "#extension GL_ARB_shading_language_include : enable"},
+        global::CHUNK_COMMON,
+        {.text = "#line 1"},
+        {.path = filepath},
+        global::CHUNK_COMMON_POST,
+    };
+  } else {
+    sources = {
+        {.text = "#version 430"},
+        {.path = filepath},
+    };
+  }
 
   for (auto& file : sources) {
     std::optional<std::string> content;
@@ -161,6 +170,10 @@ ShaderCompileResult MakeComputeShader(const std::string& filepath) {
   result.isSuccess = true;
   result.program = shader;
   return result;
+}
+
+ShaderCompileResult MakeFragShader(const std::string& filepath) {
+  return MakeShader(global::FULL_SCREEN_VERT.path, filepath);
 }
 
 void DeleteProgram(GLuint program) { glDeleteProgram(program); }

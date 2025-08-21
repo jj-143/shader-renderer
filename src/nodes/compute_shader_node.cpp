@@ -67,7 +67,7 @@ class ComputeShaderNode : public ShaderNode {
   }
 
   void Validate(renderer::Context& ctx) override {
-    shader = ctx.shaderManager.GetShader(shaderPath);
+    shader = ctx.shaderManager.GetShader(shaderPath, ShaderType::ComputeShader);
 
     if (!shader) {
       isValid = false;
