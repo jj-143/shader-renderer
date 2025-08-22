@@ -269,7 +269,8 @@ void UI::RenderMainMenu() {
   const auto containerFlag =
       ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
       ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
-      ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysAutoResize;
+      ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysAutoResize |
+      ImGuiWindowFlags_NoBringToFrontOnFocus;
 
   ImGui::PushStyleVar(ImGuiStyleVar_WindowMinSize, {0, 0});
   ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
