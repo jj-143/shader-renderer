@@ -13,4 +13,6 @@ void TabItem(const char* label, std::function<void()> Child);
 
 void Settings();
 
+void CompositorEditor();
+
 }  // namespace ui::side_panel
