@@ -24,7 +24,7 @@ void Region_CompositorRack(renderer::Compositor& compositor);
 void Region_Controls(renderer::Compositor& compositor);
 
 void RenderNode(node::ShaderNode* node);
-void NodeHeader(const node::ShaderNode& node);
+void NodeHeader(node::ShaderNode& node);
 
 void OnFileInputClicked(node::ShaderNode& node, std::string& path);
 
@@ -126,20 +126,35 @@ void NodeHeaderActiveToggle([[maybe_unused]] const node::ShaderNode& node) {
   ImGui::PopStyleColor(2);
 }
 
-void NodeHeaderOptionButton([[maybe_unused]] const node::ShaderNode& node) {
+void NodeHeaderOptionButton(node::ShaderNode& node) {
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, {0, 0});
   ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 8);
   ImGui::PushStyleColor(ImGuiCol_Button, colors::SHADE_3);
 
   {
-    ImGui::Button("##options", {LINE_HEIGHT, LINE_HEIGHT});
+    if (ImGui::Button("##options", {LINE_HEIGHT, LINE_HEIGHT})) {
+      ImGui::OpenPopup("Options");
+    }
+
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {8, 8});
+
+    if (ImGui::BeginPopup("Options")) {
+      if (ImGui::Selectable("Remove")) {
+        auto& compositor = app::GetInstance().renderer.compositor;
+        renderer::RemoveNode(node, compositor);
+      }
+      ImGui::SetNextItemWidth(-FLT_MIN);
+      ImGui::EndPopup();
+    }
+
+    ImGui::PopStyleVar(1);
   }
 
   ImGui::PopStyleVar(2);
   ImGui::PopStyleColor(1);
 }
 
-void NodeHeader(const node::ShaderNode& node) {
+void NodeHeader(node::ShaderNode& node) {
   NodeHeaderBG();
 
   ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, {4, 0});

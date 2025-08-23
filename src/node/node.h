@@ -22,6 +22,8 @@ struct NodeInfo {
 
 class Node : public NodeInfo {
  public:
+  bool toRemove = false;
+
   Node(const std::string& name, const std::string& label = "")
       : NodeInfo({name, label, ""}) {};
 

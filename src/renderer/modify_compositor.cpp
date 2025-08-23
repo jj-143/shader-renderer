@@ -38,4 +38,10 @@ bool AddNode(const std::string &name, Compositor &compositor) {
   return true;
 }
 
+bool RemoveNode(node::Node &target, Compositor &compositor) {
+  target.toRemove = true;
+  compositor.needValidation = true;
+  return true;
+}
+
 }  // namespace renderer

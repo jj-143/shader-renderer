@@ -45,6 +45,9 @@ void Compositor::Execute(Context& ctx) {
 void Compositor::Validate(Context& ctx, std::vector<error::Error>& errors) {
   isValid = true;
 
+  std::erase_if(
+      nodes, [](std::shared_ptr<node::Node> node) { return node->toRemove; });
+
   for (auto node : nodes) {
     if (!node->initialized) continue;
 

@@ -43,10 +43,13 @@ class Compositor {
 
   friend Compositor BuildCompositor(project::ProjectInfo);
   friend bool AddNode(const std::string &name, Compositor &compositor);
+  friend bool RemoveNode(node::Node &target, Compositor &compositor);
 };
 
 Compositor BuildCompositor(project::ProjectInfo);
 
 bool AddNode(const std::string &name, Compositor &compositor);
+
+bool RemoveNode(node::Node &target, Compositor &compositor);
 
 }  // namespace renderer
