@@ -1,4 +1,10 @@
+#include <filesystem>
+#include <optional>
+#include <string>
+
 #include "app.h"
+#include "file_dialog.h"
+#include "global.h"
 #include "node.h"
 #include "side_panel.h"
 #include "ui.h"
@@ -17,6 +23,8 @@ void Region_Controls(renderer::Compositor& compositor);
 
 void RenderNode(node::ShaderNode* node);
 void NodeHeader(const node::ShaderNode& node);
+
+void OnFileInputClicked(node::ShaderNode& node, std::string& path);
 
 }  // namespace
 
@@ -147,7 +155,9 @@ void NodeBody(node::ShaderNode& node) {
     ImGui::AlignTextToFramePadding();
     ImGui::Text("Path");
     ImGui::SameLine(FIELD_START);
-    ImGui::Button(label, {-1, 0});
+    if (ImGui::Button(label, {-1, 0})) {
+      OnFileInputClicked(node, node.shaderPath);
+    };
   }
 }
 
@@ -181,6 +191,21 @@ void RenderNode(node::ShaderNode* node) {
   ImGui::PopStyleVar(2);
   ImGui::EndChild();
   ImGui::PopID();
+}
+
+void OnFileInputClicked(node::ShaderNode& node, std::string& path) {
+  std::filesystem::path dialogPath{path};
+
+  if (dialogPath.empty()) {
+    dialogPath = (global::BINARY_ROOT / "shaders");
+  } else {
+    dialogPath = std::filesystem::absolute(dialogPath.parent_path());
+  }
+
+  auto selected = file_dialog::OpenFile(dialogPath.string());
+  if (!selected) return;
+
+  node.OnShaderFileChanged(selected.value());
 }
 
 }  // namespace

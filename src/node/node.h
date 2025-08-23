@@ -31,6 +31,8 @@ class Node : public NodeInfo {
   virtual void Execute([[maybe_unused]] renderer::Context& ctx) {}
 
   virtual void Validate([[maybe_unused]] renderer::Context& ctx) {}
+
+  void OnShaderFileChanged(const std::string& shaderPath);
 };
 
 }  // namespace node
