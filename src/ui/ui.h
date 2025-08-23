@@ -15,7 +15,10 @@ inline const ImVec4 SHADE_2 = ImColor(56, 85, 85, 255);
 inline const ImVec4 SHADE_3 = ImColor(48, 66, 66, 255);
 inline const ImVec4 SHADE_4 = ImColor(32, 58, 58, 255);
 inline const ImVec4 SHADE_5 = ImColor(24, 39, 39, 255);
-inline const ImVec4 SHADE_6 = ImColor(8, 27, 28, 255);
+inline const ImVec4 SHADE_6 = ImColor(16, 38, 39, 255);
+inline const ImVec4 SHADE_7 = ImColor(8, 27, 28, 255);
+inline const ImVec4 SHADE_8 = ImColor(6, 20, 21, 255);
+inline const ImVec4 SHADE_9 = ImColor(4, 13, 14, 255);
 
 }  // namespace ui::colors
 
@@ -36,8 +39,9 @@ inline const ImVec2   SIDE_PANEL_PADDING = {12, 12};
 inline const int      SIDE_PANEL_WIDTH   = 300;
 inline const ImVec2   STATUS_BAR_PADDING = {16, 8};
 inline const int      STATUS_BAR_HEIGHT  = LINE_HEIGHT + STATUS_BAR_PADDING.y * 2;
+inline const ImVec2   FRAME_PADDING      = {8, 4};
 
-inline const ImVec4   BG_COLOR           = colors::SHADE_6;
+inline const ImVec4   BG_COLOR           = colors::SHADE_7;
 inline const ImVec4   TEXT_COLOR         = ImColor(181, 183, 188, 255);
 inline const ImVec4   GAP_COLOR          = BG_COLOR;
 inline const ImVec4   PANEL_BG_COLOR     = colors::SHADE_5;
@@ -45,6 +49,7 @@ inline const ImVec4   STATUS_BAR_COLOR   = BG_COLOR;
 
 inline const ImVec4   MENU_HOVERED       = colors::SHADE_5;
 inline const ImVec4   MENU_SELECTED      = colors::SHADE_3;
+inline const ImVec4   ITEM_NORMAL        = colors::SHADE_6;
 inline const ImVec4   ITEM_HOVERED       = colors::SHADE_4;
 inline const ImVec4   ITEM_ACTIVE        = colors::SHADE_2;
 

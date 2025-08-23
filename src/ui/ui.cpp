@@ -210,8 +210,8 @@ void UI::HandleFocusViewport() {
 }
 
 void UI::PopGlobalStyles() {
-  // Colors
-  ImGui::PopStyleColor(13);
+  ImGui::PopStyleColor(14);
+  ImGui::PopStyleVar(1);
 }
 
 void UI::PushGlobalStyles() {
@@ -225,15 +225,20 @@ void UI::PushGlobalStyles() {
   ImGui::PushStyleColor(ImGuiCol_HeaderActive, ITEM_ACTIVE);
   ImGui::PushStyleColor(ImGuiCol_PopupBg, BG_COLOR);
 
-  ImGui::PushStyleColor(ImGuiCol_Button, BG_COLOR);
+  ImGui::PushStyleColor(ImGuiCol_Button, ITEM_NORMAL);
   ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ITEM_HOVERED);
   ImGui::PushStyleColor(ImGuiCol_ButtonActive, ITEM_ACTIVE);
 
+  ImGui::PushStyleColor(ImGuiCol_FrameBg, ITEM_NORMAL);
   ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ITEM_ACTIVE);
   ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ITEM_HOVERED);
 
   ImGui::PushStyleColor(ImGuiCol_Text, TEXT_COLOR);
   ImGui::PushStyleColor(ImGuiCol_TextSelectedBg, ITEM_HOVERED);
+
+  // Styles
+  // Mostly for input widgets
+  ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, FRAME_PADDING);
 }
 
 void UI::RenderMain() {
