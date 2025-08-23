@@ -19,6 +19,8 @@ void CopyNodeInfo(NodeInfo& dst, const NodeInfo& src) {
   if (!src.shaderPath.empty()) {
     dst.shaderPath = src.shaderPath;
   }
+
+  dst.initialized = src.initialized;
 }
 
 }  // namespace

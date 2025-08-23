@@ -30,6 +30,8 @@ void Compositor::Execute(Context& ctx) {
   GLuint lastOutput = 0;
 
   for (auto node : nodes) {
+    if (!node->initialized) continue;
+
     node->input = lastOutput;
 
     node->Execute(ctx);
@@ -44,6 +46,8 @@ void Compositor::Validate(Context& ctx, std::vector<error::Error>& errors) {
   isValid = true;
 
   for (auto node : nodes) {
+    if (!node->initialized) continue;
+
     node->Validate(ctx);
 
     if (!node->isValid) {

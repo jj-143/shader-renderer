@@ -15,6 +15,9 @@ struct NodeInfo {
   std::string name;
   std::string label;
   std::string shaderPath;
+
+  // states
+  bool initialized = true;
 };
 
 class Node : public NodeInfo {

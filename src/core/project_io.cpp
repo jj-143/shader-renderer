@@ -12,7 +12,7 @@ namespace node {
 
 // NodeInfo
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(NodeInfo, name, label,
-                                                shaderPath)
+                                                shaderPath, initialized)
 
 }  // namespace node
 

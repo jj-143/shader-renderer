@@ -42,8 +42,11 @@ class Compositor {
   std::vector<std::shared_ptr<node::ShaderNode>> nodes;
 
   friend Compositor BuildCompositor(project::ProjectInfo);
+  friend bool AddNode(const std::string &name, Compositor &compositor);
 };
 
 Compositor BuildCompositor(project::ProjectInfo);
+
+bool AddNode(const std::string &name, Compositor &compositor);
 
 }  // namespace renderer

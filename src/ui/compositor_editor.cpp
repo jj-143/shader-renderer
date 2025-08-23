@@ -3,9 +3,11 @@
 #include <string>
 
 #include "app.h"
+#include "compositor.h"
 #include "file_dialog.h"
 #include "global.h"
 #include "node.h"
+#include "node_registry.h"
 #include "side_panel.h"
 #include "ui.h"
 
@@ -69,7 +71,24 @@ void Region_CompositorRack(renderer::Compositor& compositor) {
 
 void Region_Controls(renderer::Compositor& compositor) {
   ImGui::PushStyleColor(ImGuiCol_Button, NODE_BG);
-  ImGui::Button("Add Node...", {-1, BIG_BUTTON_HEIGHT});
+
+  if (ImGui::Button("Add Node...", {-1, BIG_BUTTON_HEIGHT})) {
+    ImGui::OpenPopup("AddNode");
+  }
+
+  ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {8, 8});
+
+  if (ImGui::BeginPopup("AddNode")) {
+    for (auto& name : node::registry::GetNodeNames()) {
+      if (ImGui::Selectable(name.c_str())) {
+        renderer::AddNode(name, compositor);
+      }
+    }
+    ImGui::SetNextItemWidth(-FLT_MIN);
+    ImGui::EndPopup();
+  }
+
+  ImGui::PopStyleVar();
   ImGui::PopStyleColor();
 }
 
