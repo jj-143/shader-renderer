@@ -41,8 +41,6 @@ class Compositor {
 
   std::vector<std::shared_ptr<node::ShaderNode>> nodes;
 
-  void LinkNodes();
-
   friend Compositor BuildCompositor(project::ProjectInfo);
 };
 

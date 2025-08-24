@@ -24,14 +24,20 @@ void Compositor::Init() {
   for (auto node : nodes) {
     node->Init();
   }
-
-  LinkNodes();
 }
 
 void Compositor::Execute(Context& ctx) {
+  GLuint lastOutput = 0;
+
   for (auto node : nodes) {
+    node->input = lastOutput;
+
     node->Execute(ctx);
+
+    lastOutput = node->output;
   }
+
+  output = lastOutput;
 }
 
 void Compositor::Validate(Context& ctx, std::vector<error::Error>& errors) {
@@ -61,19 +67,6 @@ void Compositor::SetSize(int width, int height) {
   for (auto node : nodes) {
     node->SetSize(width, height);
   }
-}
-
-void Compositor::LinkNodes() {
-  if (!nodes.size()) return;
-
-  auto lastOutput = nodes[0]->output;
-
-  for (auto node : nodes | std::views::drop(1)) {
-    node->input = lastOutput;
-    lastOutput = node->output;
-  }
-
-  output = lastOutput;
 }
 
 }  // namespace renderer
