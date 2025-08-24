@@ -17,24 +17,25 @@ app::App* instance;
 
 namespace app {
 
-App::App(const Config config) : config(config) {
+App::App() {
   assert(instance == nullptr && "App already instantiated.");
   instance = this;
 };
 
-bool App::Init() {
+bool App::Init(const Args& args) {
+  App::InitDefaultsWithArgs(args);
+
   stbi_flip_vertically_on_write(1);
-  if (!ui.InitUI(config.vW, config.vH, config.title)) {
+
+  if (!ui.InitUI(args.vW, args.vH, args.title)) {
     return false;
   }
-
-  App::LoadAppConfig();
 
   shaderManager = ShaderManager::Create();
 
   node::registry::RegisterAllNodes();
 
-  renderer.Init(config.vW, config.vH);
+  renderer.Init(args.vW, args.vH);
   renderer.InitContext(*shaderManager);
 
   contextManager =
@@ -48,10 +49,6 @@ bool App::Init() {
 
 void App::Run() {
   ui.Startup();
-
-  // Set default Camera position. forward: +Y, right: +X, up: +Z
-  renderer.camera.defaultRotation = {0, 0, 90};
-  renderer.camera.Reset();
 
   ops::LoadSingleShaderOrProjectFile(projectPath);
 
@@ -84,10 +81,12 @@ project::ProjectInfo App::SerializeProject() {
   return result;
 }
 
-void App::LoadAppConfig() {
+// NOTE: Most of these values will be persist on the project file, and will be
+// overwritten while loading the project.
+void App::InitDefaultsWithArgs(const Args& args) {
   // Init Setting values
-  setting.output.width = config.vW;
-  setting.output.height = config.vH;
+  setting.output.width = args.vW;
+  setting.output.height = args.vH;
 
   // Output path, use temp dir
   std::string tempPath = std::filesystem::temp_directory_path().string();
@@ -95,7 +94,11 @@ void App::LoadAppConfig() {
   setting.output.path[s] = '\0';
 
   // Others
-  projectPath = config.path;
+  projectPath = args.path;
+
+  // Set default Camera position. forward: +Y, right: +X, up: +Z
+  renderer.camera.defaultRotation = {0, 0, 90};
+  renderer.camera.Reset();
 }
 
 App& GetInstance() {

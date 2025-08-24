@@ -17,15 +17,15 @@ struct ProjectInfo;
 
 namespace app {
 
+struct Args {
+  int vW;
+  int vH;
+  const char* title;
+  std::string path;
+};
+
 class App {
  public:
-  struct Config {
-    int vW;
-    int vH;
-    const char* title;
-    std::string path;
-  };
-
   Setting setting;
   renderer::Renderer renderer;
   ui::UI ui;
@@ -37,12 +37,12 @@ class App {
 
   std::string projectPath;
 
-  App(const Config config);
+  App();
   App(App const&) = delete;
   void operator=(App const&) = delete;
 
   /// Return true if success
-  bool Init();
+  bool Init(const Args& args);
 
   /// Start the main loop
   void Run();
@@ -50,9 +50,7 @@ class App {
   project::ProjectInfo SerializeProject();
 
  private:
-  Config config;
-
-  void LoadAppConfig();
+  void InitDefaultsWithArgs(const Args& args);
 };
 
 App& GetInstance();

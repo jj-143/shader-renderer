@@ -11,16 +11,16 @@ int main(int argc, char* argv[]) {
   const char* title = argc > 3 ? argv[3] : global::DEFAULT_WINDOW_TITLE;
   const std::string path = argc > 4 ? argv[4] : global::DEFAULT_PROJECT;
 
-  const app::App::Config config = {
+  const app::Args args{
       .vW = width,
       .vH = height,
       .title = title,
       .path = path,
   };
 
-  auto app = app::App(config);
+  app::App app;
 
-  if (!app.Init()) {
+  if (!app.Init(args)) {
     logger::Error("Cannot start the App. Exiting..");
     return 1;
   }
