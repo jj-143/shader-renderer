@@ -30,7 +30,7 @@ void Compositor::Execute(Context& ctx) {
   GLuint lastOutput = 0;
 
   for (auto node : nodes) {
-    if (!node->initialized) continue;
+    if (!node->initialized || !node->active) continue;
 
     node->input = lastOutput;
 
@@ -49,7 +49,7 @@ void Compositor::Validate(Context& ctx, std::vector<error::Error>& errors) {
       nodes, [](std::shared_ptr<node::Node> node) { return node->toRemove; });
 
   for (auto node : nodes) {
-    if (!node->initialized) continue;
+    if (!node->initialized || !node->active) continue;
 
     node->Validate(ctx);
 

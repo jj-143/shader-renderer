@@ -17,12 +17,14 @@ struct NodeInfo {
   std::string shaderPath;
 
   // states
+  bool active = true;
   bool initialized = true;
 };
 
 class Node : public NodeInfo {
  public:
   bool toRemove = false;
+  bool isValid = false;
 
   Node(const std::string& name, const std::string& label = "")
       : NodeInfo({name, label, ""}) {};
@@ -38,6 +40,7 @@ class Node : public NodeInfo {
   virtual void Validate([[maybe_unused]] renderer::Context& ctx) {}
 
   void OnShaderFileChanged(const std::string& shaderPath);
+  void OnActiveChanged();
 };
 
 }  // namespace node

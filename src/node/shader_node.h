@@ -13,8 +13,6 @@ class ShaderNode : public Node {
   GLuint input;
   GLuint output;
 
-  bool isValid = false;
-
   ShaderNode(const std::string& name, const std::string& label = "")
       : Node(name, label) {}
 

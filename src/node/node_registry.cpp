@@ -20,6 +20,7 @@ void CopyNodeInfo(NodeInfo& dst, const NodeInfo& src) {
     dst.shaderPath = src.shaderPath;
   }
 
+  dst.active = src.active;
   dst.initialized = src.initialized;
 }
 

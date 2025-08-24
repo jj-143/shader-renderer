@@ -15,4 +15,14 @@ void Node::OnShaderFileChanged(const std::string& shaderPath) {
   app.renderer.ctx->compositor.needValidation = true;
 }
 
+void Node::OnActiveChanged() {
+  auto& app = app::GetInstance();
+
+  if (this->active && !this->isValid) {
+    // NOTE: Node initialized with inactive state may have never been
+    // validated, e.g, Node's state restored as not active
+    app.renderer.ctx->compositor.needValidation = true;
+  }
+}
+
 }  // namespace node

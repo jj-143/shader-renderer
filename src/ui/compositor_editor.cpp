@@ -110,16 +110,16 @@ void NodeHeaderBG() {
   ImGui::GetWindowDrawList()->AddLine({start.x, end.y}, end, HEADER_LINE, 1);
 }
 
-void NodeHeaderActiveToggle([[maybe_unused]] const node::ShaderNode& node) {
-  static bool checked = true;
-
+void NodeHeaderActiveToggle(node::ShaderNode& node) {
   ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, {0, 0});
   ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 8);
   ImGui::PushStyleColor(ImGuiCol_FrameBg, colors::SHADE_3);
   ImGui::PushStyleColor(ImGuiCol_CheckMark, colors::SHADE_7);
 
   {
-    ImGui::Checkbox("##active", &checked);
+    if (ImGui::Checkbox("##active", &node.active)) {
+      node.OnActiveChanged();
+    };
   }
 
   ImGui::PopStyleVar(2);
