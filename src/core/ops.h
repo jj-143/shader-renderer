@@ -12,6 +12,12 @@ bool CancelTask();
 /// Open Dialog for loading a shader or a project file
 bool OpenOpenProjectDialog();
 
+/// Open Dialog for saving current project
+bool OpenSaveAsDialog();
+
+/// Save current project, create new if the current is temporaryProject
+bool SaveCurrentProject();
+
 /// Show/Hide every overlays, leaving only the scene texture
 bool ShowOverlays(bool set);
 

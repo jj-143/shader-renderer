@@ -109,11 +109,18 @@ bool LoadSingleShaderOrProjectFile(const std::string& path, bool asTemporary) {
   }
 }
 
-bool SaveProject(std::string path) {
-  auto projectInfo = app::GetInstance().SerializeProject();
+bool SaveProject(const std::string& path) {
+  auto& app = app::GetInstance();
 
-  SaveProjectInfo(projectInfo, path);
+  if (auto result = WriteProjectInfo(app.SerializeProject(), path); !result) {
+    ops::ReportError(" {}", result.error());
+    return false;
+  }
 
+  app.isTemporaryProject = false;
+  app.projectPath = path;
+
+  ops::Report("Saved: {}", path);
   return true;
 }
 

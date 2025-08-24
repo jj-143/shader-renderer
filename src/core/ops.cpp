@@ -39,6 +39,30 @@ bool OpenOpenProjectDialog() {
   return true;
 }
 
+bool OpenSaveAsDialog() {
+  auto& app = app::GetInstance();
+  auto defaultPath = fs::path(app.projectPath).parent_path();
+
+  auto savePath = file_dialog::SaveFile(defaultPath);
+  if (!savePath) return false;
+
+  return SaveProject(savePath.value());
+}
+
+bool SaveCurrentProject() {
+  auto& app = app::GetInstance();
+
+  bool newSave = app.isTemporaryProject || app.projectPath.empty() ||
+                 // Protect the default project file
+                 // in case of manually loaded
+                 app.projectPath == global::DEFAULT_PROJECT;
+
+  if (newSave) return ops::OpenSaveAsDialog();
+
+  // Overwrite
+  return SaveProject(app.projectPath);
+}
+
 bool ShowOverlays(bool set) {
   auto& app = app::GetInstance();
   app.ui.showOverlays = set;

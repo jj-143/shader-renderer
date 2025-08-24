@@ -1,5 +1,6 @@
 #include "project_io.h"
 
+#include <format>
 #include <nlohmann/json.hpp>
 
 #include "logger.h"
@@ -37,14 +38,27 @@ std::expected<ProjectInfo, LoadError> ReadProjectFile(std::string path) {
   }
 }
 
-void SaveProjectInfo(const ProjectInfo& info, const std::string& path) {
+std::expected<void, std::string> WriteProjectInfo(const ProjectInfo& info,
+                                                  const std::string& path) {
   std::ofstream ofs;
   ofs.open(path);
 
-  json root = info;
+  if (!ofs) return std::unexpected("Cannot open file for save");
 
-  ofs << root.dump(2) << std::endl;
-  ofs.close();
+  std::string content;
+
+  try {
+    json root = info;
+    content = root.dump(2);
+  } catch (json::exception e) {
+    return std::unexpected("JSON dump failed");
+  }
+
+  ofs << content;
+
+  if (!ofs) return std::unexpected("Cannot write to file");
+
+  return {};
 }
 
 }  // namespace project

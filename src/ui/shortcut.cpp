@@ -52,6 +52,15 @@ void UI::OnKeyPressed([[maybe_unused]] GLFWwindow* window, int key,
         ops::ReloadProject();
       }
       break;
+    case GLFW_KEY_S:
+      if (mods == GLFW_MOD_CONTROL) {
+        ops::SaveCurrentProject();
+        break;
+      } else if (mods == (GLFW_MOD_CONTROL | GLFW_MOD_SHIFT)) {
+        ops::OpenSaveAsDialog();
+        break;
+      }
+      break;
     case GLFW_KEY_Q:
       if (mods == GLFW_MOD_CONTROL) {
         ops::Quit();

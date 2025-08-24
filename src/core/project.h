@@ -35,6 +35,6 @@ bool LoadSingleShaderOrProjectFile(const std::string& path,
                                    bool asTemporary = false);
 
 /// Save App state, including compositor configurations, into a project file
-bool SaveProject(std::string path);
+bool SaveProject(const std::string& path);
 
 }  // namespace ops

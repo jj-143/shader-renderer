@@ -297,6 +297,16 @@ void UI::RenderMainMenu() {
 
         ImGui::Separator();
 
+        if (ImGui::MenuItem("Save Project", "Ctrl S")) {
+          ops::SaveCurrentProject();
+        }
+
+        if (ImGui::MenuItem("Save Project As...", "Ctrl Shift S")) {
+          ops::OpenSaveAsDialog();
+        }
+
+        ImGui::Separator();
+
         if (ImGui::MenuItem("Quit", "Ctrl Q")) {
           ops::Quit();
         }
