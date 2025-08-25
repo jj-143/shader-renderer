@@ -54,17 +54,11 @@ void App::Run() {
   LoadProject();
 
   while (ui.NewFrame()) {
-    if (timeline.IsPlaying()) timeline.Update();
-
-    const bool shouldRender =
-        !timeline.rendered || renderer.camera.IsWalkMode();
-
-    if (shouldRender) {
-      renderer.Render(timeline.iTime);
-      timeline.rendered = true;
-    }
-
     contextManager->Validate();
+
+    contextManager->Update();
+
+    renderer.Render();
 
     ui.Render();
   }

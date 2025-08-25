@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/gtc/type_ptr.hpp>
+#include "camera.h"
 
 class ShaderManager;
 
@@ -11,12 +11,15 @@ class Compositor;
 struct Context {
   Compositor& compositor;
   ShaderManager& shaderManager;
+  Camera* camera;
 
-  glm::mat4& view;
+  bool rendered = false;
+  bool forceRender = false;
+
   float iTime;
 
-  Context(Compositor& c, ShaderManager& s, glm::mat4& v)
-      : compositor(c), shaderManager(s), view(v), iTime(0.f) {}
+  Context(Compositor& c, ShaderManager& s, Camera* cam)
+      : compositor(c), shaderManager(s), camera(cam), iTime(0.f) {}
 };
 
 }  // namespace renderer

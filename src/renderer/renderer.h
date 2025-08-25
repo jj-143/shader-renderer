@@ -23,7 +23,7 @@ class Renderer {
   void Init(int width, int height);
   void InitContext(ShaderManager& shaderManager);
   void CopyCompositor(const Compositor& target);
-  void Render(float iTime);
+  void Render();
   void SetSize(int width, int height);
 
  private:

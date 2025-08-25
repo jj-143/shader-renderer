@@ -41,7 +41,8 @@ std::optional<std::vector<error::Error>> FileRenderer::Setup(
 }
 
 void FileRenderer::Render(float iTime) {
-  renderer.Render(iTime);
+  renderer.ctx->iTime = iTime;
+  renderer.Render();
   glBindTexture(GL_TEXTURE_2D, *renderer.renderTexture);
   GetTextureData(data.get());
 }

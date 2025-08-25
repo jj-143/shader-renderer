@@ -197,11 +197,6 @@ void UI::OnWindowResize(int width, int height) {
   }
 
   app.renderer.SetSize(vW, vH);
-
-  // Force render to update
-  if (app.timeline.IsPaused()) {
-    app.timeline.rendered = false;
-  }
 }
 
 void UI::HandleFocusViewport() {

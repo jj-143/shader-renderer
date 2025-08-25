@@ -26,6 +26,8 @@ class ContextManager {
                  Timeline& timeline)
       : ctx(ctx), shaderManager(shaderManager), timeline(timeline) {}
 
+  void Update();
+
   void Validate();
 
  private:

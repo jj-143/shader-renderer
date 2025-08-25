@@ -8,6 +8,14 @@
 
 namespace app {
 
+void ContextManager::Update() {
+  if (timeline.IsPlaying()) {
+    timeline.Update();
+    ctx.iTime = timeline.iTime;
+    ctx.rendered = false;
+  }
+}
+
 void ContextManager::Validate() {
   errors.reset();
 
@@ -48,6 +56,8 @@ void ContextManager::ValidateRenderContext() {
   if (!errors) errors.emplace();
 
   ctx.compositor.Validate(ctx, *errors);
+
+  ctx.forceRender = true;
 }
 
 void ContextManager::SyncValidationResult() {

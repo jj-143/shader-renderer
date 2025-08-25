@@ -12,7 +12,6 @@ void Timeline::Pause() {
 void Timeline::Stop() {
   iTime = 0;
   state = State::STOPPED;
-  rendered = false;
 }
 
 void Timeline::Update() {
@@ -20,5 +19,4 @@ void Timeline::Update() {
   float timeDelta = now - timeStarted;
   timeStarted = now;
   iTime += timeDelta;
-  rendered = false;
 };
