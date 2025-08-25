@@ -17,12 +17,15 @@ struct NodeInfo {
   std::string name;
   std::string label;
   std::vector<Input> inputs;
+  std::vector<Input> uniforms;
 
   // states
   bool active = true;
   bool initialized = true;
 
   Input* GetInput(const std::string& name);
+
+  Input* GetUniform(const std::string& name);
 };
 
 class Node : public NodeInfo {
@@ -46,6 +49,15 @@ class Node : public NodeInfo {
   void OnInputChange(Input& input, const InputValue& value);
 
   void OnActiveChanged();
+
+  void OnUniformChanged();
+
+  // Modifying uniforms in runtime
+  void AddUniform(node::Input uniform);
+
+  void EditUniform(node::Input& target, node::Input newUniform);
+
+  void RemoveUniform(node::Input& target);
 };
 
 }  // namespace node

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <string>
 
 #include "project.h"
@@ -8,6 +9,9 @@ namespace ops {
 
 /// Cancel Current running task in [App::taskManager]
 bool CancelTask();
+
+/// Defer small tasks outside to the UI rendering sequence
+bool DeferUITask(std::function<void()> task);
 
 /// Open Dialog for loading a shader or a project file
 bool OpenOpenProjectDialog();

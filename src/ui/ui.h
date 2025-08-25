@@ -1,7 +1,9 @@
 #pragma once
 #include <imgui/imgui.h>
 
+#include <functional>
 #include <optional>
+#include <queue>
 #include <string>
 
 #include "camera.h"
@@ -82,6 +84,7 @@ class UI {
 
   void UpdateCameraControl();
   void UpdateStatus(const std::string message);
+  void QueueDeferredTask(std::function<void()> task);
   void Quit();
   void OnWindowResize(int width, int height);
   void RenderSidePanel();
@@ -90,7 +93,9 @@ class UI {
   Camera* camera;
   std::string statusMessage;
   float statusClearTime;
+  std::queue<std::function<void()>> deferredTasks;
 
+  void HandleDeferredTask();
   void HandleFocusViewport();
 
   void PopGlobalStyles();

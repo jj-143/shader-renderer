@@ -112,6 +112,7 @@ void UI::Render() {
   glfwSwapBuffers(window);
 
   HandleFocusViewport();
+  HandleDeferredTask();
 }
 
 void UI::MaximizeViewport(bool set) {
@@ -180,6 +181,10 @@ void UI::UpdateStatus(const std::string message) {
   statusClearTime = glfwGetTime() + STATUS_DURATION;
 }
 
+void UI::QueueDeferredTask(std::function<void()> task) {
+  deferredTasks.emplace(task);
+}
+
 void UI::Quit() { glfwSetWindowShouldClose(window, GLFW_TRUE); }
 
 void UI::OnWindowResize(int width, int height) {
@@ -199,6 +204,13 @@ void UI::OnWindowResize(int width, int height) {
   app.renderer.SetSize(vW, vH);
 }
 
+void UI::HandleDeferredTask() {
+  while (!deferredTasks.empty()) {
+    deferredTasks.front()();
+    deferredTasks.pop();
+  }
+}
+
 void UI::HandleFocusViewport() {
   if (!shouldFocusViewport) return;
   shouldFocusViewport = false;
@@ -206,7 +218,7 @@ void UI::HandleFocusViewport() {
 }
 
 void UI::PopGlobalStyles() {
-  ImGui::PopStyleColor(14);
+  ImGui::PopStyleColor(15);
   ImGui::PopStyleVar(1);
 }
 
@@ -231,6 +243,8 @@ void UI::PushGlobalStyles() {
 
   ImGui::PushStyleColor(ImGuiCol_Text, TEXT_COLOR);
   ImGui::PushStyleColor(ImGuiCol_TextSelectedBg, ITEM_HOVERED);
+
+  ImGui::PushStyleColor(ImGuiCol_Separator, colors::SHADE_6);
 
   // Styles
   // Mostly for input widgets

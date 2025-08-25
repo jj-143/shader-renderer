@@ -14,6 +14,16 @@ Input* NodeInfo::GetInput(const std::string& name) {
   return nullptr;
 }
 
+Input* NodeInfo::GetUniform(const std::string& name) {
+  if (auto result = std::ranges::find_if(
+          uniforms, [&name](Input& uniform) { return uniform.name == name; });
+      result != uniforms.end()) {
+    return &*result;
+  }
+
+  return nullptr;
+}
+
 void Node::OnInputChange(Input& input, const InputValue& value) {
   input.value = value;
 
@@ -33,6 +43,27 @@ void Node::OnActiveChanged() {
     // validated, e.g, Node's state restored as not active
     app.renderer.ctx->compositor.needValidation = true;
   }
+}
+
+void Node::OnUniformChanged() {
+  auto& app = app::GetInstance();
+  app.renderer.ctx->forceRender = true;
+}
+
+void Node::AddUniform(node::Input uniform) { uniforms.emplace_back(uniform); }
+
+void Node::EditUniform(node::Input& target, node::Input newUniform) {
+  if (target.type == newUniform.type) {
+    newUniform.value = target.value;
+  }
+
+  target = newUniform;
+}
+
+void Node::RemoveUniform(node::Input& target) {
+  std::erase_if(uniforms, [&target](node::Input& uniform) {
+    return &uniform == &target;
+  });
 }
 
 }  // namespace node

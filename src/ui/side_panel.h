@@ -6,8 +6,8 @@
 
 namespace ui::side_panel {
 
-const int LABEL_WIDTH = 100;
-const int FIELD_START = LABEL_WIDTH + SIDE_PANEL_PADDING.x;
+const float LABEL_WIDTH = 100;
+const float FIELD_START = LABEL_WIDTH + SIDE_PANEL_PADDING.x;
 
 void TabItem(const char* label, std::function<void()> Child);
 

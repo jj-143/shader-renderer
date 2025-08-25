@@ -23,11 +23,21 @@ void CopyNodeInfo(NodeInfo& dst, const NodeInfo& src) {
     dst.label = src.label;
   }
 
+  // Input
   for (auto& srcInput : src.inputs) {
     if (auto dstInput = dst.GetInput(srcInput.name)) {
       *dstInput = srcInput;
     } else {
       dst.inputs.emplace_back(srcInput);
+    }
+  }
+
+  // Uniforms
+  for (auto& srcUniform : src.uniforms) {
+    if (auto dstUniform = dst.GetUniform(srcUniform.name)) {
+      *dstUniform = srcUniform;
+    } else {
+      dst.uniforms.emplace_back(srcUniform);
     }
   }
 

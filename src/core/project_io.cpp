@@ -18,7 +18,7 @@ namespace node {
 
 // NodeInfo
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(NodeInfo, name, label, inputs,
-                                                initialized, active)
+                                                uniforms, initialized, active)
 
 // Input, use custom (de)serializer for std::variant
 void from_json(const json& j, Input& input) {

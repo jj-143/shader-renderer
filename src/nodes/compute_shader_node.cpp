@@ -17,6 +17,7 @@ const auto Spec = NodeInfo{
     .name = "ComputeShaderNode",
     .label = "",
     .inputs = {Input(InputType::File, "Path")},
+    .uniforms = {},
 };
 
 }  // namespace

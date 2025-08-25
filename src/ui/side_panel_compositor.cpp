@@ -4,10 +4,12 @@
 
 #include "app.h"
 #include "compositor.h"
+#include "editor_node_input.h"
 #include "file_dialog.h"
 #include "global.h"
 #include "node.h"
 #include "node_registry.h"
+#include "popup.h"
 #include "side_panel.h"
 #include "ui.h"
 
@@ -24,9 +26,6 @@ void Region_CompositorRack(renderer::Compositor& compositor);
 void Region_Controls(renderer::Compositor& compositor);
 
 void RenderNode(node::ShaderNode* node);
-void NodeHeader(node::ShaderNode& node);
-
-void OnFileInputClicked(node::Node& node, node::Input& input);
 
 }  // namespace
 
@@ -47,7 +46,6 @@ void CompositorEditor() {
 namespace {
 
 using namespace ui;
-using namespace ui::side_panel;
 
 void Region_CompositorRack(renderer::Compositor& compositor) {
   ImGui::PushStyleColor(ImGuiCol_ChildBg, {1, 1, 1, 0});
@@ -180,54 +178,38 @@ void NodeHeader(node::ShaderNode& node) {
   ImGui::PopStyleVar(1);
 }
 
-void InputFile(node::Node& node, node::Input& input) {
-  std::string shortPath = basename(input.Value<std::string>().c_str());
-  const char* text = shortPath.empty() ? "(empty)" : shortPath.c_str();
+void AddUniform(node::Node& node) {
+  ImGui::PushID(&node);
 
-  if (ImGui::Button(text, {-1, 0})) {
-    OnFileInputClicked(node, input);
-  };
-}
-
-void InputFloat([[maybe_unused]] node::Node& node, node::Input& input) {
-  std::string label = std::format("##field[{}]", input.name);
-
-  ImGui::SetNextItemWidth(-1);
-
-  ImGui::DragScalar(label.c_str(), ImGuiDataType_Float, &input.Value<float>(),
-                    0.1f, nullptr, nullptr, "%f");
-}
-
-void NodeInput(node::Node& node, node::Input& input) {
-  ImGui::PushID(&input);
-
-  // Label
-  ImGui::AlignTextToFramePadding();
-  ImGui::Text("%s", input.name.c_str());
-
-  // Field
-  std::string fieldLabel = std::format("##field[{}]", input.name);
-
-  ImGui::SameLine(FIELD_START);
-
-  switch (input.type) {
-    case node::InputType::File:
-      InputFile(node, input);
-      break;
-    case node::InputType::Float:
-      InputFloat(node, input);
-      break;
-    default:
-      break;
+  if (ImGui::Button("Add Uniform", {-1, 0})) {
+    popup::Open(popup::EDIT_UNIFORM);
   }
+
+  popup::EditUniform(node, nullptr);
 
   ImGui::PopID();
 }
 
 void NodeBody(node::ShaderNode& node) {
   for (auto& input : node.inputs) {
-    NodeInput(node, input);
+    editor::RenderNodeInput(node, input);
   }
+
+  ImGui::Spacing();
+
+  ImGui::Separator();
+
+  ImGui::Spacing();
+
+  if (node.uniforms.size()) {
+    for (auto& uniform : node.uniforms) {
+      editor::RenderNodeInput(node, uniform, true);
+    }
+
+    ImGui::Spacing();
+  }
+
+  AddUniform(node);
 }
 
 void RenderNode(node::ShaderNode* node) {
@@ -260,21 +242,6 @@ void RenderNode(node::ShaderNode* node) {
   ImGui::PopStyleVar(2);
   ImGui::EndChild();
   ImGui::PopID();
-}
-
-void OnFileInputClicked(node::Node& node, node::Input& input) {
-  std::filesystem::path dialogPath{input.Value<std::string>()};
-
-  if (dialogPath.empty()) {
-    dialogPath = (global::BINARY_ROOT / "shaders");
-  } else {
-    dialogPath = std::filesystem::absolute(dialogPath.parent_path());
-  }
-
-  auto selected = file_dialog::OpenFile(dialogPath.string());
-  if (!selected) return;
-
-  node.OnInputChange(input, selected.value());
 }
 
 }  // namespace

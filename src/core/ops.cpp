@@ -20,6 +20,12 @@ void RenderTask(task::Task& task, bool animation);
 
 namespace ops {
 
+bool DeferUITask(std::function<void()> task) {
+  auto& app = app::GetInstance();
+  app.ui.QueueDeferredTask(task);
+  return true;
+}
+
 bool CancelTask() {
   task::TaskManager& taskManager = app::GetInstance().taskManager;
   if (!taskManager.HasTask()) return false;
