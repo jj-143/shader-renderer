@@ -15,7 +15,7 @@ void UI::OnKeyPressed([[maybe_unused]] GLFWwindow* window, int key,
   switch (key) {
     case GLFW_KEY_TAB:
       if (!ui.isViewportFocused) break;
-      ui.ToggleNavigationMode();
+      ui.ToggleCameraMode();
       break;
     case GLFW_KEY_SPACE:
       if (mods == GLFW_MOD_CONTROL) {
@@ -91,12 +91,11 @@ void UI::ToggleTimelinePlay() {
   }
 }
 
-void UI::ToggleNavigationMode() {
-  navigationMode = navigationMode == NavigationMode::Normal
-                       ? NavigationMode::Walk
-                       : NavigationMode::Normal;
+void UI::ToggleCameraMode() {
+  camera->mode =
+      camera->IsNormalMode() ? Camera::Mode::Walk : Camera::Mode::Normal;
 
-  if (navigationMode == NavigationMode::Walk) {
+  if (camera->IsWalkMode()) {
     glfwSetCursorPos(window, (float)vW / 2, (float)vH / 2);
   }
 }

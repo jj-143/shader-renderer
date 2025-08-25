@@ -69,10 +69,11 @@ bool UI::NewFrame() {
   overlay::stat::Clear();
   overlay::stat::Log(std::format("t: {:.1f}", timeline.iTime));
 
-  if (navigationMode == NavigationMode::Walk) {
+  if (camera->IsWalkMode()) {
     ImGui::SetMouseCursor(ImGuiMouseCursor_None);
     UpdateCameraControl();
   }
+
   return true;
 }
 

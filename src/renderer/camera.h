@@ -4,6 +4,8 @@
 
 class Camera {
  public:
+  enum class Mode { Normal, Walk };
+
   glm::vec3 position{};
   glm::vec3 rotation{};
 
@@ -19,8 +21,15 @@ class Camera {
 
   Camera();
 
+  inline bool IsWalkMode() { return mode == Mode::Walk; }
+  inline bool IsNormalMode() { return mode == Mode::Normal; }
+
   /// Reset position & rotation to default values
   void Reset();
 
   void Update();
+
+  Mode mode = Mode::Normal;
+
+ private:
 };

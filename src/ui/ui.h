@@ -24,8 +24,6 @@ inline const ImVec4 SHADE_9 = ImColor(4, 13, 14, 255);
 
 namespace ui {
 
-enum class NavigationMode { Normal, Walk };
-
 // clang-format off
 inline const ImVec2   INSET              = {0, 0};
 inline const ImVec2   LAYOUT_INSET       = {8, 8};
@@ -69,8 +67,6 @@ class UI {
   bool isViewportMaximized = false;
   bool shouldFocusViewport = true;
 
-  NavigationMode navigationMode = NavigationMode::Normal;
-
   std::optional<std::string> errorLog;
 
   GLuint* viewportTextureID;
@@ -108,7 +104,7 @@ class UI {
   static void OnKeyPressed(GLFWwindow* window, int key, int scancode,
                            int action, int mods);
   void ToggleTimelinePlay();
-  void ToggleNavigationMode();
+  void ToggleCameraMode();
 };
 
 ImVec2 CalculateWindowSize(ImVec2 viewport);

@@ -57,7 +57,7 @@ void App::Run() {
     if (timeline.IsPlaying()) timeline.Update();
 
     const bool shouldRender =
-        !timeline.rendered || ui.navigationMode == ui::NavigationMode::Walk;
+        !timeline.rendered || renderer.camera.IsWalkMode();
 
     if (shouldRender) {
       renderer.Render(timeline.iTime);
