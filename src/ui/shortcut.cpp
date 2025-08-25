@@ -49,7 +49,7 @@ void UI::OnKeyPressed([[maybe_unused]] GLFWwindow* window, int key,
       break;
     case GLFW_KEY_R:
       if (mods == GLFW_MOD_CONTROL) {
-        ops::ReloadShader();
+        ops::ReloadProject();
       }
       break;
     case GLFW_KEY_Q:

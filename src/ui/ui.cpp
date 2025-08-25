@@ -290,8 +290,9 @@ void UI::RenderMainMenu() {
         if (ImGui::MenuItem("Open Project / Shader File...", "Ctrl O")) {
           ops::OpenOpenProjectDialog();
         }
-        if (ImGui::MenuItem("Reload Shader", "Ctrl R")) {
-          ops::ReloadShader();
+
+        if (ImGui::MenuItem("Reload Project", "Ctrl R")) {
+          ops::ReloadProject();
         }
 
         ImGui::Separator();

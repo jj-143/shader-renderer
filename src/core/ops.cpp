@@ -99,9 +99,10 @@ bool MaximizeViewport(bool set) {
   return true;
 }
 
-bool ReloadShader() {
+bool ReloadProject() {
   auto& app = app::GetInstance();
-  return LoadSingleShaderOrProjectFile(app.projectPath.c_str());
+  return LoadSingleShaderOrProjectFile(app.projectPath.c_str(),
+                                       app.isTemporaryProject);
 }
 
 bool Render(bool animation) {

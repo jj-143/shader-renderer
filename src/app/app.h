@@ -35,6 +35,7 @@ class App {
   std::shared_ptr<ShaderManager> shaderManager;
   std::shared_ptr<ContextManager> contextManager;
 
+  bool isTemporaryProject = false;
   std::string projectPath;
 
   App();
@@ -51,6 +52,8 @@ class App {
 
  private:
   void InitDefaultsWithArgs(const Args& args);
+
+  void LoadProject();
 };
 
 App& GetInstance();

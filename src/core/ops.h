@@ -9,18 +9,6 @@ namespace ops {
 /// Cancel Current running task in [App::taskManager]
 bool CancelTask();
 
-/// Load a project file
-bool LoadProjectFile(const std::string& path);
-
-/// Load a single shader file as a new project
-bool LoadSingleShaderProject(const std::string& path);
-
-/// Load a file as a single shader project or as a project file format (.json)
-bool LoadSingleShaderOrProjectFile(const std::string& path);
-
-/// Save App state, including compositor configurations, into a project file
-bool SaveProject(std::string path);
-
 /// Open Dialog for loading a shader or a project file
 bool OpenOpenProjectDialog();
 
@@ -48,7 +36,7 @@ bool MaximizeViewport(bool set);
 /// Reload current shader and reset timeline.
 /// NOTE: This should be called in the thread rendering
 /// viewport texture.
-bool ReloadShader();
+bool ReloadProject();
 
 /// Render to output file.
 /// if `animation` is set, renders frames in the range defined in the Setting.
@@ -63,4 +51,5 @@ bool Quit();
 
 }  // namespace ops
 
+#include "project.h"
 #include "report.h"

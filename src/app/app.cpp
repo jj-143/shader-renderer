@@ -6,6 +6,7 @@
 #include <format>
 #include <string>
 
+#include "global.h"
 #include "node_registry.h"
 #include "ops.h"
 
@@ -50,7 +51,7 @@ bool App::Init(const Args& args) {
 void App::Run() {
   ui.Startup();
 
-  ops::LoadSingleShaderOrProjectFile(projectPath);
+  LoadProject();
 
   while (ui.NewFrame()) {
     if (timeline.IsPlaying()) timeline.Update();
@@ -99,6 +100,15 @@ void App::InitDefaultsWithArgs(const Args& args) {
   // Set default Camera position. forward: +Y, right: +X, up: +Z
   renderer.camera.defaultRotation = {0, 0, 90};
   renderer.camera.Reset();
+}
+
+void App::LoadProject() {
+  if (projectPath.empty()) {
+    ops::LoadProjectFile(global::DEFAULT_PROJECT, true);
+    return;
+  }
+
+  ops::LoadSingleShaderOrProjectFile(projectPath);
 }
 
 App& GetInstance() {

@@ -27,6 +27,7 @@ std::expected<ProjectInfo, LoadError> MakeSingleShaderProject(
   return ProjectInfo{
       .path = path,
       .nodes = {nodeInfo},
+      .temporary = true,
   };
 }
 
@@ -56,6 +57,7 @@ void HandleLoadError(const std::string& path, const LoadError& error) {
 bool LoadProjectInfo(const ProjectInfo& info) {
   auto& app = app::GetInstance();
   app.projectPath = info.path;
+  app.isTemporaryProject = info.temporary;
 
   app.renderer.CopyCompositor(renderer::BuildCompositor(info));
 
@@ -68,7 +70,7 @@ bool LoadProjectInfo(const ProjectInfo& info) {
   return true;
 }
 
-bool LoadProjectFile(const std::string& path) {
+bool LoadProjectFile(const std::string& path, bool asTemporary) {
   auto info = ReadProjectFile(path);
 
   if (!info) {
@@ -77,6 +79,7 @@ bool LoadProjectFile(const std::string& path) {
   }
 
   info->path = path;
+  info->temporary = asTemporary;
 
   ops::Report("Load: {}", path);
 
@@ -96,11 +99,11 @@ bool LoadSingleShaderProject(const std::string& path) {
   return LoadProjectInfo(*info);
 }
 
-bool LoadSingleShaderOrProjectFile(const std::string& path) {
+bool LoadSingleShaderOrProjectFile(const std::string& path, bool asTemporary) {
   std::filesystem::path p(path);
 
   if (p.extension() == ".json") {
-    return ops::LoadProjectFile(p);
+    return ops::LoadProjectFile(p, asTemporary);
   } else {
     return ops::LoadSingleShaderProject(p);
   }
