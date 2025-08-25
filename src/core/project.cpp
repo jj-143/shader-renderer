@@ -22,7 +22,11 @@ std::expected<ProjectInfo, LoadError> MakeSingleShaderProject(
 
   auto nodeInfo = entry->spec;
 
-  nodeInfo.shaderPath = path;
+  auto pathInput = nodeInfo.GetInput("Path");
+
+  assert(pathInput && "Cannot find `Path` input");
+
+  pathInput->value = path;
 
   return ProjectInfo{
       .path = path,

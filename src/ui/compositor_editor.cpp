@@ -26,7 +26,7 @@ void Region_Controls(renderer::Compositor& compositor);
 void RenderNode(node::ShaderNode* node);
 void NodeHeader(node::ShaderNode& node);
 
-void OnFileInputClicked(node::ShaderNode& node, std::string& path);
+void OnFileInputClicked(node::Node& node, node::Input& input);
 
 }  // namespace
 
@@ -180,18 +180,53 @@ void NodeHeader(node::ShaderNode& node) {
   ImGui::PopStyleVar(1);
 }
 
-void NodeBody(node::ShaderNode& node) {
-  {
-    // Shader Path
-    std::string shortPath = basename(node.shaderPath.c_str());
-    const char* label = shortPath.empty() ? "(empty)" : shortPath.c_str();
+void InputFile(node::Node& node, node::Input& input) {
+  std::string shortPath = basename(input.Value<std::string>().c_str());
+  const char* text = shortPath.empty() ? "(empty)" : shortPath.c_str();
 
-    ImGui::AlignTextToFramePadding();
-    ImGui::Text("Path");
-    ImGui::SameLine(FIELD_START);
-    if (ImGui::Button(label, {-1, 0})) {
-      OnFileInputClicked(node, node.shaderPath);
-    };
+  if (ImGui::Button(text, {-1, 0})) {
+    OnFileInputClicked(node, input);
+  };
+}
+
+void InputFloat([[maybe_unused]] node::Node& node, node::Input& input) {
+  std::string label = std::format("##field[{}]", input.name);
+
+  ImGui::SetNextItemWidth(-1);
+
+  ImGui::DragScalar(label.c_str(), ImGuiDataType_Float, &input.Value<float>(),
+                    0.1f, nullptr, nullptr, "%f");
+}
+
+void NodeInput(node::Node& node, node::Input& input) {
+  ImGui::PushID(&input);
+
+  // Label
+  ImGui::AlignTextToFramePadding();
+  ImGui::Text("%s", input.name.c_str());
+
+  // Field
+  std::string fieldLabel = std::format("##field[{}]", input.name);
+
+  ImGui::SameLine(FIELD_START);
+
+  switch (input.type) {
+    case node::InputType::File:
+      InputFile(node, input);
+      break;
+    case node::InputType::Float:
+      InputFloat(node, input);
+      break;
+    default:
+      break;
+  }
+
+  ImGui::PopID();
+}
+
+void NodeBody(node::ShaderNode& node) {
+  for (auto& input : node.inputs) {
+    NodeInput(node, input);
   }
 }
 
@@ -227,8 +262,8 @@ void RenderNode(node::ShaderNode* node) {
   ImGui::PopID();
 }
 
-void OnFileInputClicked(node::ShaderNode& node, std::string& path) {
-  std::filesystem::path dialogPath{path};
+void OnFileInputClicked(node::Node& node, node::Input& input) {
+  std::filesystem::path dialogPath{input.Value<std::string>()};
 
   if (dialogPath.empty()) {
     dialogPath = (global::BINARY_ROOT / "shaders");
@@ -239,7 +274,7 @@ void OnFileInputClicked(node::ShaderNode& node, std::string& path) {
   auto selected = file_dialog::OpenFile(dialogPath.string());
   if (!selected) return;
 
-  node.OnShaderFileChanged(selected.value());
+  node.OnInputChange(input, selected.value());
 }
 
 }  // namespace

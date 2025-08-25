@@ -11,13 +11,15 @@
 
 namespace {
 
-const auto Spec = node::NodeInfo{
+using namespace node;
+
+const auto Spec = NodeInfo{
     .name = "ComputeShaderNode",
     .label = "",
-    .shaderPath = "",
+    .inputs = {Input(InputType::File, "Path")},
 };
 
-}
+}  // namespace
 
 namespace node {
 
@@ -68,6 +70,8 @@ class ComputeShaderNode : public ShaderNode {
   }
 
   void Validate(renderer::Context& ctx) override {
+    auto& shaderPath = GetInput("Path")->Value<std::string>();
+
     shader = ctx.shaderManager.GetShader(shaderPath, ShaderType::ComputeShader);
 
     if (!shader) {

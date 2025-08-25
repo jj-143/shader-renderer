@@ -1,14 +1,30 @@
 {
   "nodes": [
     {
+      "active": true,
+      "initialized": true,
+      "inputs": [
+        {
+          "name": "Path",
+          "type": "file",
+          "value": "shaders/default.comp"
+        }
+      ],
       "label": "",
-      "name": "ComputeShaderNode",
-      "shaderPath": "shaders/default.comp"
+      "name": "ComputeShaderNode"
     },
     {
+      "active": true,
+      "initialized": true,
+      "inputs": [
+        {
+          "name": "Path",
+          "type": "file",
+          "value": "shaders/screen-slider.frag"
+        }
+      ],
       "label": "",
-      "name": "FragShaderNode",
-      "shaderPath": "shaders/screen-slider.frag"
+      "name": "FragShaderNode"
     }
   ]
 }

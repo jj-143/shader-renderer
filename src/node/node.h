@@ -2,8 +2,10 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "gl.h"
+#include "node_input.h"
 
 namespace renderer {
 struct Context;
@@ -14,11 +16,13 @@ namespace node {
 struct NodeInfo {
   std::string name;
   std::string label;
-  std::string shaderPath;
+  std::vector<Input> inputs;
 
   // states
   bool active = true;
   bool initialized = true;
+
+  Input* GetInput(const std::string& name);
 };
 
 class Node : public NodeInfo {
@@ -27,7 +31,7 @@ class Node : public NodeInfo {
   bool isValid = false;
 
   Node(const std::string& name, const std::string& label = "")
-      : NodeInfo({name, label, ""}) {};
+      : NodeInfo(name, label) {};
 
   virtual ~Node() = default;
 
@@ -39,7 +43,8 @@ class Node : public NodeInfo {
 
   virtual void Validate([[maybe_unused]] renderer::Context& ctx) {}
 
-  void OnShaderFileChanged(const std::string& shaderPath);
+  void OnInputChange(Input& input, const InputValue& value);
+
   void OnActiveChanged();
 };
 

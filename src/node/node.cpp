@@ -4,8 +4,18 @@
 
 namespace node {
 
-void Node::OnShaderFileChanged(const std::string& shaderPath) {
-  this->shaderPath = shaderPath;
+Input* NodeInfo::GetInput(const std::string& name) {
+  if (auto result = std::ranges::find_if(
+          inputs, [&name](Input& item) { return item.name == name; });
+      result != inputs.end()) {
+    return &*result;
+  }
+
+  return nullptr;
+}
+
+void Node::OnInputChange(Input& input, const InputValue& value) {
+  input.value = value;
 
   // NOTE: If there's other inputs that allows "lazy initialized", such as file
   // input, it should also check the rest

@@ -241,7 +241,6 @@ void UI::RenderMain() {
   ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
   ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
   ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, ROUNDING);
-  ImGui::PushStyleColor(ImGuiCol_FrameBg, BG_COLOR);
 
   {
     RenderViewport();
@@ -249,7 +248,6 @@ void UI::RenderMain() {
   }
 
   ImGui::PopStyleVar(3);
-  ImGui::PopStyleColor();
 }
 
 void UI::RenderMainMenu() {

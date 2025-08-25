@@ -9,11 +9,49 @@
 
 using json = nlohmann::json;
 
+template <class... Ts>
+struct overloaded : Ts... {
+  using Ts::operator()...;
+};
+
 namespace node {
 
 // NodeInfo
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(NodeInfo, name, label,
-                                                shaderPath, initialized, active)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(NodeInfo, name, label, inputs,
+                                                initialized, active)
+
+// Input, use custom (de)serializer for std::variant
+void from_json(const json& j, Input& input) {
+  j.at("type").get_to(input.type);
+
+  input.name = j.value("name", "");
+
+  switch (input.type) {
+    case InputType::File:
+      input.value = j.at("value").template get<std::string>();
+      break;
+    case InputType::Float:
+      input.value = j.at("value").template get<float>();
+      break;
+    default:
+      break;
+  }
+}
+
+void to_json(json& j, const Input& input) {
+  j = json{{"type", input.type}, {"name", input.name}};
+
+  std::visit(
+      overloaded{
+          [&](auto arg) { j["value"] = arg; },
+      },
+      input.value);
+}
+
+NLOHMANN_JSON_SERIALIZE_ENUM(InputType, {
+                                            {InputType::File, "file"},
+                                            {InputType::Float, "float"},
+                                        })
 
 }  // namespace node
 

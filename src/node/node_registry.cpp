@@ -11,13 +11,24 @@ using namespace node::registry;
 
 std::unordered_map<std::string, NodeEntry> entries;
 
+/**
+ * If dst Node has an input with the same name, copies it.
+ * Otherwise, add.
+ *
+ * In case dst is Spec and src is from a project file, the runtime will run with
+ * Spec data so input only on the src does nothing
+ */
 void CopyNodeInfo(NodeInfo& dst, const NodeInfo& src) {
   if (!src.label.empty()) {
     dst.label = src.label;
   }
 
-  if (!src.shaderPath.empty()) {
-    dst.shaderPath = src.shaderPath;
+  for (auto& srcInput : src.inputs) {
+    if (auto dstInput = dst.GetInput(srcInput.name)) {
+      *dstInput = srcInput;
+    } else {
+      dst.inputs.emplace_back(srcInput);
+    }
   }
 
   dst.active = src.active;

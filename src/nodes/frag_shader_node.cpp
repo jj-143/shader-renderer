@@ -11,13 +11,15 @@
 
 namespace {
 
-const auto Spec = node::NodeInfo{
+using namespace node;
+
+const auto Spec = NodeInfo{
     .name = "FragShaderNode",
     .label = "",
-    .shaderPath = "",
+    .inputs = {Input(InputType::File, "Path")},
 };
 
-}
+}  // namespace
 
 namespace node {
 
@@ -80,6 +82,8 @@ class FragShaderNode : public ShaderNode {
   }
 
   void Validate(renderer::Context& ctx) override {
+    auto& shaderPath = GetInput("Path")->Value<std::string>();
+
     shader = ctx.shaderManager.GetShader(shaderPath, ShaderType::FragShader);
 
     if (!shader) {
