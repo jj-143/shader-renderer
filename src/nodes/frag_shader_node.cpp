@@ -60,10 +60,10 @@ class FragShaderNode : public ShaderNode {
     glDisable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(shader->program);
     glBindImageTexture(0, colorbuffer, 0, GL_FALSE, 0, GL_WRITE_ONLY,
                        GL_RGBA32F);
 
+    UseShader(ctx, shader);
     glUniform1f(iTimeLocation, ctx.iTime);
 
     // "tDiffuse"
@@ -96,6 +96,8 @@ class FragShaderNode : public ShaderNode {
 
     iTimeLocation = glGetUniformLocation(shader->program, "iTime");
     tDiffuseLocation = glGetUniformLocation(shader->program, "tDiffuse");
+
+    RegisterShaders({shader});
   }
 
  private:

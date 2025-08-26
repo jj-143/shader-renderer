@@ -24,6 +24,22 @@ Input* NodeInfo::GetUniform(const std::string& name) {
   return nullptr;
 }
 
+void Node::RegisterShaders(std::vector<std::shared_ptr<Shader>> shaders) {
+  this->shaders = shaders;
+}
+
+void Node::UpdateUniformLocations() {
+  for (auto shader : shaders) {
+    if (!shader) continue;
+    UpdateLocations(*shader, uniforms);
+  }
+}
+
+void Node::UseShader(renderer::Context& ctx, std::shared_ptr<Shader> shader) {
+  if (!shader) return;
+  ctx.UseShader(*shader, uniforms);
+}
+
 void Node::OnInputChange(Input& input, const InputValue& value) {
   input.value = value;
 
@@ -50,20 +66,31 @@ void Node::OnUniformChanged() {
   app.renderer.ctx->forceRender = true;
 }
 
-void Node::AddUniform(node::Input uniform) { uniforms.emplace_back(uniform); }
+void Node::AddUniform(node::Input uniform) {
+  uniforms.emplace_back(uniform);
+  UpdateUniformLocations();
+}
 
 void Node::EditUniform(node::Input& target, node::Input newUniform) {
   if (target.type == newUniform.type) {
     newUniform.value = target.value;
   }
 
+  if (target.name == newUniform.name) {
+    for (auto shader : shaders) {
+      shader->locations.erase(target.name);
+    }
+  }
+
   target = newUniform;
+  UpdateUniformLocations();
 }
 
 void Node::RemoveUniform(node::Input& target) {
   std::erase_if(uniforms, [&target](node::Input& uniform) {
     return &uniform == &target;
   });
+  UpdateUniformLocations();
 }
 
 }  // namespace node

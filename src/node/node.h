@@ -7,6 +7,8 @@
 #include "gl.h"
 #include "node_input.h"
 
+struct Shader;
+
 namespace renderer {
 struct Context;
 }
@@ -52,12 +54,30 @@ class Node : public NodeInfo {
 
   void OnUniformChanged();
 
+  /**
+   * Acknowlege use of shaders in a Node.
+   * Should be called in Validate()
+   *
+   * TODO: Delegate to Compositor or ContextManager
+   * Shader usages can be gathered during Compositor::Validate() or in
+   * ContextManger.
+   */
+  void RegisterShaders(std::vector<std::shared_ptr<Shader>> shaders);
+
+  /// Update locations for registered shaders in this Node
+  void UpdateUniformLocations();
+
+  void UseShader(renderer::Context& ctx, std::shared_ptr<Shader> shader);
+
   // Modifying uniforms in runtime
   void AddUniform(node::Input uniform);
 
   void EditUniform(node::Input& target, node::Input newUniform);
 
   void RemoveUniform(node::Input& target);
+
+ private:
+  std::vector<std::shared_ptr<Shader>> shaders;
 };
 
 }  // namespace node

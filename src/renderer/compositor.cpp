@@ -52,6 +52,7 @@ void Compositor::Validate(Context& ctx, std::vector<error::Error>& errors) {
     if (!node->initialized || !node->active) continue;
 
     node->Validate(ctx);
+    node->UpdateUniformLocations();
 
     if (!node->isValid) {
       isValid = false;

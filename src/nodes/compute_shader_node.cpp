@@ -48,9 +48,9 @@ class ComputeShaderNode : public ShaderNode {
   void Execute(renderer::Context& ctx) override {
     if (!isValid) return;
 
-    glUseProgram(shader->program);
     glBindImageTexture(0, colorbuffer, 0, GL_FALSE, 0, GL_WRITE_ONLY,
                        GL_RGBA32F);
+    UseShader(ctx, shader);
 
     glUniform1f(iTimeLocation, ctx.iTime);
     glUniformMatrix4fv(viewLocation, 1, GL_FALSE,
@@ -84,6 +84,8 @@ class ComputeShaderNode : public ShaderNode {
 
     viewLocation = glGetUniformLocation(shader->program, "view");
     iTimeLocation = glGetUniformLocation(shader->program, "iTime");
+
+    RegisterShaders({shader});
   }
 
  private:
