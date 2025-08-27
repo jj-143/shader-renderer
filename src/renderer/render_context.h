@@ -4,13 +4,13 @@
 #include <vector>
 
 #include "camera.h"
+#include "node_input.h"
 
 class ShaderManager;
 struct Shader;
 
 namespace node {
 class Node;
-class Input;
 }  // namespace node
 
 namespace renderer {
@@ -25,7 +25,9 @@ struct Context {
   bool rendered = false;
   bool forceRender = false;
 
-  float iTime;
+  std::unordered_map<std::string, node::Input> uniforms = {
+      {"iTime", node::Input{node::InputType::Float, "iTime"}},
+  };
 
   Context(Compositor& c, ShaderManager& s, Camera* cam)
       : compositor(c), shaderManager(s), camera(cam) {}

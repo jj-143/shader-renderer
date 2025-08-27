@@ -52,7 +52,6 @@ class ComputeShaderNode : public ShaderNode {
                        GL_RGBA32F);
     UseShader(ctx, shader);
 
-    glUniform1f(iTimeLocation, ctx.iTime);
     glUniformMatrix4fv(viewLocation, 1, GL_FALSE,
                        glm::value_ptr(ctx.camera->view));
 
@@ -83,7 +82,6 @@ class ComputeShaderNode : public ShaderNode {
     isValid = true;
 
     viewLocation = glGetUniformLocation(shader->program, "view");
-    iTimeLocation = glGetUniformLocation(shader->program, "iTime");
 
     RegisterShaders({shader});
   }
@@ -96,7 +94,6 @@ class ComputeShaderNode : public ShaderNode {
   std::shared_ptr<Shader> shader;
 
   GLuint viewLocation;
-  GLuint iTimeLocation;
 };
 
 }  // namespace node

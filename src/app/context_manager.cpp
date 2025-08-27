@@ -11,7 +11,7 @@ namespace app {
 void ContextManager::Update() {
   if (timeline.IsPlaying()) {
     timeline.Update();
-    ctx.iTime = timeline.iTime;
+    ctx.uniforms["iTime"].value = timeline.iTime;
     ctx.rendered = false;
   }
 }

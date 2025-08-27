@@ -2,6 +2,8 @@
 
 #include <ranges>
 
+#include "shader.h"
+
 namespace renderer {
 
 std::vector<std::shared_ptr<node::ShaderNode>> Compositor::GetNodes() {
@@ -53,6 +55,10 @@ void Compositor::Validate(Context& ctx, std::vector<error::Error>& errors) {
 
     node->Validate(ctx);
     node->UpdateUniformLocations();
+
+    for (auto shader : node->shaders) {
+      UpdateLocations(*shader, std::views::values(ctx.uniforms));
+    }
 
     if (!node->isValid) {
       isValid = false;

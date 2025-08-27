@@ -12,6 +12,10 @@ void Context::UseShader(Shader& shader, std::vector<node::Input>& uniforms) {
   for (auto& uniform : uniforms) {
     UploadUniform(shader, uniform);
   }
+
+  for (auto& [_, uniform] : this->uniforms) {
+    UploadUniform(shader, uniform);
+  }
 }
 
 }  // namespace renderer

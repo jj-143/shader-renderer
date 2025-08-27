@@ -64,7 +64,6 @@ class FragShaderNode : public ShaderNode {
                        GL_RGBA32F);
 
     UseShader(ctx, shader);
-    glUniform1f(iTimeLocation, ctx.iTime);
 
     // "tDiffuse"
     glActiveTexture(GL_TEXTURE0);
@@ -94,7 +93,6 @@ class FragShaderNode : public ShaderNode {
 
     isValid = true;
 
-    iTimeLocation = glGetUniformLocation(shader->program, "iTime");
     tDiffuseLocation = glGetUniformLocation(shader->program, "tDiffuse");
 
     RegisterShaders({shader});
@@ -105,7 +103,6 @@ class FragShaderNode : public ShaderNode {
   GLuint colorbuffer;
   std::shared_ptr<Shader> shader;
 
-  GLuint iTimeLocation;
   GLuint tDiffuseLocation;
 };
 

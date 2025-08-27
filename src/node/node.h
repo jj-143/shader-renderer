@@ -11,7 +11,8 @@ struct Shader;
 
 namespace renderer {
 struct Context;
-}
+class Compositor;
+}  // namespace renderer
 
 namespace node {
 
@@ -75,6 +76,8 @@ class Node : public NodeInfo {
   void EditUniform(node::Input& target, node::Input newUniform);
 
   void RemoveUniform(node::Input& target);
+
+  friend class renderer::Compositor;
 
  private:
   std::vector<std::shared_ptr<Shader>> shaders;
