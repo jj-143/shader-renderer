@@ -1,13 +1,14 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include <string>
 #include <variant>
 
 namespace node {
 
-enum class InputType { File, Float };
+enum class InputType { File, Float, Mat4 };
 
-using InputValue = std::variant<std::string, float>;
+using InputValue = std::variant<std::string, float, glm::mat4>;
 
 class Input {
  public:

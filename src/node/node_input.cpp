@@ -15,6 +15,9 @@ Input::Input(InputType type, std::string name) : type(type), name(name) {
     case InputType::File:
       value = "";
       break;
+    case InputType::Mat4:
+      value = glm::mat4{};
+      break;
   }
 }
 

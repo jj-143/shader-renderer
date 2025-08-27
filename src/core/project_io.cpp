@@ -1,11 +1,13 @@
 #include "project_io.h"
 
 #include <format>
+#include <glm/glm.hpp>
 #include <nlohmann/json.hpp>
 
 #include "logger.h"
 #include "node.h"
 #include "project.h"
+#include "serialize_glm.h"
 
 using json = nlohmann::json;
 
@@ -33,6 +35,9 @@ void from_json(const json& j, Input& input) {
     case InputType::Float:
       input.value = j.at("value").template get<float>();
       break;
+    case InputType::Mat4:
+      input.value = j.at("value").template get<glm::mat4>();
+      break;
     default:
       break;
   }
@@ -51,6 +56,7 @@ void to_json(json& j, const Input& input) {
 NLOHMANN_JSON_SERIALIZE_ENUM(InputType, {
                                             {InputType::File, "file"},
                                             {InputType::Float, "float"},
+                                            {InputType::Mat4, "mat4"},
                                         })
 
 }  // namespace node
