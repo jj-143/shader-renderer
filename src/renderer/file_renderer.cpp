@@ -32,7 +32,7 @@ std::optional<std::vector<error::Error>> FileRenderer::Setup(
 
   if (errors.size()) return errors;
 
-  renderer.camera = camera;
+  renderer.ctx->uniforms = params.uniforms;
 
   data = std::make_unique<GLubyte[]>(params.width * params.height * 4);
   output = {.width = params.width, .height = params.height};
@@ -42,6 +42,7 @@ std::optional<std::vector<error::Error>> FileRenderer::Setup(
 
 void FileRenderer::Render(float iTime) {
   renderer.ctx->uniforms["iTime"].value = iTime;
+  renderer.ctx->rendered = false;
   renderer.Render();
   glBindTexture(GL_TEXTURE_2D, *renderer.renderTexture);
   GetTextureData(data.get());

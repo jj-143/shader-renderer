@@ -15,6 +15,7 @@ namespace output {
 struct FileRendererParams {
   ShaderManager& shaderManager;
   renderer::Compositor& compositor;
+  std::unordered_map<std::string, node::Input>& uniforms;
   int width;
   int height;
 };

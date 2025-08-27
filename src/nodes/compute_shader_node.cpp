@@ -1,8 +1,6 @@
-#include <glm/gtc/type_ptr.hpp>
 #include <memory>
 
 #include "gl.h"
-#include "logger.h"
 #include "node_registry.h"
 #include "render_context.h"
 #include "shader.h"
@@ -52,9 +50,6 @@ class ComputeShaderNode : public ShaderNode {
                        GL_RGBA32F);
     UseShader(ctx, shader);
 
-    glUniformMatrix4fv(viewLocation, 1, GL_FALSE,
-                       glm::value_ptr(ctx.camera->view));
-
     glDispatchCompute(workgroupCountX, workgroupCountY, 1);
     glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
   }
@@ -81,8 +76,6 @@ class ComputeShaderNode : public ShaderNode {
 
     isValid = true;
 
-    viewLocation = glGetUniformLocation(shader->program, "view");
-
     RegisterShaders({shader});
   }
 
@@ -92,8 +85,6 @@ class ComputeShaderNode : public ShaderNode {
 
   GLuint colorbuffer;
   std::shared_ptr<Shader> shader;
-
-  GLuint viewLocation;
 };
 
 }  // namespace node

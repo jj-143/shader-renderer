@@ -1,8 +1,6 @@
-#include <glm/gtc/type_ptr.hpp>
 #include <memory>
 
 #include "gl.h"
-#include "logger.h"
 #include "node_registry.h"
 #include "render_context.h"
 #include "shader.h"

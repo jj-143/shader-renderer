@@ -27,6 +27,7 @@ struct Context {
 
   std::unordered_map<std::string, node::Input> uniforms = {
       {"iTime", node::Input{node::InputType::Float, "iTime"}},
+      {"view", node::Input{node::InputType::Mat4, "view"}},
   };
 
   Context(Compositor& c, ShaderManager& s, Camera* cam)
