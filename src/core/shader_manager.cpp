@@ -86,7 +86,7 @@ void ShaderManager::Refresh(std::vector<error::Error>& reports) {
     }
   }
 
-  reports.append_range(compileErrors);
+  reports.insert(reports.end(), compileErrors.begin(), compileErrors.end());
 
   needRefresh = false;
 }

@@ -53,11 +53,12 @@ target_link_directories(${PROJECT_NAME} PRIVATE ${STAGED_INSTALL_PREFIX}/lib)
 
 if (WIN32)
   SET(OPENGL_LIBS glfw3 OpenGL::GL) # glfw3 is for static linking
+  SET(PLATFORM_LINKS -lstdc++exp)   # for C++23 related (std::println)
 elseif(UNIX)
   SET(OPENGL_LIBS glfw OpenGL::GL)
 endif()
 
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBS})
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBS} ${PLATFORM_LINKS})
 
 # Copy resources
 file(COPY ${CMAKE_SOURCE_DIR}/res DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

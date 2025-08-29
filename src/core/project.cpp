@@ -107,9 +107,9 @@ bool LoadSingleShaderOrProjectFile(const std::string& path, bool asTemporary) {
   std::filesystem::path p(path);
 
   if (p.extension() == ".json") {
-    return ops::LoadProjectFile(p, asTemporary);
+    return ops::LoadProjectFile(p.string(), asTemporary);
   } else {
-    return ops::LoadSingleShaderProject(p);
+    return ops::LoadSingleShaderProject(p.string());
   }
 }
 
