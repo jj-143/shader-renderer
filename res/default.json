@@ -11,7 +11,34 @@
         }
       ],
       "label": "",
-      "name": "ComputeShaderNode"
+      "name": "ComputeShaderNode",
+      "uniforms": [
+        {
+          "name": "radius",
+          "type": "float",
+          "value": 0.25
+        },
+        {
+          "name": "diffuse",
+          "type": "color4",
+          "value": [
+            0.062745101749897,
+            0.21176470816135406,
+            0.21960784494876862,
+            1.0
+          ]
+        },
+        {
+          "name": "bg",
+          "type": "color4",
+          "value": [
+            0.0941176488995552,
+            0.15294118225574493,
+            0.15294118225574493,
+            1.0
+          ]
+        }
+      ]
     },
     {
       "active": true,

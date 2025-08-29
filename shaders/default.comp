@@ -1,3 +1,7 @@
+uniform float radius;
+uniform vec4 diffuse;
+uniform vec4 bg;
+
 bool ray_intersect(vec3 orig, vec3 dir, inout float d, inout vec3 n, vec3 pos, float radius) {
   vec3 L = (pos - orig);
   float tca = dot(L , dir);
@@ -24,11 +28,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
   // Scene
   vec3  sphere_pos      = vec3(0, 1, 0);
-  float sphere_radius   = 0.25;
-  vec3  sphere_diff     = vec3(8, 27, 28) * 2.0 / 255.0;
+  float sphere_radius   = radius;
+  vec3  sphere_diff     = diffuse.rgb;
   vec3  light_pos       = vec3(1, -1, 1);
   float light_intensity = 1;
-  vec3  bg_color        = vec3(24, 39, 39) / 255.0;
 
   sphere_pos.x = sin(iTime) * 0.2;
 
@@ -43,10 +46,10 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
   if (ray_intersect(vec3(0), ray_dir, d, n, sphere_pos, sphere_radius)) {
     vec3 hit = ray_dir * d;
     vec3 dir_light = normalize(light_pos - hit);
-    float diff = clamp(dot(dir_light, n) * light_intensity, 0.0, 1.0);
+    float diff = clamp(dot(dir_light, n), 0.0, 1.0) * light_intensity;
     color = sphere_diff * diff;
   } else {
-    color = bg_color;
+    color = bg.rgb;
   }
 
   fragColor = vec4(color, 1);
