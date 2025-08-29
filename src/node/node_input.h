@@ -6,9 +6,9 @@
 
 namespace node {
 
-enum class InputType { File, Float, Mat4 };
+enum class InputType { File, Float, Mat4, Color4 };
 
-using InputValue = std::variant<std::string, float, glm::mat4>;
+using InputValue = std::variant<std::string, float, glm::mat4, glm::vec4>;
 
 class Input {
  public:

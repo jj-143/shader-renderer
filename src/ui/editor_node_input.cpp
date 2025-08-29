@@ -13,8 +13,13 @@
 
 namespace {
 
+const auto COLOR_EDIT_FLAGS = ImGuiColorEditFlags_AlphaBar |
+                              ImGuiColorEditFlags_AlphaPreviewHalf |
+                              ImGuiColorEditFlags_AlphaPreview;
+
 void InputFile(node::Node& node, node::Input& input);
 void InputFloat(node::Node& node, node::Input& input);
+void InputColor4(node::Node& node, node::Input& input);
 void SelectFile(node::Node& node, node::Input& input);
 
 }  // namespace
@@ -47,6 +52,9 @@ void RenderNodeInput(node::Node& node, node::Input& input, bool isUniform) {
     case node::InputType::Float:
       InputFloat(node, input);
       break;
+    case node::InputType::Color4:
+      InputColor4(node, input);
+      break;
     default:
       ImGui::NewLine();
       break;
@@ -77,6 +85,16 @@ void InputFloat(node::Node& node, node::Input& input) {
 
   if (ImGui::DragScalar(label.c_str(), ImGuiDataType_Float,
                         &input.Value<float>(), 0.1f, nullptr, nullptr, "%f")) {
+    node.OnUniformChanged();
+  }
+}
+
+void InputColor4(node::Node& node, node::Input& input) {
+  auto label = std::format("##InputColor4[{}]", input.name);
+  auto color = (float*)&input.Value<glm::vec4>();
+
+  ImGui::SetNextItemWidth(-1);
+  if (ImGui::ColorEdit4(label.c_str(), color, COLOR_EDIT_FLAGS)) {
     node.OnUniformChanged();
   }
 }

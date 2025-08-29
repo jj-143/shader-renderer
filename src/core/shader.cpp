@@ -23,5 +23,8 @@ void UploadUniform(Shader& shader, node::Input& uniform) {
       glUniformMatrix4fv(location, 1, GL_FALSE,
                          glm::value_ptr(uniform.Value<glm::mat4>()));
       break;
+    case node::InputType::Color4:
+      glUniform4fv(location, 1, (float*)&(uniform.Value<glm::vec4>()));
+      break;
   }
 }

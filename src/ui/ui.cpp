@@ -218,7 +218,7 @@ void UI::HandleFocusViewport() {
 }
 
 void UI::PopGlobalStyles() {
-  ImGui::PopStyleColor(15);
+  ImGui::PopStyleColor(16);
   ImGui::PopStyleVar(1);
 }
 
@@ -236,6 +236,8 @@ void UI::PushGlobalStyles() {
   ImGui::PushStyleColor(ImGuiCol_Button, ITEM_NORMAL);
   ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ITEM_HOVERED);
   ImGui::PushStyleColor(ImGuiCol_ButtonActive, ITEM_ACTIVE);
+
+  ImGui::PushStyleColor(ImGuiCol_CheckMark, colors::SHADE_2);
 
   ImGui::PushStyleColor(ImGuiCol_FrameBg, ITEM_NORMAL);
   ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ITEM_ACTIVE);

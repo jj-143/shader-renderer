@@ -14,8 +14,9 @@ namespace {
 
 using UniformOption = std::pair<const char*, node::InputType>;
 
-auto UNIFORM_OPTIONS = std::array<UniformOption, 1>{
+auto UNIFORM_OPTIONS = std::array<UniformOption, 2>{
     UniformOption{"float", node::InputType::Float},
+    UniformOption{"vec4 (Color)", node::InputType::Color4},
 };
 
 struct EditUniformState {

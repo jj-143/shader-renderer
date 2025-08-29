@@ -38,6 +38,9 @@ void from_json(const json& j, Input& input) {
     case InputType::Mat4:
       input.value = j.at("value").template get<glm::mat4>();
       break;
+    case InputType::Color4:
+      input.value = j.at("value").template get<glm::vec4>();
+      break;
     default:
       break;
   }
@@ -57,6 +60,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(InputType, {
                                             {InputType::File, "file"},
                                             {InputType::Float, "float"},
                                             {InputType::Mat4, "mat4"},
+                                            {InputType::Color4, "color4"},
                                         })
 
 }  // namespace node
