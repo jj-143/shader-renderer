@@ -84,7 +84,8 @@ void InputFloat(node::Node& node, node::Input& input) {
   ImGui::SetNextItemWidth(-1);
 
   if (ImGui::DragScalar(label.c_str(), ImGuiDataType_Float,
-                        &input.Value<float>(), 0.1f, nullptr, nullptr, "%f")) {
+                        &input.Value<float>(), ui::SLIDER_SPEED_FLOAT, nullptr,
+                        nullptr, "%f")) {
     node.OnUniformChanged();
   }
 }

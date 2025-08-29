@@ -47,7 +47,7 @@ void FrameSettings() {
     ImGui::SameLine(ui::side_panel::FIELD_START);
     ImGui::SetNextItemWidth(-1);
     ImGui::DragScalar("##frameStart", ImGuiDataType_U16, &output.frameStart,
-                      ui::SLIDER_SPEED, nullptr, &output.frameEnd, "%u");
+                      ui::SLIDER_SPEED_INT, nullptr, &output.frameEnd, "%u");
   }
 
   {
@@ -57,7 +57,7 @@ void FrameSettings() {
     ImGui::SameLine(ui::side_panel::FIELD_START);
     ImGui::SetNextItemWidth(-1);
     ImGui::DragScalar("##frameEnd", ImGuiDataType_U16, &output.frameEnd,
-                      ui::SLIDER_SPEED, &output.frameStart, nullptr, "%u");
+                      ui::SLIDER_SPEED_INT, &output.frameStart, nullptr, "%u");
   }
 
   {
@@ -92,7 +92,7 @@ void OutputSettings() {
     ImGui::SameLine(ui::side_panel::FIELD_START);
     ImGui::SetNextItemWidth(-1);
     ImGui::DragScalar("##width", ImGuiDataType_U16, &output.width,
-                      ui::SLIDER_SPEED, nullptr, nullptr, "%u");
+                      ui::SLIDER_SPEED_INT, nullptr, nullptr, "%u");
   }
 
   {
@@ -102,7 +102,7 @@ void OutputSettings() {
     ImGui::SameLine(ui::side_panel::FIELD_START);
     ImGui::SetNextItemWidth(-1);
     ImGui::DragScalar("##height", ImGuiDataType_U16, &output.height,
-                      ui::SLIDER_SPEED, nullptr, nullptr, "%u");
+                      ui::SLIDER_SPEED_INT, nullptr, nullptr, "%u");
   }
 
   {

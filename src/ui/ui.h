@@ -56,7 +56,8 @@ inline const ImVec4   ITEM_ACTIVE        = colors::SHADE_2;
 
 inline const float    STATUS_DURATION    = 3;
 
-inline const float    SLIDER_SPEED       = 0.2f;
+inline const float    SLIDER_SPEED_INT   = 0.1f;
+inline const float    SLIDER_SPEED_FLOAT = 0.005f;
 // clang-format on
 
 class UI {
