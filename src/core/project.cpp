@@ -9,6 +9,11 @@
 #include "ops.h"
 #include "project_io.h"
 
+namespace {
+void ToAbsPathInput(node::Input& input, const std::filesystem::path& parent);
+void ToAbsPaths(project::ProjectInfo& info);
+}  // namespace
+
 namespace project {
 
 std::expected<ProjectInfo, LoadError> MakeSingleShaderProject(
@@ -85,6 +90,8 @@ bool LoadProjectFile(const std::string& path, bool asTemporary) {
   info->path = path;
   info->temporary = asTemporary;
 
+  ToAbsPaths(*info);
+
   ops::Report("Load: {}", path);
 
   return LoadProjectInfo(*info);
@@ -104,7 +111,7 @@ bool LoadSingleShaderProject(const std::string& path) {
 }
 
 bool LoadSingleShaderOrProjectFile(const std::string& path, bool asTemporary) {
-  std::filesystem::path p(path);
+  std::filesystem::path p = std::filesystem::absolute(path);
 
   if (p.extension() == ".json") {
     return ops::LoadProjectFile(p.string(), asTemporary);
@@ -129,3 +136,32 @@ bool SaveProject(const std::string& path) {
 }
 
 }  // namespace ops
+
+namespace {
+
+void ToAbsPathInput(node::Input& input, const std::filesystem::path& parent) {
+  if (input.type != node::InputType::File) return;
+
+  std::filesystem::path p{input.Value<std::string>()};
+
+  if (p.is_absolute()) return;
+
+  input.value = std::filesystem::weakly_canonical(parent / p).string();
+}
+
+void ToAbsPaths(project::ProjectInfo& info) {
+  std::filesystem::path projectFileDir{info.path};
+  projectFileDir = projectFileDir.parent_path();
+
+  for (auto& node : info.nodes) {
+    for (auto& input : node.inputs) {
+      ToAbsPathInput(input, projectFileDir);
+    }
+
+    for (auto& uniform : node.uniforms) {
+      ToAbsPathInput(uniform, projectFileDir);
+    }
+  }
+}
+
+}  // namespace

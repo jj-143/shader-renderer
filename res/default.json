@@ -7,7 +7,7 @@
         {
           "name": "Path",
           "type": "file",
-          "value": "shaders/default.comp"
+          "value": "../shaders/default.comp"
         }
       ],
       "label": "",
@@ -20,7 +20,7 @@
         {
           "name": "Path",
           "type": "file",
-          "value": "shaders/screen-slider.frag"
+          "value": "../shaders/screen-slider.frag"
         }
       ],
       "label": "",
