@@ -138,7 +138,10 @@ bool ReloadProject() {
 bool Render(bool animation) {
   auto& app = app::GetInstance();
   if (app.taskManager.HasTask()) return false;
+
   app.timeline.Pause();
+  app.ui.InitRenderWindow();
+
   const char* taskName = animation ? "Render Animation" : "Render Image";
   app.taskManager.RunTask(task::CreateTask(taskName, RenderTask, animation));
   return true;
@@ -192,6 +195,11 @@ void RenderTask(task::Task& task, bool animation) {
     return;
   }
 
+  if (!app.ui.renderWindow) {
+    ops::ReportError("Render failed: No Render Window");
+    return;
+  }
+
   output::FileRenderer fileRenderer;
   output::FileRendererParams params{
       .shaderManager = *app.shaderManager,
@@ -201,7 +209,8 @@ void RenderTask(task::Task& task, bool animation) {
       .height = output.height,
   };
 
-  auto errors = fileRenderer.Setup(params, app.renderer.camera, app.ui.window);
+  auto errors =
+      fileRenderer.Setup(params, app.renderer.camera, *app.ui.renderWindow);
 
   if (errors) {
     auto errorLog = error::MergeErrors(*errors);
@@ -231,6 +240,8 @@ void RenderTask(task::Task& task, bool animation) {
       writeErrors++;
     task.progress = (i + 1.f) / (nFrames);
   }
+
+  app.ui.DestroyRenderWindow();
 
   if (writeErrors > 0) {
     ops::ReportError("ERROR: Coudn't write output {} for {} {}",

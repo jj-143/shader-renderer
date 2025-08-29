@@ -4,7 +4,6 @@
 
 #include <string>
 
-#include "app.h"
 #include "ui.h"
 
 namespace {
@@ -18,15 +17,23 @@ void GetTextureData(GLubyte* data);
 namespace output {
 
 std::optional<std::vector<error::Error>> FileRenderer::Setup(
-    const FileRendererParams params, const Camera& camera, GLFWwindow* share) {
-  CreateWindow(share);
+    const FileRendererParams params, const Camera& camera,
+    GLFWwindow& renderWindow) {
+  std::vector<error::Error> errors;
+
+  if (!ui::MakeContextCurrent(&renderWindow)) {
+    errors.emplace_back(error::Error{
+        .label = "Renderer setup failed",
+        .log = "Cannot make OpenGL context",
+    });
+    return errors;
+  }
 
   // Init renderer for output
   renderer.Init(params.width, params.height);
   renderer.InitContext(params.shaderManager);
   renderer.CopyCompositor(params.compositor.Clone());
 
-  std::vector<error::Error> errors;
   renderer.compositor.Validate(*renderer.ctx, errors);
   params.shaderManager.Refresh(errors);
 
@@ -50,16 +57,6 @@ void FileRenderer::Render(float iTime) {
 
 bool FileRenderer::WriteToFile(const char* filename) {
   return WriteToPNG(filename, data.get(), output.width, output.height);
-}
-
-void FileRenderer::CreateWindow(GLFWwindow* share) {
-  // Create invisible Window for new GL Context
-  glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-
-  auto deleter = [](GLFWwindow* ptr) { glfwDestroyWindow(ptr); };
-
-  window = std::shared_ptr<GLFWwindow>(
-      ui::InitWindow(1, 1, "Render Result", share), deleter);
 }
 
 }  // namespace output

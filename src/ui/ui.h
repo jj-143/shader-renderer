@@ -2,6 +2,7 @@
 #include <imgui/imgui.h>
 
 #include <functional>
+#include <memory>
 #include <optional>
 #include <queue>
 #include <string>
@@ -63,6 +64,7 @@ class UI {
   int wW, wH;  // window
   int vW, vH;  // viewport
   GLFWwindow* window;
+  std::shared_ptr<GLFWwindow> renderWindow;
 
   bool showOverlays = true;
   bool isViewportFocused = false;
@@ -78,6 +80,9 @@ class UI {
   bool NewFrame();
   void Startup();
   void Render();
+
+  void InitRenderWindow();
+  void DestroyRenderWindow();
 
   void MaximizeViewport(bool set);
   void SetCamera(Camera& camera) { this->camera = &camera; }
@@ -113,7 +118,11 @@ class UI {
 };
 
 ImVec2 CalculateWindowSize(ImVec2 viewport);
-GLFWwindow* InitWindow(const int width, const int height, const char* title,
-                       GLFWwindow* share = nullptr);
+
+GLFWwindow* InitWindow(const int width, const int height, const char* title);
+
+std::shared_ptr<GLFWwindow> InitInvisibleWindow(GLFWwindow* share);
+
+bool MakeContextCurrent(GLFWwindow* window);
 
 }  // namespace ui

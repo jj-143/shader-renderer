@@ -31,7 +31,7 @@ bool UI::InitUI(const int width, const int height, const char* title) {
   ImVec2 nW = CalculateWindowSize(ImVec2(vW, vH));
   wW = nW.x, wH = nW.y;
   window = InitWindow(wW, wH, title);
-  if (window == nullptr) return false;
+  if (!window) return false;
 
   glfwGetFramebufferSize(window, &wW, &wH);
   glViewport(0, 0, wH, wH);
@@ -114,6 +114,10 @@ void UI::Render() {
   HandleFocusViewport();
   HandleDeferredTask();
 }
+
+void UI::InitRenderWindow() { renderWindow = InitInvisibleWindow(window); }
+
+void UI::DestroyRenderWindow() { renderWindow.reset(); }
 
 void UI::MaximizeViewport(bool set) {
   isViewportMaximized = set;
@@ -482,8 +486,7 @@ ImVec2 CalculateWindowSize(ImVec2 viewport) {
   return {viewport.x + delta.x, viewport.y + delta.y};
 }
 
-GLFWwindow* InitWindow(const int width, const int height, const char* title,
-                       GLFWwindow* share) {
+GLFWwindow* InitWindow(const int width, const int height, const char* title) {
   GLFWwindow* window;
 
   if (!glfwInit()) {
@@ -491,17 +494,34 @@ GLFWwindow* InitWindow(const int width, const int height, const char* title,
     return nullptr;
   }
 
-  window = glfwCreateWindow(width, height, title, nullptr, share);
-  glfwMakeContextCurrent(window);
+  window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 
-  int version = gladLoadGL(glfwGetProcAddress);
-  if (version == 0) {
-    logger::Error("Falied to initialize OpenGL context.");
-    glfwTerminate();
-    return nullptr;
-  }
+  if (!ui::MakeContextCurrent(window)) return nullptr;
 
   return window;
+}
+
+std::shared_ptr<GLFWwindow> InitInvisibleWindow(GLFWwindow* share) {
+  glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+
+  auto deleter = [](GLFWwindow* ptr) { glfwDestroyWindow(ptr); };
+
+  auto window = std::shared_ptr<GLFWwindow>(
+      glfwCreateWindow(1, 1, "Render Result", nullptr, share), deleter);
+
+  return window;
+}
+
+bool MakeContextCurrent(GLFWwindow* window) {
+  glfwMakeContextCurrent(window);
+
+  if (!gladLoadGL(glfwGetProcAddress)) {
+    logger::Error("Falied to initialize OpenGL context.");
+    glfwDestroyWindow(window);
+    return false;
+  }
+
+  return true;
 }
 
 }  // namespace ui

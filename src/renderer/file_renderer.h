@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <optional>
+#include <vector>
 
 #include "app.h"
 #include "compositor.h"
@@ -26,7 +27,7 @@ class FileRenderer {
 
   std::optional<std::vector<error::Error>> Setup(
       const FileRendererParams params, const Camera& camera,
-      GLFWwindow* window);
+      GLFWwindow& renderWindow);
 
   /// Render current scene to internal buffer.
   void Render(float iTime);
@@ -44,8 +45,6 @@ class FileRenderer {
   std::unique_ptr<GLubyte[]> data;
   std::shared_ptr<GLFWwindow> window;
   Output output;
-
-  void CreateWindow(GLFWwindow* share);
 };
 
 }  // namespace output
