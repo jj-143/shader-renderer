@@ -128,7 +128,19 @@ std::optional<EditUniformDialogResult> OpenPopup(node::Input* input) {
       ImGui::SameLine(FIELD_START);
 
       ImGui::SetNextItemWidth(FIELD_WIDTH);
-      ImGui::InputTextWithHint("##UniformName", "name", &state.name);
+
+      if (ImGui::InputTextWithHint("##UniformName", "name", &state.name,
+                                   ImGuiInputTextFlags_EnterReturnsTrue)) {
+        if (!state.name.empty()) {
+          ImGui::CloseCurrentPopup();
+          ImGui::EndPopup();
+
+          return EditUniformDialogResult{
+              .isRemove = false,
+              .input = node::Input{state.type, state.name},
+          };
+        }
+      }
     }
 
     // Uniform Type
@@ -147,7 +159,6 @@ std::optional<EditUniformDialogResult> OpenPopup(node::Input* input) {
               },
               UNIFORM_OPTIONS.data(), UNIFORM_OPTIONS.size())) {
         state.type = UNIFORM_OPTIONS[state._uniformType_index].second;
-        logger::Debug("Selected: {}", state._uniformType_index);
       }
     }
 
