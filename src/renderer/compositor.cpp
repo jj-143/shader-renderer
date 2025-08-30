@@ -6,17 +6,21 @@
 
 namespace renderer {
 
+std::shared_ptr<Compositor> Compositor::Create() {
+  return std::shared_ptr<Compositor>(new Compositor());
+}
+
 std::vector<std::shared_ptr<node::ShaderNode>> Compositor::GetNodes() {
   return nodes;
 }
 
-Compositor Compositor::Clone() {
-  Compositor cloned = *this;
+std::shared_ptr<Compositor> Compositor::Clone() {
+  auto cloned = std::make_shared<Compositor>(*this);
 
-  cloned.nodes.clear();
+  cloned->nodes.clear();
 
-  for (auto node : nodes) {
-    cloned.nodes.emplace_back(node->Clone());
+  for (auto node : this->nodes) {
+    cloned->nodes.emplace_back(node->Clone());
   }
 
   return cloned;

@@ -34,7 +34,7 @@ std::optional<std::vector<error::Error>> FileRenderer::Setup(
   renderer.InitContext(params.shaderManager);
   renderer.CopyCompositor(params.compositor.Clone());
 
-  renderer.compositor.Validate(*renderer.ctx, errors);
+  renderer.GetCompositor().Validate(*renderer.ctx, errors);
   params.shaderManager.Refresh(errors);
 
   if (errors.size()) return errors;

@@ -38,7 +38,7 @@ void ContextManager::ValidateShaderManager() {
   shaderManager.Refresh(*errors);
 
   if (!shaderManager.HasCompileErrors()) {
-    ctx.compositor.needValidation = true;
+    ctx.compositor->needValidation = true;
 
     if (!firstValidation) {
       ops::Report("Reloaded");
@@ -51,13 +51,13 @@ void ContextManager::ValidateShaderManager() {
 }
 
 void ContextManager::ValidateRenderContext() {
-  if (!ctx.compositor.needValidation) return;
+  if (!ctx.compositor->needValidation) return;
 
   logger::Debug("[ContextManager] Validate RenderContext");
 
   if (!errors) errors.emplace();
 
-  ctx.compositor.Validate(ctx, *errors);
+  ctx.compositor->Validate(ctx, *errors);
 
   ctx.forceRender = true;
 }

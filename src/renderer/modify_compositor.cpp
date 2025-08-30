@@ -6,12 +6,13 @@
 
 namespace renderer {
 
-renderer::Compositor BuildCompositor(project::ProjectInfo info) {
-  renderer::Compositor compositor;
+std::shared_ptr<renderer::Compositor> BuildCompositor(
+    project::ProjectInfo info) {
+  auto compositor = Compositor::Create();
 
   for (const auto &nodeInfo : info.nodes) {
     if (auto node = node::registry::CreateNode(nodeInfo); node) {
-      compositor.nodes.emplace_back(node);
+      compositor->nodes.emplace_back(node);
     }
   }
 

@@ -32,7 +32,7 @@ void RenderNode(node::ShaderNode* node);
 namespace ui::side_panel {
 
 void CompositorEditor() {
-  auto& compositor = app::GetInstance().renderer.compositor;
+  auto& compositor = app::GetInstance().renderer.GetCompositor();
 
   Region_CompositorRack(compositor);
 
@@ -138,8 +138,7 @@ void NodeHeaderOptionButton(node::ShaderNode& node) {
 
     if (ImGui::BeginPopup("Options")) {
       if (ImGui::Selectable("Remove")) {
-        auto& compositor = app::GetInstance().renderer.compositor;
-        renderer::RemoveNode(node, compositor);
+        renderer::RemoveNode(node, app::GetInstance().renderer.GetCompositor());
       }
       ImGui::SetNextItemWidth(-FLT_MIN);
       ImGui::EndPopup();

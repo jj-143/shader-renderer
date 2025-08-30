@@ -48,7 +48,7 @@ void Node::OnInputChange(Input& input, const InputValue& value) {
   initialized = true;
 
   auto& app = app::GetInstance();
-  app.renderer.ctx->compositor.needValidation = true;
+  app.renderer.ctx->compositor->needValidation = true;
 }
 
 void Node::OnActiveChanged() {
@@ -57,7 +57,7 @@ void Node::OnActiveChanged() {
   if (this->active && !this->isValid) {
     // NOTE: Node initialized with inactive state may have never been
     // validated, e.g, Node's state restored as not active
-    app.renderer.ctx->compositor.needValidation = true;
+    app.renderer.ctx->compositor->needValidation = true;
   }
 }
 

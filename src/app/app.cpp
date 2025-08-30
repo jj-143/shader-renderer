@@ -69,7 +69,7 @@ void App::Run() {
 project::ProjectInfo App::SerializeProject() {
   project::ProjectInfo result;
 
-  for (auto node : renderer.compositor.GetNodes()) {
+  for (auto node : renderer.GetCompositor().GetNodes()) {
     result.nodes.push_back(*node);
   }
 

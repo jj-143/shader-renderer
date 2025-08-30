@@ -16,19 +16,21 @@ class Renderer {
   std::shared_ptr<Context> ctx;
 
   Camera camera;
-  Compositor compositor;
 
   GLuint renderTexture;
 
+  Compositor& GetCompositor();
+
   void Init(int width, int height);
   void InitContext(ShaderManager& shaderManager);
-  void CopyCompositor(const Compositor& target);
+  void CopyCompositor(std::shared_ptr<Compositor> target);
   void Render();
   void SetSize(int width, int height);
 
  private:
   int width;
   int height;
+  std::shared_ptr<Compositor> compositor = Compositor::Create();
 
   void RenderToOutput();
 };

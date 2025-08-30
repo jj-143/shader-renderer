@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <unordered_map>
 #include <vector>
 
@@ -18,7 +19,7 @@ namespace renderer {
 class Compositor;
 
 struct Context {
-  Compositor& compositor;
+  std::shared_ptr<Compositor> compositor;
   ShaderManager& shaderManager;
   Camera* camera;
 
@@ -30,7 +31,7 @@ struct Context {
       {"view", node::Input{node::InputType::Mat4, "view"}},
   };
 
-  Context(Compositor& c, ShaderManager& s, Camera* cam)
+  Context(std::shared_ptr<Compositor> c, ShaderManager& s, Camera* cam)
       : compositor(c), shaderManager(s), camera(cam) {}
 
   friend class node::Node;

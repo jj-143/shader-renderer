@@ -71,7 +71,7 @@ bool LoadProjectInfo(const ProjectInfo& info) {
   app.renderer.CopyCompositor(renderer::BuildCompositor(info));
 
   // Reset
-  app.renderer.compositor.needValidation = true;
+  app.renderer.GetCompositor().needValidation = true;
   app.contextManager->firstValidation = true;
   app.timeline.Stop();
   app.timeline.Play();

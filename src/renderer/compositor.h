@@ -14,7 +14,7 @@ struct ProjectInfo;
 
 namespace renderer {
 
-class Compositor {
+class Compositor : public std::enable_shared_from_this<Compositor> {
  public:
   bool isValid = true;
   bool needValidation = false;
@@ -23,9 +23,11 @@ class Compositor {
 
   GLuint output;
 
+  static std::shared_ptr<Compositor> Create();
+
   std::vector<std::shared_ptr<node::ShaderNode>> GetNodes();
 
-  Compositor Clone();
+  std::shared_ptr<Compositor> Clone();
 
   void Init();
 
@@ -39,14 +41,16 @@ class Compositor {
   int width;
   int height;
 
+  Compositor() = default;
+
   std::vector<std::shared_ptr<node::ShaderNode>> nodes;
 
-  friend Compositor BuildCompositor(project::ProjectInfo);
+  friend std::shared_ptr<Compositor> BuildCompositor(project::ProjectInfo);
   friend bool AddNode(const std::string &name, Compositor &compositor);
   friend bool RemoveNode(node::Node &target, Compositor &compositor);
 };
 
-Compositor BuildCompositor(project::ProjectInfo);
+std::shared_ptr<Compositor> BuildCompositor(project::ProjectInfo);
 
 bool AddNode(const std::string &name, Compositor &compositor);
 

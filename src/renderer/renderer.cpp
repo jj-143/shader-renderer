@@ -2,6 +2,8 @@
 
 namespace renderer {
 
+Compositor& Renderer::GetCompositor() { return *compositor; }
+
 void Renderer::Init(int w, int h) { SetSize(w, h); }
 
 void Renderer::InitContext(ShaderManager& shaderManager) {
@@ -9,7 +11,7 @@ void Renderer::InitContext(ShaderManager& shaderManager) {
 }
 
 void Renderer::Render() {
-  if (!compositor.isValid) return;
+  if (!compositor->isValid) return;
 
   bool shoudRender =
       ctx->forceRender || !ctx->rendered || ctx->camera->IsWalkMode();
@@ -18,7 +20,7 @@ void Renderer::Render() {
   ctx->rendered = true;
   ctx->forceRender = false;
 
-  compositor.Execute(*ctx);
+  compositor->Execute(*ctx);
 
   RenderToOutput();
 }
@@ -26,17 +28,19 @@ void Renderer::Render() {
 void Renderer::SetSize(int width, int height) {
   this->width = width;
   this->height = height;
-  compositor.SetSize(width, height);
+
+  compositor->SetSize(width, height);
 
   if (ctx) {
     ctx->forceRender = true;
   }
 }
 
-void Renderer::CopyCompositor(const Compositor& target) {
+void Renderer::CopyCompositor(std::shared_ptr<Compositor> target) {
   compositor = target;
-  compositor.Init();
-  compositor.SetSize(width, height);
+  compositor->Init();
+  compositor->SetSize(width, height);
+  ctx->compositor = compositor;
 }
 
 void Renderer::RenderToOutput() {
@@ -47,7 +51,7 @@ void Renderer::RenderToOutput() {
    * Just copy the ID instead of actually copying the buffer or rendering using
    * a pass-through shader.
    */
-  renderTexture = compositor.output;
+  renderTexture = compositor->output;
 }
 
 }  // namespace renderer

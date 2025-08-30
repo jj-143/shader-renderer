@@ -203,7 +203,7 @@ void RenderTask(task::Task& task, bool animation) {
   output::FileRenderer fileRenderer;
   output::FileRendererParams params{
       .shaderManager = *app.shaderManager,
-      .compositor = app.renderer.compositor,
+      .compositor = app.renderer.GetCompositor(),
       .uniforms = app.renderer.ctx->uniforms,
       .width = output.width,
       .height = output.height,
