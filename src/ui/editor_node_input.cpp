@@ -4,6 +4,7 @@
 
 #include <filesystem>
 #include <format>
+#include <glm/glm.hpp>
 
 #include "file_dialog.h"
 #include "global.h"
@@ -21,6 +22,7 @@ void InputFile(node::Node& node, node::Input& input);
 void InputFloat(node::Node& node, node::Input& input);
 void InputColor4(node::Node& node, node::Input& input);
 void SelectFile(node::Node& node, node::Input& input);
+void UniformLabelTooltip(node::Input& uniform);
 
 }  // namespace
 
@@ -34,6 +36,8 @@ void RenderNodeInput(node::Node& node, node::Input& input, bool isUniform) {
     if (ImGui::Button(input.name.c_str(), {side_panel::FIELD_START - 16, 0})) {
       popup::Open(popup::EDIT_UNIFORM);
     }
+
+    UniformLabelTooltip(input);
 
     popup::EditUniform(node, &input);
 
@@ -76,18 +80,22 @@ void InputFile(node::Node& node, node::Input& input) {
   if (ImGui::Button(text.c_str(), {-1, 0})) {
     SelectFile(node, input);
   };
+
+  ImGui::SetItemTooltip("%s", path.string().c_str());
 }
 
 void InputFloat(node::Node& node, node::Input& input) {
   std::string label = std::format("##InputFloat[{}]", input.name);
+  float& value = input.Value<float>();
 
   ImGui::SetNextItemWidth(-1);
 
-  if (ImGui::DragScalar(label.c_str(), ImGuiDataType_Float,
-                        &input.Value<float>(), ui::SLIDER_SPEED_FLOAT, nullptr,
-                        nullptr, "%f")) {
+  if (ImGui::DragScalar(label.c_str(), ImGuiDataType_Float, &value,
+                        ui::SLIDER_SPEED_FLOAT, nullptr, nullptr, "%f")) {
     node.OnUniformChanged();
   }
+
+  ImGui::SetItemTooltip("(float) %f", value);
 }
 
 void InputColor4(node::Node& node, node::Input& input) {
@@ -113,6 +121,21 @@ void SelectFile(node::Node& node, node::Input& input) {
   if (!selected) return;
 
   node.OnInputChange(input, selected.value());
+}
+
+void UniformLabelTooltip(node::Input& uniform) {
+  switch (uniform.type) {
+    case node::InputType::Float:
+      ImGui::SetItemTooltip("(float) %f", uniform.Value<float>());
+      break;
+    case node::InputType::Color4: {
+      auto v = uniform.Value<glm::vec4>();
+      ImGui::SetItemTooltip("(vec4) (%f, %f, %f, %f)", v.x, v.y, v.z, v.w);
+      break;
+    }
+    default:
+      break;
+  }
 }
 
 }  // namespace
