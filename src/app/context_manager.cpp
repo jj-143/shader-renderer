@@ -12,9 +12,10 @@ void ContextManager::Update() {
   if (timeline.IsPlaying()) {
     timeline.Update();
     ctx.uniforms["iTime"].value = timeline.iTime;
-    ctx.uniforms["view"].value = ctx.camera->view;
     ctx.rendered = false;
   }
+
+  ctx.uniforms["view"].value = ctx.camera->view;
 }
 
 void ContextManager::Validate() {
