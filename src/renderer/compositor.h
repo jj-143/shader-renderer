@@ -26,6 +26,7 @@ class Compositor : public std::enable_shared_from_this<Compositor> {
   static std::shared_ptr<Compositor> Create();
 
   std::vector<std::shared_ptr<node::ShaderNode>> GetNodes();
+  std::shared_ptr<Compositor> GetShared();
 
   std::shared_ptr<Compositor> Clone();
 

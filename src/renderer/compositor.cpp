@@ -14,13 +14,19 @@ std::vector<std::shared_ptr<node::ShaderNode>> Compositor::GetNodes() {
   return nodes;
 }
 
+std::shared_ptr<Compositor> Compositor::GetShared() {
+  return shared_from_this();
+}
+
 std::shared_ptr<Compositor> Compositor::Clone() {
   auto cloned = std::make_shared<Compositor>(*this);
 
   cloned->nodes.clear();
 
   for (auto node : this->nodes) {
-    cloned->nodes.emplace_back(node->Clone());
+    auto clonedNode = node->Clone();
+    clonedNode->compositor = cloned;
+    cloned->nodes.emplace_back(clonedNode);
   }
 
   return cloned;

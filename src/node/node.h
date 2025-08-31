@@ -35,6 +35,7 @@ class Node : public NodeInfo {
  public:
   bool toRemove = false;
   bool isValid = false;
+  std::weak_ptr<renderer::Compositor> compositor;
 
   Node(const std::string& name, const std::string& label = "")
       : NodeInfo(name, label) {};

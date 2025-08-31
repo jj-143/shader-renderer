@@ -12,6 +12,7 @@ std::shared_ptr<renderer::Compositor> BuildCompositor(
 
   for (const auto &nodeInfo : info.nodes) {
     if (auto node = node::registry::CreateNode(nodeInfo); node) {
+      node->compositor = compositor;
       compositor->nodes.emplace_back(node);
     }
   }
@@ -32,6 +33,7 @@ bool AddNode(const std::string &name, Compositor &compositor) {
 
   node->Init();
   node->SetSize(compositor.width, compositor.height);
+  node->compositor = compositor.GetShared();
 
   compositor.nodes.push_back(node);
   compositor.needValidation = true;
