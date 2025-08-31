@@ -51,7 +51,7 @@ void FileRenderer::Render(float iTime) {
   renderer.ctx->uniforms["iTime"].value = iTime;
   renderer.ctx->rendered = false;
   renderer.Render();
-  glBindTexture(GL_TEXTURE_2D, *renderer.renderTexture);
+  glBindTexture(GL_TEXTURE_2D, renderer.renderTexture);
   GetTextureData(data.get());
 }
 

@@ -42,7 +42,7 @@ bool App::Init(const Args& args) {
   contextManager =
       std::make_shared<ContextManager>(*renderer.ctx, *shaderManager, timeline);
 
-  ui.viewportTextureID = renderer.renderTexture;
+  ui.viewportTextureID = &renderer.renderTexture;
   ui.SetCamera(renderer.camera);
 
   return true;

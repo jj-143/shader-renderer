@@ -18,7 +18,7 @@ class Renderer {
   Camera camera;
   Compositor compositor;
 
-  GLuint* renderTexture;
+  GLuint renderTexture;
 
   void Init(int width, int height);
   void InitContext(ShaderManager& shaderManager);
@@ -29,6 +29,8 @@ class Renderer {
  private:
   int width;
   int height;
+
+  void RenderToOutput();
 };
 
 }  // namespace renderer

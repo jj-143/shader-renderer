@@ -2,11 +2,7 @@
 
 namespace renderer {
 
-void Renderer::Init(int w, int h) {
-  renderTexture = &compositor.output;
-
-  SetSize(w, h);
-}
+void Renderer::Init(int w, int h) { SetSize(w, h); }
 
 void Renderer::InitContext(ShaderManager& shaderManager) {
   ctx = std::make_shared<Context>(compositor, shaderManager, &camera);
@@ -23,6 +19,8 @@ void Renderer::Render() {
   ctx->forceRender = false;
 
   compositor.Execute(*ctx);
+
+  RenderToOutput();
 }
 
 void Renderer::SetSize(int width, int height) {
@@ -39,6 +37,17 @@ void Renderer::CopyCompositor(const Compositor& target) {
   compositor = target;
   compositor.Init();
   compositor.SetSize(width, height);
+}
+
+void Renderer::RenderToOutput() {
+  /**
+   * NOTE:
+   * It's effectively acting as an empty "Output Node" or "Copy Shader".
+   *
+   * Just copy the ID instead of actually copying the buffer or rendering using
+   * a pass-through shader.
+   */
+  renderTexture = compositor.output;
 }
 
 }  // namespace renderer
