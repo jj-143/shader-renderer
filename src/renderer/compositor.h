@@ -18,6 +18,7 @@ class Compositor : public std::enable_shared_from_this<Compositor> {
  public:
   bool isValid = true;
   bool needValidation = false;
+  bool valueChanged = false;
 
   std::vector<error::Error> errors;
 

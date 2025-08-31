@@ -82,6 +82,12 @@ class Node : public NodeInfo {
 
  private:
   std::vector<std::shared_ptr<Shader>> shaders;
+
+  /// Changes that only need Execute without validation.
+  void MarkAsValueChanged();
+
+  /// Changes that need validation, such as FileInput
+  void MarkForValidation();
 };
 
 }  // namespace node

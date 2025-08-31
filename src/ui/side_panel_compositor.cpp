@@ -138,7 +138,7 @@ void NodeHeaderOptionButton(node::ShaderNode& node) {
 
     if (ImGui::BeginPopup("Options")) {
       if (ImGui::Selectable("Remove")) {
-        renderer::RemoveNode(node, app::GetInstance().renderer.GetCompositor());
+        renderer::RemoveNode(node, *node.compositor.lock());
       }
       ImGui::SetNextItemWidth(-FLT_MIN);
       ImGui::EndPopup();

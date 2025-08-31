@@ -13,8 +13,8 @@ void Renderer::InitContext(ShaderManager& shaderManager) {
 void Renderer::Render() {
   if (!compositor->isValid) return;
 
-  bool shoudRender =
-      ctx->forceRender || !ctx->rendered || ctx->camera->IsWalkMode();
+  bool shoudRender = compositor->valueChanged || ctx->forceRender ||
+                     !ctx->rendered || ctx->camera->IsWalkMode();
   if (!shoudRender) return;
 
   ctx->rendered = true;

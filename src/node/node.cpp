@@ -1,6 +1,8 @@
 #include "node.h"
 
-#include "app.h"
+#include "compositor.h"
+#include "render_context.h"
+#include "shader.h"
 
 namespace node {
 
@@ -47,28 +49,24 @@ void Node::OnInputChange(Input& input, const InputValue& value) {
   // input, it should also check the rest
   initialized = true;
 
-  auto& app = app::GetInstance();
-  app.renderer.ctx->compositor->needValidation = true;
+  MarkForValidation();
 }
 
 void Node::OnActiveChanged() {
-  auto& app = app::GetInstance();
-
   if (this->active && !this->isValid) {
     // NOTE: Node initialized with inactive state may have never been
     // validated, e.g, Node's state restored as not active
-    app.renderer.ctx->compositor->needValidation = true;
+    MarkForValidation();
   }
+  MarkAsValueChanged();
 }
 
-void Node::OnUniformChanged() {
-  auto& app = app::GetInstance();
-  app.renderer.ctx->forceRender = true;
-}
+void Node::OnUniformChanged() { MarkAsValueChanged(); }
 
 void Node::AddUniform(node::Input uniform) {
   uniforms.emplace_back(uniform);
   UpdateUniformLocations();
+  MarkAsValueChanged();
 }
 
 void Node::EditUniform(node::Input& target, node::Input newUniform) {
@@ -84,6 +82,7 @@ void Node::EditUniform(node::Input& target, node::Input newUniform) {
 
   target = newUniform;
   UpdateUniformLocations();
+  MarkAsValueChanged();
 }
 
 void Node::RemoveUniform(node::Input& target) {
@@ -91,6 +90,19 @@ void Node::RemoveUniform(node::Input& target) {
     return &uniform == &target;
   });
   UpdateUniformLocations();
+  MarkAsValueChanged();
+}
+
+void Node::MarkAsValueChanged() {
+  if (auto comp = compositor.lock()) {
+    comp->valueChanged = true;
+  }
+}
+
+void Node::MarkForValidation() {
+  if (auto cmp = compositor.lock()) {
+    cmp->needValidation = true;
+  }
 }
 
 }  // namespace node

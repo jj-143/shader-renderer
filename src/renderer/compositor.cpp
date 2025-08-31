@@ -52,6 +52,8 @@ void Compositor::Execute(Context& ctx) {
   }
 
   output = lastOutput;
+
+  valueChanged = false;
 }
 
 void Compositor::Validate(Context& ctx, std::vector<error::Error>& errors) {
