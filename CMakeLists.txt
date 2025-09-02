@@ -22,6 +22,7 @@ set(inc
   "src/core"
   "src/node"
   "src/nodes"
+  "src/platform_libs"
   "src/renderer"
   "src/ui"
   "src"
