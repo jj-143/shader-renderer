@@ -17,8 +17,7 @@ void GetTextureData(GLubyte* data);
 namespace output {
 
 std::optional<std::vector<error::Error>> FileRenderer::Setup(
-    const FileRendererParams params, const Camera& camera,
-    GLFWwindow& renderWindow) {
+    const FileRendererParams params, GLFWwindow& renderWindow) {
   std::vector<error::Error> errors;
 
   if (!ui::MakeContextCurrent(&renderWindow)) {

@@ -26,8 +26,7 @@ class FileRenderer {
   renderer::Renderer renderer;
 
   std::optional<std::vector<error::Error>> Setup(
-      const FileRendererParams params, const Camera& camera,
-      GLFWwindow& renderWindow);
+      const FileRendererParams params, GLFWwindow& renderWindow);
 
   /// Render current scene to internal buffer.
   void Render(float iTime);

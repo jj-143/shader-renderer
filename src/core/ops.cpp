@@ -209,8 +209,7 @@ void RenderTask(task::Task& task, bool animation) {
       .height = output.height,
   };
 
-  auto errors =
-      fileRenderer.Setup(params, app.renderer.camera, *app.ui.renderWindow);
+  auto errors = fileRenderer.Setup(params, *app.ui.renderWindow);
 
   if (errors) {
     auto errorLog = error::MergeErrors(*errors);
