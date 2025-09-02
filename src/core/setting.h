@@ -1,8 +1,7 @@
 #pragma once
 
 #include <array>
-
-constexpr size_t MAX_PATH_SIZE = 256;
+#include <string>
 
 struct Format {
   const char* label;
@@ -17,7 +16,7 @@ struct Output {
   int             frameStart          = 1;
   int             frameEnd            = 30;
   float           frameRate           = 30;
-  char            path[MAX_PATH_SIZE] = "/tmp/";
+  std::string     path                = "";
   Format          format              = FormatPNG;
   int             width               = 512;
   int             height              = 512;

@@ -84,9 +84,9 @@ void App::InitDefaultsWithArgs(const Args& args) {
   setting.output.height = args.vH;
 
   // Output path, use temp dir
-  std::string tempPath = std::filesystem::temp_directory_path().string();
-  size_t s = tempPath.copy(setting.output.path, MAX_PATH_SIZE);
-  setting.output.path[s] = '\0';
+  if (setting.output.path.empty()) {
+    setting.output.path = std::filesystem::temp_directory_path().string();
+  }
 
   // Others
   projectPath = args.path;

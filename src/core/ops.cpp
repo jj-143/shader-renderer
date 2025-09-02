@@ -169,7 +169,7 @@ namespace fs = std::filesystem;
 /// Create directories if needed.
 /// Accepts absolute path without modification;
 /// translate relative path as relative from BINARY_ROOT.
-fs::path PrepareOutDir(const char* dirpath) {
+fs::path PrepareOutDir(const std::string& dirpath) {
   fs::path out(dirpath);
 
   if (out.is_relative()) {

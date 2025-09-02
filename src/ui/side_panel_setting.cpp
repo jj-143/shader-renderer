@@ -1,3 +1,6 @@
+#include <imgui/imgui.h>
+#include <imgui/imgui_stdlib.h>
+
 #include "app.h"
 #include "side_panel.h"
 #include "ui.h"
@@ -111,7 +114,7 @@ void OutputSettings() {
     ImGui::Text("Path");
     ImGui::SameLine(ui::side_panel::FIELD_START);
     ImGui::SetNextItemWidth(-1);
-    ImGui::InputText("##outputPath", output.path, IM_ARRAYSIZE(output.path));
+    ImGui::InputText("##outputPath", &output.path);
   }
 
   {
