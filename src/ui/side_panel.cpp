@@ -62,6 +62,7 @@ void SidePanel() {
                          ImGuiTabBarFlags_FittingPolicyScroll)) {
     side_panel::TabItem("Compositor", side_panel::CompositorEditor);
     side_panel::TabItem("Settings", side_panel::Settings);
+    side_panel::TabItem("Help", side_panel::Help);
 
     ImGui::EndTabBar();
   }

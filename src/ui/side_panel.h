@@ -15,4 +15,6 @@ void Settings();
 
 void CompositorEditor();
 
+void Help();
+
 }  // namespace ui::side_panel
