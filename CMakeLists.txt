@@ -45,9 +45,10 @@ add_subdirectory(thirdparty)
 target_include_directories(${PROJECT_NAME} PRIVATE ${inc})
 
 target_include_directories(${PROJECT_NAME}
-  PRIVATE dependencies
-  ${STAGED_INSTALL_PREFIX}/include
+  PRIVATE ${STAGED_INSTALL_PREFIX}/include
 )
+
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE dependencies)
 
 # Links
 target_link_directories(${PROJECT_NAME} PRIVATE ${STAGED_INSTALL_PREFIX}/lib)
