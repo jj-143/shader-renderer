@@ -50,6 +50,11 @@ class ComputeShaderNode : public ShaderNode {
                        GL_RGBA32F);
     UseShader(ctx, shader);
 
+    // "tDiffuse"
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, input);
+    glUniform1i(tDiffuseLocation, 0);
+
     glDispatchCompute(workgroupCountX, workgroupCountY, 1);
     glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
   }
@@ -76,6 +81,8 @@ class ComputeShaderNode : public ShaderNode {
 
     isValid = true;
 
+    tDiffuseLocation = glGetUniformLocation(shader->program, "tDiffuse");
+
     RegisterShaders({shader});
   }
 
@@ -85,6 +92,8 @@ class ComputeShaderNode : public ShaderNode {
 
   GLuint colorbuffer;
   std::shared_ptr<Shader> shader;
+
+  GLuint tDiffuseLocation;
 };
 
 }  // namespace node
