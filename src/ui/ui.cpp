@@ -357,6 +357,19 @@ void UI::RenderMainMenu() {
 
         ImGui::EndMenu();
       }
+
+      if (ImGui::BeginMenu("Timeline")) {
+        if (ImGui::MenuItem("Play / Pause", "Space")) {
+          ToggleTimelinePlay();
+        }
+
+        if (ImGui::MenuItem("Stop", "0")) {
+          app::GetInstance().timeline.Stop();
+        }
+
+        ImGui::EndMenu();
+      }
+
       if (ImGui::BeginMenu("Render")) {
         if (ImGui::MenuItem("Render Image", "F12")) {
           ops::Render(false);

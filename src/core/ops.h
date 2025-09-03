@@ -30,6 +30,8 @@ bool SetErrorLog(const std::string& content);
 
 bool SetErrorLog();
 
+bool StopTimeline();
+
 /// Align View to Render Output
 ///
 /// Reset the viewport size (and window size) to render output size.

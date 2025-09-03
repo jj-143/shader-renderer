@@ -11,10 +11,11 @@ namespace app {
 void ContextManager::Update() {
   if (timeline.IsPlaying()) {
     timeline.Update();
-    ctx.uniforms["iTime"].value = timeline.iTime;
     ctx.rendered = false;
   }
 
+  // Sync global uniform values
+  ctx.uniforms["iTime"].value = timeline.iTime;
   ctx.uniforms["view"].value = ctx.camera->view;
 }
 

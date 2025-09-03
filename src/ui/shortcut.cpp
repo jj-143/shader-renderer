@@ -30,6 +30,9 @@ void UI::OnKeyPressed([[maybe_unused]] GLFWwindow* window, int key,
     case GLFW_KEY_ESCAPE:
       ops::CancelTask();
       break;
+    case GLFW_KEY_0:
+      ops::StopTimeline();
+      break;
     case GLFW_KEY_F12:
       if (mods == GLFW_MOD_CONTROL) {
         ops::Render(true);

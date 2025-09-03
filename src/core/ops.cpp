@@ -87,6 +87,15 @@ bool SetErrorLog() {
   return true;
 }
 
+bool StopTimeline() {
+  auto& app = app::GetInstance();
+
+  app.timeline.Stop();
+  app.renderer.ctx->forceRender = true;
+
+  return true;
+}
+
 bool AlignViewportToOutput() {
   auto& output = app::GetInstance().setting.output;
   ImVec2 newVSize(output.width, output.height);
