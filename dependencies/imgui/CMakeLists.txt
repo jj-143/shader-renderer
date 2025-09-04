@@ -6,4 +6,9 @@ target_compile_definitions(imgui PUBLIC IMGUI_DEFINE_MATH_OPERATORS)
 
 target_compile_options(imgui PUBLIC -Wno-nontrivial-memcall)
 
+target_include_directories(imgui PUBLIC
+    "${CMAKE_SOURCE_DIR}/dependencies"
+    "${CMAKE_SOURCE_DIR}/dependencies/GLFW"
+)
+
 target_link_libraries(${PROJECT_NAME} imgui)

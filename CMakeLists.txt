@@ -55,7 +55,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE ${STAGED_INSTALL_PREFIX}/lib)
 
 if (WIN32)
   SET(OPENGL_LIBS glfw3 OpenGL::GL) # glfw3 is for static linking
-  SET(PLATFORM_LINKS -lstdc++exp)   # for C++23 related (std::println)
+  SET(PLATFORM_LINKS -lstdc++exp -static-libstdc++ -static-libgcc -static)
 elseif(UNIX)
   SET(OPENGL_LIBS glfw OpenGL::GL)
 endif()
